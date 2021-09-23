@@ -1,5 +1,7 @@
 ﻿#nullable disable
 
+using System.ComponentModel.DataAnnotations;
+
 namespace DeliverIT.Models.DatabaseModels
 {
     public partial class Parcel
@@ -13,6 +15,8 @@ namespace DeliverIT.Models.DatabaseModels
         public virtual WareHouse WareHouse { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
+
+        [Range(0, 10000)]
         public double Weight { get; set; }
         public bool DeliverToAddress { get; set; }
     }

@@ -13,6 +13,7 @@ namespace DeliverIT.Models.DatabaseModels
 
         public int Id { get; set; }
         public string Name { get; set; }
+
         public virtual ICollection<Shipment> Shipments { get; set; }
     }
 }

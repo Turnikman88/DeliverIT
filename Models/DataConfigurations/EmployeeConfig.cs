@@ -18,15 +18,14 @@ namespace DeliverIT.Models.DataConfigurations
                 .WithMany(p => p.Employees)
                 .HasForeignKey(d => d.AddressId);
 
-            builder.Property(e => e.Email).IsRequired();
 
-            builder.Property(e => e.Email).IsUnicode(true);
+            builder.Property(e => e.Email).IsRequired();          
 
+            builder.HasIndex(e => e.Email).IsUnique();                       
+            
             builder.Property(e => e.FirstName).IsRequired();
 
             builder.Property(e => e.LastName).IsRequired();
-
-
         }        
     }
 }
