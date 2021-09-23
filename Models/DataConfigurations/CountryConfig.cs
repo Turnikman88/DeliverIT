@@ -2,14 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-
 namespace DeliverIT.Models.DataConfigurations
 {
-    class StatusConfig : IEntityTypeConfiguration<Status>
+    class CountryConfig : IEntityTypeConfiguration<Country>
     {
-        public void Configure(EntityTypeBuilder<Status> builder)
+        public void Configure(EntityTypeBuilder<Country> builder)
         {
-            builder.Property(e => e.Name).IsRequired();
+            builder.Property(x => x.Name).IsRequired();
         }
     }
 }

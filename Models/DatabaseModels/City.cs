@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-#nullable disable
-
 namespace DeliverIT.Models.DatabaseModels
 {
     public partial class City

@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-
 namespace DeliverIT.Models.DataConfigurations
 {
-    class StatusConfig : IEntityTypeConfiguration<Status>
+    class CategoryConfig : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<Status> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.Property(e => e.Name).IsRequired();
         }

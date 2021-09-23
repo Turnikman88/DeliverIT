@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DeliverIT.Models.DatabaseModels
 {

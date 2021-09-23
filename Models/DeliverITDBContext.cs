@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-#nullable disable
-
 namespace DeliverIT.Models
 {
     public partial class DeliverITDBContext : DbContext

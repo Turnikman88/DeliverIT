@@ -1,10 +1,7 @@
 ﻿using DeliverIT.Models.DatabaseModels;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DeliverIT.Models.DataConfigurations
 {
@@ -19,13 +16,13 @@ namespace DeliverIT.Models.DataConfigurations
                 .HasForeignKey(d => d.AddressId);
 
 
-            builder.Property(e => e.Email).IsRequired();          
+            builder.Property(e => e.Email).IsRequired();
 
-            builder.HasIndex(e => e.Email).IsUnique();                       
-            
+            builder.HasIndex(e => e.Email).IsUnique();
+
             builder.Property(e => e.FirstName).IsRequired();
 
             builder.Property(e => e.LastName).IsRequired();
-        }        
+        }
     }
 }
