@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace Models
+namespace DeliverIT.Models
 {
     public partial class Employee
     {

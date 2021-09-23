@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Models
+namespace DeliverIT.Models
 {
     public partial class DeliverITDBContext : DbContext
     {
