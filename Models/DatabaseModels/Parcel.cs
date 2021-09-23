@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace DeliverIT.Models
+namespace DeliverIT.Models.DatabaseModels
 {
     public partial class Parcel
     {

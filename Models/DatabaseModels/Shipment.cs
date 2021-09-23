@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace DeliverIT.Models
+namespace DeliverIT.Models.DatabaseModels
 {
     public partial class Shipment
     {

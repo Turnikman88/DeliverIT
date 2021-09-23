@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DeliverIT.Models.DatabaseModels;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -167,9 +168,16 @@ namespace DeliverIT.Models
                     .HasForeignKey(d => d.AddressId);
             });
 
-            OnModelCreatingPartial(modelBuilder);
+            
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+       
+
+
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }*/
     }
 }
