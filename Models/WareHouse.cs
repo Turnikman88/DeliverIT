@@ -15,7 +15,6 @@ namespace Models
 
         public int Id { get; set; }
         public int AddressId { get; set; }
-
         public virtual Address Address { get; set; }
         public virtual ICollection<Parcel> Parcels { get; set; }
         public virtual ICollection<Shipment> ShipmentDestinationWareHouses { get; set; }
