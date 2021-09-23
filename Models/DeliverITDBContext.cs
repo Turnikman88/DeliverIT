@@ -108,6 +108,8 @@ namespace Models
 
                 entity.HasIndex(e => e.WareHouseId, "IX_Parcels_WareHouseId");
 
+                entity.HasIndex(e => e.ShipmentId, "IX_Parcels_ShipmentId");
+
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Parcels)
                     .HasForeignKey(d => d.CategoryId);
@@ -120,6 +122,11 @@ namespace Models
                     .WithMany(p => p.Parcels)
                     .HasForeignKey(d => d.WareHouseId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Shipment)
+                    .WithMany(p => p.Parcels)
+                    .HasForeignKey(d => d.ShipmentId);
+
             });
 
             modelBuilder.Entity<Shipment>(entity =>
