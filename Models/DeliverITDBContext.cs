@@ -186,7 +186,7 @@ namespace DeliverIT.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.;Integrated Security=true;Database=DeliverIT");
+                optionsBuilder.UseSqlServer("Server=.;Integrated Security=true;Database=Test123");
             }
         }
 
