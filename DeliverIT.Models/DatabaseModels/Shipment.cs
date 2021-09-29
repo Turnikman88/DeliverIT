@@ -21,6 +21,6 @@ namespace DeliverIT.Models.DatabaseModels
         public int StatusId { get; set; }
         public virtual Status Status { get; set; }
 
-        public ICollection<Parcel> Parcels { get; set; }
+        public virtual ICollection<Parcel> Parcels { get; set; }
     }
 }

@@ -30,8 +30,10 @@ namespace DeliverIT.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=.;Integrated Security=true;Database=Test123");
+            {                
+                optionsBuilder
+                    .UseLazyLoadingProxies()
+                    .UseSqlServer("Server=.;Integrated Security=true;Database=Test123");
             }
         }
 

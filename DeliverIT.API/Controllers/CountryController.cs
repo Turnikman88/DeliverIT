@@ -43,12 +43,12 @@ namespace DeliverIT.API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult<Country>> UpdateCountry(int id, Country obj)
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Country>> UpdateCountry(int id, Country obj) //ToDo: need to make it dto
         {
             if (obj is null || await cs.GetCountryById(id) is null)
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
             
             return this.Ok(await this.cs.Update(id, obj));
@@ -56,12 +56,12 @@ namespace DeliverIT.API.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Country>> DeleteCountry(int id)
         {
             if (await cs.GetCountryById(id) is null)
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
 
             return this.Ok(await this.cs.Delete(id));
