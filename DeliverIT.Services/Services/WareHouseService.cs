@@ -1,6 +1,8 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,9 +16,10 @@ namespace DeliverIT.Services.Services
         {
             this.db = db;
         }
-        public IEnumerable<WareHouse> Locations()
+        public IEnumerable<WareHouseDTO> Locations()
         {
-            return db.WareHouses.ToList();//TODO: JOIN Addresses
+            var WareHouseDTO = db.WareHouses.Include(x => x.Address).Select(x => new WareHouseDTO {Id = x.Id, StreetName = x.Address.StreetName }).ToList();
+            return WareHouseDTO;            
         }
     }
 }

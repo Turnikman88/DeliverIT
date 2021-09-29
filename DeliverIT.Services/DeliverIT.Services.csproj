@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOMappers\" />
+    <ProjectReference Include="..\DeliverIT.Models\DeliverIT.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeliverIT.Models\DeliverIT.Models.csproj" />
+    <Folder Include="DTOMappers\" />
   </ItemGroup>
 
 </Project>

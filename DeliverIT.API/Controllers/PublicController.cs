@@ -1,5 +1,8 @@
 ﻿using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DeliverIT.API.Controllers
 {
@@ -24,8 +27,8 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("locations")]
         [ProducesResponseType(200)]
-        public ActionResult<int> Locations()
-        {
+        public ActionResult<IEnumerable<WareHouseDTO>> Locations()
+        {                      
             return this.Ok(wh.Locations());
         }
 

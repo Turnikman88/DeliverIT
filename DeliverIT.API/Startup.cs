@@ -24,6 +24,7 @@ namespace DeliverIT.API
             services.AddDbContext<DeliverITDBContext>(); //TODO: Fix it with .GETConnectionString(DefaultConnection);
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
+            services.AddScoped<ICountryService, CountryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
