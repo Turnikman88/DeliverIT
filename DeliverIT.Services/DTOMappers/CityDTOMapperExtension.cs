@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
+using System.Linq;
 
 namespace DeliverIT.Services.DTOMappers
 {
@@ -12,7 +13,8 @@ namespace DeliverIT.Services.DTOMappers
                 Id = city.Id,
                 Name = city.Name,
                 CountryId = city.CountryId,
-                CountryName = city.Country.Name
+                CountryName = city.Country.Name,
+                Addresses = city.Addresses.Select(x => x.StreetName).ToList() //ToDo: No addreses collection?!
             };
         }
 
@@ -22,10 +24,7 @@ namespace DeliverIT.Services.DTOMappers
             {
                 Id = city.Id,
                 Name = city.Name,
-                Country = new Country
-                {
-                    Name = city.CountryName //TODO: if existing?
-                }
+                CountryId = city.CountryId
             };
         }
     }

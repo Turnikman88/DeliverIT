@@ -11,18 +11,26 @@ namespace DeliverIT.Services.DTOMappers
 {
     public static class WareHouseDTOMapperExtension
     {
-        //private static DeliverITDBContext db = new DeliverITDBContext();
-
-        public static WareHouseDTO GetDTO(this WareHouse wareHouse) //ToDo: why address id is null
+        public static WareHouseDTO GetDTO(this WareHouse wareHouse) 
         {
-            var a = new WareHouseDTO
+            return new WareHouseDTO
             {
                 Id = wareHouse.Id,
+                AddressId = wareHouse.AddressId,
                 StreetName = wareHouse.Address.StreetName,
                 City = wareHouse.Address.City.Name,
-                Country = wareHouse.Address.City.Country.Name
+                Country = wareHouse.Address.City.Country.Name //ToDo: Add collections
             };
-            return a;
+           
+        }
+
+        public static WareHouse GetEntity(this WareHouseDTO wareHouseDTO)
+        {
+            return new WareHouse
+            {
+                Id = wareHouseDTO.Id,
+                AddressId = wareHouseDTO.AddressId
+            };
         }
     }
 }

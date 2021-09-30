@@ -1,15 +1,12 @@
-﻿namespace DeliverIT.Services.DTOs
+﻿using System.Collections.Generic;
+
+namespace DeliverIT.Services.DTOs
 {
     public class CountryDTO
-    {
-        public CountryDTO()
-        {
-            //CitiesDTO = new HashSet<CityDTO>();
-        }
-
+    {  
         public int Id { get; set; }
         public string Name { get; set; }
 
-        //public virtual ICollection<CityDTO> CitiesDTO { get; set; }
+        public List<string> Cities = new List<string>();        
     }
 }

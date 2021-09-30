@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
+using System.Linq;
 
 namespace DeliverIT.Services.DTOMappers
 {
@@ -10,7 +11,8 @@ namespace DeliverIT.Services.DTOMappers
             return new CountryDTO
             {
                 Id = country.Id,
-                Name = country.Name
+                Name = country.Name,
+                Cities = country.Cities.Select(c=>c.Name).ToList()
             };
         }
 

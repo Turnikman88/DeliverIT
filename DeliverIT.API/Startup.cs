@@ -23,7 +23,7 @@ namespace DeliverIT.API
         {
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<DeliverITDBContext>(
-                options => options.UseLazyLoadingProxies().UseSqlServer("Server=.;Integrated Security=true;Database=Test123")); //TODO: Fix it with .GETConnectionString("DefaultConnection");
+                options => options.UseSqlServer("Server=.;Integrated Security=true;Database=Test123")); //TODO: Fix it with .GETConnectionString("DefaultConnection");
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<ICountryService, CountryService>();

@@ -20,7 +20,12 @@ namespace DeliverIT.Services.Services
 
         public async Task<WareHouseDTO> Delete(int id)
         {
-            var model = await this.db.WareHouses.FindAsync(id);
+            var model = await this.db.WareHouses
+                                    .Include(w => w.Address)
+                                        .ThenInclude(a => a.City)
+                                            .ThenInclude(c => c.Country)
+                                    .Where(w => w.Id == id)
+                                    .FirstOrDefaultAsync();
             var modelGTO = model.GetDTO();
             this.db.WareHouses.Remove(model);
             await db.SaveChangesAsync();
