@@ -1,15 +1,13 @@
-﻿using DeliverIT.Models.DatabaseModels;
-using System;
+﻿using DeliverIT.Services.DTOs;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Contracts
 {
-    public interface ICountryService : ICRUDshared<Country>
-    {        
-        Task<Country> GetCountryById(int id);
-        Task<Country> GetCountryByName(string name);
-        Task<IEnumerable<Country>> GetCountriesByPartName(string part);
+    public interface ICountryService : ICRUDshared<CountryDTO>
+    {
+        Task<CountryDTO> GetCountryById(int id);
+        Task<CountryDTO> GetCountryByName(string name);
+        Task<IEnumerable<CountryDTO>> GetCountriesByPartName(string part);
     }
 }

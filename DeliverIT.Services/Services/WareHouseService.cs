@@ -1,5 +1,4 @@
 ﻿using DeliverIT.Models;
-using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +17,15 @@ namespace DeliverIT.Services.Services
         }
         public IEnumerable<WareHouseDTO> Locations()
         {
-            var WareHouseDTO = db.WareHouses.Include(x => x.Address).Select(x => new WareHouseDTO {Id = x.Id, StreetName = x.Address.StreetName }).ToList();
-            return WareHouseDTO;            
+            var WareHouseDTO = db.WareHouses
+                .Include(x => x.Address)
+                .Select(x => new WareHouseDTO
+                {
+                    Id = x.Id,
+                    StreetName = x.Address.StreetName
+                })
+                .ToList();
+            return WareHouseDTO;
         }
     }
 }
