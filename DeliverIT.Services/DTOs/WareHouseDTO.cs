@@ -14,8 +14,8 @@ namespace DeliverIT.Services.DTOs
 
         public List<string> Parcels = new List<string>();
 
-        public List<string> ShipmentDestinationWareHouses = new List<string>();
+        /*public List<string> ShipmentDestinationWareHouses = new List<string>();
 
-        public List<string> ShipmentOriginWareHouses = new List<string>();
+        public List<string> ShipmentOriginWareHouses = new List<string>();*/
     }
 }

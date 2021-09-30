@@ -19,7 +19,9 @@ namespace DeliverIT.Services.DTOMappers
                 AddressId = wareHouse.AddressId,
                 StreetName = wareHouse.Address.StreetName,
                 City = wareHouse.Address.City.Name,
-                Country = wareHouse.Address.City.Country.Name //ToDo: Add collections
+                Country = wareHouse.Address.City.Country.Name,
+                Parcels = wareHouse.Parcels.Select(x =>  $"Id: {x.Id}; CustomerId {x.CustomerId}; ShipmentId {x.ShipmentId}" ).ToList()
+                //ToDo: maybe add other collections
             };
            
         }
