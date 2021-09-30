@@ -13,7 +13,8 @@ namespace DeliverIT.Models
         public DeliverITDBContext(DbContextOptions<DeliverITDBContext> options)
             : base(options)
         {
-        }        
+        }
+
 
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
