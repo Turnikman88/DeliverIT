@@ -8,8 +8,4 @@
     <ProjectReference Include="..\DeliverIT.Models\DeliverIT.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
-
 </Project>

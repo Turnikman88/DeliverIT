@@ -45,6 +45,35 @@ namespace DeliverIT.Services.Services
 
         public async Task<WareHouseDTO> Post(WareHouseDTO obj)
         {
+            int addressId = await GetAddresId(obj);
+            var model = new WareHouse
+            {
+                AddressId = addressId
+            };
+            
+            var newWareHouse = await db.WareHouses.AddAsync(model);
+            await db.SaveChangesAsync();
+            obj.Id = await db.WareHouses.Where(x => x.AddressId == addressId).Select(x => x.Id).FirstOrDefaultAsync();
+            return obj;
+        }
+
+        public async Task<WareHouseDTO> Update(int id, WareHouseDTO obj) 
+        {
+            var model = await this.db.WareHouses.FindAsync(id);
+            int addressId = await GetAddresId(obj);
+            model.AddressId = addressId;
+            obj.Id = model.Id;
+            await db.SaveChangesAsync();
+            return obj;
+        }
+
+        public async Task<bool> WareHouseExists(int id) 
+        {
+            var model = await db.WareHouses.FirstOrDefaultAsync(x => x.Id == id);
+            return model is null ? false : true;
+        }
+        private async Task<int> GetAddresId(WareHouseDTO obj)
+        {
             var address = await db.Addresses.FirstOrDefaultAsync(x => x.StreetName == obj.StreetName);
             var city = await db.Cities.FirstOrDefaultAsync(x => x.Name == obj.City);
             var country = await db.Countries.FirstOrDefaultAsync(x => x.Name == obj.Country);
@@ -75,35 +104,9 @@ namespace DeliverIT.Services.Services
                 };
                 await this.db.Addresses.AddAsync(address);
                 await db.SaveChangesAsync();
-
             }
 
-            var model = new WareHouse
-            {
-                AddressId = address.Id
-            };
-            
-            var newWareHouse = await db.WareHouses.AddAsync(model);
-            await db.SaveChangesAsync();
-            obj.Id = await db.WareHouses.Where(x => x.AddressId == address.Id).Select(x => x.Id).FirstOrDefaultAsync();
-            return obj;
+            return address.Id;
         }
-
-        public async Task<WareHouseDTO> Update(int id, WareHouseDTO obj) 
-        {
-            var model = await this.db.WareHouses.FindAsync(id);     
-            var newAddress = await this.db.Addresses.AddAsync(new Address { StreetName = obj.StreetName })
-            model.Address.StreetName = obj.StreetName;
-            obj.Id = model.Id;
-            await db.SaveChangesAsync();
-            return obj;
-        }
-
-        public async Task<bool> WareHouseExists(int id) 
-        {
-            var model = await db.WareHouses.FirstOrDefaultAsync(x => x.Id == id);
-            return model is null ? false : true;
-        }
-
     }
 }
