@@ -8,7 +8,7 @@ namespace DeliverIT.Services.Contracts
     public interface IWareHouseService : ICRUDshared<WareHouseDTO>
     {
         Task<bool> WareHouseExists(int id);
-        //WareHouseDTO Updatea(int id, WareHouseDTO obj);
+        Task<WareHouseDTO> GetWareHouseById(int id);
 
     }
 }

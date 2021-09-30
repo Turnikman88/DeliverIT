@@ -1,11 +1,10 @@
 ﻿using DeliverIT.Models;
-using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOMappers;
+using DeliverIT.Services.DTOs;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
@@ -17,54 +16,58 @@ namespace DeliverIT.Services.Services
         public CountryService(DeliverITDBContext db)
         {
             this.db = db;
-        }               
-
-        public async Task<Country> GetCountryById(int id)
-        {
-            return await db.Countries.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Country> GetCountryByName(string name)
-        {            
-            return await db.Countries.Where(x => x.Name == name).FirstOrDefaultAsync();
+        public async Task<CountryDTO> GetCountryById(int id)
+        {
+            return CountryDTOMapperExtension.GetDTO(await db.Countries.Where(x => x.Id == id).Include(c=>c.Cities).FirstOrDefaultAsync());
         }
 
-        public async Task<IEnumerable<Country>> GetCountriesByPartName(string part)
+        public async Task<CountryDTO> GetCountryByName(string name)
         {
-            return await db.Countries.Where(x => x.Name.Contains(part)).ToListAsync();
+            return CountryDTOMapperExtension.GetDTO(await db.Countries.Include(c => c.Cities).Where(x => x.Name == name).FirstOrDefaultAsync());
         }
 
-        public async Task<IEnumerable<Country>> Get()
+        public async Task<IEnumerable<CountryDTO>> GetCountriesByPartName(string part)
         {
-            return await this.db.Countries.ToListAsync();
+            return await db.Countries.Where(x => x.Name.Contains(part)).Include(c => c.Cities).Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public async Task<Country> Post(Country obj)
+        public async Task<IEnumerable<CountryDTO>> Get()
         {
-            await this.db.Countries.AddAsync(obj);
+            return await db.Countries.Include(c => c.Cities).Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<CountryDTO> Post(CountryDTO obj)
+        {
+            var newCountry = obj.GetEntity();
+
+            await this.db.Countries.AddAsync(newCountry);
             await db.SaveChangesAsync();
-
+            obj.Id = newCountry.Id;
+            //var newCountry = obj.GetDTO();
+            //return newCountry;
             return obj;
         }
 
-        public async Task<Country> Update(int id, Country obj)
+        public async Task<CountryDTO> Update(int id, CountryDTO obj)
         {
-            var model = await this.db.Countries.FindAsync(id);            
+            var model = await this.db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
 
             model.Name = obj.Name;
             await db.SaveChangesAsync();
 
-            return model;
+            return model.GetDTO();
         }
 
-        public async Task<Country> Delete(int id)
+        public async Task<CountryDTO> Delete(int id)
         {
-            var model = await this.db.Countries.FindAsync(id);            
+            var model = await this.db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
 
             this.db.Countries.Remove(model);
             await db.SaveChangesAsync();
 
-            return model;
+            return CountryDTOMapperExtension.GetDTO(model);
         }
 
     }

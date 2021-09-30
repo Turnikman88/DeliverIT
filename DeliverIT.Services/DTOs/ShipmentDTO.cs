@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DeliverIT.Services.DTOs
 {
-    class ShipmentDTO
+    public class ShipmentDTO
     {
 
         public ShipmentDTO()

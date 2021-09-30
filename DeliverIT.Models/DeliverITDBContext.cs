@@ -15,7 +15,6 @@ namespace DeliverIT.Models
         {
         }
 
-
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<City> Cities { get; set; }
@@ -26,16 +25,6 @@ namespace DeliverIT.Models
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<WareHouse> WareHouses { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {                
-                optionsBuilder
-                    .UseLazyLoadingProxies()
-                    .UseSqlServer("Server=.;Integrated Security=true;Database=Test123");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

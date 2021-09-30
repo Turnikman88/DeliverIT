@@ -7,8 +7,6 @@ namespace DeliverIT.API
     {
         public static void Main(string[] args)
         {
-            //var db = new DeliverITDBContext();
-            //db.Database.EnsureCreated();
             CreateHostBuilder(args).Build().Run();
         }
 

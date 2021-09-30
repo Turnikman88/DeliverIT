@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.19" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <ProjectReference Include="..\DeliverIT.Services\DeliverIT.Services.csproj" />
   </ItemGroup>
 
