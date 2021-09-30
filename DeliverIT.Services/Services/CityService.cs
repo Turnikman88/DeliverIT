@@ -21,6 +21,7 @@ namespace DeliverIT.Services.Services
         public async Task<IEnumerable<CityDTO>> Get()
         {
             return await this.db.Cities
+                .Include(x => x.Addresses)
                 .Include(x => x.Country)
                 .Select(x => new CityDTO
                 {
@@ -28,13 +29,15 @@ namespace DeliverIT.Services.Services
                     Name = x.Name,
                     CountryId = x.CountryId,
                     CountryName = x.Country.Name,
+                    Addresses = x.Addresses.Select(y => y.StreetName).ToList()
                 }).ToListAsync(); //JSON does not return arr of countries and addresses
         }
 
         public async Task<CityDTO> GetCityById(int id)
         {
             var city = await db.Cities
-                .Include(x => x.Country)
+                .Include(x => x.Addresses)
+                .Include(x => x.Country)                
                 .FirstOrDefaultAsync(x => x.Id == id);
             return city.GetDTO();
         }
@@ -42,6 +45,7 @@ namespace DeliverIT.Services.Services
         public async Task<CityDTO> GetCityByName(string name)
         {
             var city = await db.Cities
+                .Include(x => x.Addresses)
                 .Include(x => x.Country)
                 .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
             return city.GetDTO();
@@ -53,7 +57,9 @@ namespace DeliverIT.Services.Services
             await this.db.Cities.AddAsync(newCity);
             await db.SaveChangesAsync();
 
-            var result = db.Cities.Include(x => x.Country);
+            var result = db.Cities
+                .Include(x => x.Addresses)
+                .Include(x => x.Country);
             var city = result.FirstOrDefault(x => x.Name == obj.Name);
             obj.Id = city.Id;
 
@@ -62,7 +68,10 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> Update(int id, CityDTO obj)
         {
-            var city = await this.db.Cities.FindAsync(id);
+            var city = await this.db.Cities
+                .Include(x => x.Addresses)
+                .Include(x => x.Country)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             city.Name = obj.Name;
             await db.SaveChangesAsync();
@@ -71,7 +80,10 @@ namespace DeliverIT.Services.Services
         }
         public async Task<CityDTO> Delete(int id)
         {
-            var city = await this.db.Cities.FindAsync(id);
+            var city = await this.db.Cities
+                .Include(x => x.Addresses)
+                .Include(x => x.Country)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             this.db.Cities.Remove(city);
             await db.SaveChangesAsync();

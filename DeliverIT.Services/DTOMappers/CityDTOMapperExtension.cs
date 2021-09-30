@@ -14,7 +14,7 @@ namespace DeliverIT.Services.DTOMappers
                 Name = city.Name,
                 CountryId = city.CountryId,
                 CountryName = city.Country.Name,
-                Addresses = city.Addresses.Select(x => x.StreetName).ToList() //ToDo: No addreses collection?!
+                Addresses = city.Addresses.Select(x => x.StreetName).ToList() 
             };
         }
 
