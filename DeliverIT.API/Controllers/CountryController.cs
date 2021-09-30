@@ -54,7 +54,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Country>> DeleteCountry(int id)
+        public async Task<ActionResult<CountryDTO>> DeleteCountry(int id)
         {
             if (await cs.GetCountryById(id) is null)
             {

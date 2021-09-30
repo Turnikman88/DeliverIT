@@ -7,7 +7,7 @@ namespace DeliverIT.Models.DataConfigurations
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<WareHouse> builder)
         {
-            builder.HasIndex(e => e.AddressId, "IX_WareHouses_AddressId");
+            builder.HasIndex(e => e.AddressId, "IX_WareHouses_AddressId").IsUnique();
 
             builder.HasOne(d => d.Address)
                 .WithMany(p => p.WareHouses)
