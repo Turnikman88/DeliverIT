@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211001160148_initialcreate")]
+    [Migration("20211001185425_initialcreate")]
     partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -405,7 +405,7 @@ namespace DeliverIT.Models.Migrations
                     b.Property<int>("ShipmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WareHouseId")
+                    b.Property<int?>("WareHouseId")
                         .HasColumnType("int");
 
                     b.Property<double>("Weight")
@@ -634,7 +634,7 @@ namespace DeliverIT.Models.Migrations
                     b.HasOne("DeliverIT.Models.DatabaseModels.WareHouse", "WareHouse")
                         .WithMany("Parcels")
                         .HasForeignKey("WareHouseId")
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 

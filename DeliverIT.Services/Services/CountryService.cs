@@ -41,7 +41,7 @@ namespace DeliverIT.Services.Services
         public async Task<CountryDTO> PostAsync(CountryDTO obj)
         {
             var newCountry = obj.GetEntity();
-            var deletedCountry = await db.Countries.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name == obj.Name);
+            var deletedCountry = await db.Countries.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name == obj.Name && x.IsDeleted == true);
 
             if (deletedCountry == null)
             {

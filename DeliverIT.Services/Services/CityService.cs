@@ -53,24 +53,25 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
-            var deletedCity = await db.Cities.Include(x => x.Country).IgnoreQueryFilters().FirstOrDefaultAsync(x => x.CountryId == obj.CountryId && x.Name == obj.Name);
+            CityDTO result = null; 
+            var deletedCity = await db.Cities.Include(x => x.Country).IgnoreQueryFilters()
+                .FirstOrDefaultAsync(x => x.CountryId == obj.CountryId && x.Name == obj.Name && x.IsDeleted == true);
             var newCity = obj.GetEntity();
             if (deletedCity == null)
             {
                 await this.db.Cities.AddAsync(newCity);
                 await db.SaveChangesAsync();
-                obj.Id = newCity.Id;
-                obj.CountryName = await db.Countries.Where(x => x.Id == newCity.CountryId).Select(x => x.Name).FirstOrDefaultAsync();
+                newCity = await db.Cities.Include(x => x.Country).FirstOrDefaultAsync(x => x.Id == newCity.Id);
+                result = newCity.GetDTO();
             }
             else
             {
                 deletedCity.IsDeleted = false;
                 await db.SaveChangesAsync();
-                obj.Id = deletedCity.Id;
-                obj.CountryName = deletedCity.Country.Name;
+                result = deletedCity.GetDTO();
             }
 
-            return obj;
+            return result;
         }
 
         public async Task<CityDTO> UpdateAsync(int id, CityDTO obj)

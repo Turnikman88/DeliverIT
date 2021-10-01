@@ -201,7 +201,7 @@ namespace DeliverIT.Models.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     ShipmentId = table.Column<int>(type: "int", nullable: false),
-                    WareHouseId = table.Column<int>(type: "int", nullable: false),
+                    WareHouseId = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<double>(type: "float", nullable: false),
                     DeliverToAddress = table.Column<bool>(type: "bit", nullable: false),

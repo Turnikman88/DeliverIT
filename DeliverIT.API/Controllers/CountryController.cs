@@ -33,9 +33,8 @@ namespace DeliverIT.API.Controllers
             {
                 return this.BadRequest();
             }
-            await this.cs.PostAsync(obj);
-
-            return this.Created("Get", obj);
+            
+            return this.Created("Get", await this.cs.PostAsync(obj));
         }
 
         [HttpPut("{id}")]

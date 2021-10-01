@@ -37,10 +37,20 @@ namespace DeliverIT.Services.Services
 
         public async Task<ShipmentDTO> PostAsync(ShipmentDTO obj)
         {
-            await db.Shipments.AddAsync(obj.GetEntity());
-            await db.SaveChangesAsync();
+            /*ShipmentDTO result = null;
 
-            return obj; //ToDo: how to get the Id?? Nothing is unique
+            var newShipment = obj.GetEntity();
+            var deleteShipment = await db.Shipments.IgnoreQueryFilters().Include(x => x.Status)
+                .FirstOrDefaultAsync(x => x == newShipment);
+            if (deleteShipment == null)
+            {
+
+            }
+            await db.Shipments.AddAsync(newShipment);
+            await db.SaveChangesAsync();
+            obj.Id = newShipment.Id;*/
+
+            return obj; 
         }
 
         public async Task<ShipmentDTO> UpdateAsync(int id, ShipmentDTO obj)

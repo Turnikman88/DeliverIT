@@ -403,7 +403,7 @@ namespace DeliverIT.Models.Migrations
                     b.Property<int>("ShipmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WareHouseId")
+                    b.Property<int?>("WareHouseId")
                         .HasColumnType("int");
 
                     b.Property<double>("Weight")
@@ -632,7 +632,7 @@ namespace DeliverIT.Models.Migrations
                     b.HasOne("DeliverIT.Models.DatabaseModels.WareHouse", "WareHouse")
                         .WithMany("Parcels")
                         .HasForeignKey("WareHouseId")
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 

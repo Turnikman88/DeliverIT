@@ -69,18 +69,36 @@ namespace DeliverIT.Services.Services
 
         public async Task<WareHouseDTO> PostAsync(WareHouseDTO obj)
         {
-            var model = obj.GetEntity();
+            WareHouseDTO result = null;
 
-            var newWareHouse = await db.WareHouses.AddAsync(model);
-            await db.SaveChangesAsync();
-            //obj.Id = 
-            var result = await db.WareHouses.Include(x => x.Parcels)
+            var wareHouse = obj.GetEntity();
+            var deleteWareHouse = await db.WareHouses.IgnoreQueryFilters()
+                .Include(x => x.Parcels)
                 .Include(w => w.Address)
                     .ThenInclude(a => a.City)
                         .ThenInclude(c => c.Country)
-                        .Where(x => x.AddressId == model.AddressId)
-                        .FirstOrDefaultAsync();
-            return result.GetDTO();
+                        .FirstOrDefaultAsync(x => x.AddressId == obj.AddressId && x.IsDeleted == true);
+
+            if (deleteWareHouse == null)
+            {
+                await db.WareHouses.AddAsync(wareHouse);
+                await db.SaveChangesAsync();
+                wareHouse = await db.WareHouses
+                .Include(x => x.Parcels)
+                .Include(w => w.Address)
+                    .ThenInclude(a => a.City)
+                        .ThenInclude(c => c.Country)
+                        .FirstOrDefaultAsync(x => x.Id == wareHouse.Id);
+                result = wareHouse.GetDTO();
+            }
+            else
+            {
+                deleteWareHouse.IsDeleted = false;
+                await db.SaveChangesAsync();
+                result = deleteWareHouse.GetDTO();
+            }
+
+            return result;
         }
 
         public async Task<WareHouseDTO> UpdateAsync(int id, WareHouseDTO obj)

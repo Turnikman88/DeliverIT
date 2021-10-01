@@ -9,7 +9,7 @@ namespace DeliverIT.Models.DatabaseModels
         public virtual Customer Customer { get; set; }
         public int ShipmentId { get; set; }
         public virtual Shipment Shipment { get; set; }
-        public int WareHouseId { get; set; }
+        public int? WareHouseId { get; set; } // ToDo: why force me to make it nullable
         public virtual WareHouse WareHouse { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
