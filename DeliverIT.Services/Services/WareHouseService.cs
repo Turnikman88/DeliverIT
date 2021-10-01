@@ -18,7 +18,7 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
 
-        public async Task<WareHouseDTO> Delete(int id)
+        public async Task<WareHouseDTO> DeleteAsync(int id)
         {
             var model = await this.db.WareHouses
                                     .Include(x => x.Parcels)
@@ -33,7 +33,7 @@ namespace DeliverIT.Services.Services
             return modelGTO;
         }
 
-        public async Task<IEnumerable<WareHouseDTO>> Get()
+        public async Task<IEnumerable<WareHouseDTO>> GetAsync()
         {
             var WareHousesDTO = await db.WareHouses
                 .Include(x => x.Parcels)
@@ -54,7 +54,7 @@ namespace DeliverIT.Services.Services
             return WareHousesDTO;
         }
 
-        public async Task<WareHouseDTO> GetWareHouseById(int id)
+        public async Task<WareHouseDTO> GetWareHouseByIdAsync(int id)
         {
             var model = await this.db.WareHouses
                 .Include(x => x.Parcels)
@@ -67,7 +67,7 @@ namespace DeliverIT.Services.Services
             return result;
         }
 
-        public async Task<WareHouseDTO> Post(WareHouseDTO obj)
+        public async Task<WareHouseDTO> PostAsync(WareHouseDTO obj)
         {
             var model = obj.GetEntity();
 
@@ -83,7 +83,7 @@ namespace DeliverIT.Services.Services
             return result.GetDTO();
         }
 
-        public async Task<WareHouseDTO> Update(int id, WareHouseDTO obj)
+        public async Task<WareHouseDTO> UpdateAsync(int id, WareHouseDTO obj)
         {
             var model = await this.db.WareHouses
                 .Include(x => x.Parcels)
@@ -100,7 +100,7 @@ namespace DeliverIT.Services.Services
             return result;
         }
 
-        public async Task<bool> WareHouseExists(int id)
+        public async Task<bool> WareHouseExistsAsync(int id)
         {
             var model = await db.WareHouses.FirstOrDefaultAsync(x => x.Id == id);
             return model is null ? false : true;

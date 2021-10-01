@@ -14,7 +14,7 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
 
-        public int UserCount()
+        public int UserCountAsync()
         {
             return this.db.Customers.Count();
         }

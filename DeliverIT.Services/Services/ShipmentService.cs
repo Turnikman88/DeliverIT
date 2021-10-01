@@ -21,7 +21,7 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
 
-        public async Task<ShipmentDTO> Delete(int id)
+        public async Task<ShipmentDTO> DeleteAsync(int id)
         {
             var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
             var shipmentDTO = shipment.GetDTO();
@@ -30,12 +30,12 @@ namespace DeliverIT.Services.Services
             return shipmentDTO;
         }
 
-        public async Task<IEnumerable<ShipmentDTO>> Get()
+        public async Task<IEnumerable<ShipmentDTO>> GetAsync()
         {
             return await db.Shipments.Include(x => x.Status).Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public async Task<ShipmentDTO> Post(ShipmentDTO obj)
+        public async Task<ShipmentDTO> PostAsync(ShipmentDTO obj)
         {
             await db.Shipments.AddAsync(obj.GetEntity());
             await db.SaveChangesAsync();
@@ -43,7 +43,7 @@ namespace DeliverIT.Services.Services
             return obj; //ToDo: how to get the Id?? Nothing is unique
         }
 
-        public async Task<ShipmentDTO> Update(int id, ShipmentDTO obj)
+        public async Task<ShipmentDTO> UpdateAsync(int id, ShipmentDTO obj)
         {
             var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -55,10 +55,17 @@ namespace DeliverIT.Services.Services
             await db.SaveChangesAsync();
             return shipmentDTO;
         }
-        public async Task<bool> ShipmentExists(int id)
+        public async Task<bool> ShipmentExistsAsync(int id)
         {
-            var model = await db.Shipments.FirstOrDefaultAsync(x => x.Id == id);
-            return model is null ? false : true;
+            var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
+            return shipment is null ? false : true;
+        }
+
+        public async Task<ShipmentDTO> GetShipmentByIdAsync(int id)
+        {
+            var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
+
+            return shipment.GetDTO();
         }
     }
 }

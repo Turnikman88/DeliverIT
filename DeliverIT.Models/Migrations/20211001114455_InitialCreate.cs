@@ -226,6 +226,112 @@ namespace DeliverIT.Models.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Electronics" },
+                    { 2, "Shoes" },
+                    { 3, "Clothing" },
+                    { 4, "Medical supplies" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Countries",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Bulgaria" },
+                    { 2, "Turkey" },
+                    { 3, "Greece" },
+                    { 4, "Romania" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "AddressId", "Email", "FirstName", "LastName" },
+                values: new object[,]
+                {
+                    { 2, null, "gonzales@speedy.net", "Speedy", "Gonzales" },
+                    { 3, null, "dormut@dhl.tr", "Dormut", "Baba" },
+                    { 4, null, "ontime@fedex.us", "Stafanakis", "Kurierakis" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Statuses",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Preparing" },
+                    { 2, "On the way" },
+                    { 3, "Completed" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "CountryId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "Sofia" },
+                    { 2, 1, "Plovidv" },
+                    { 3, 2, "Istanbul" },
+                    { 4, 3, "Athenes" },
+                    { 5, 4, "Yash" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "CityId", "StreetName" },
+                values: new object[,]
+                {
+                    { 1, 1, "Vasil Levski 14" },
+                    { 2, 2, "blv. Iztochen 23" },
+                    { 3, 3, "blv. Halic 12" },
+                    { 4, 4, "blv. Zeus 12" },
+                    { 5, 5, "blv. Romunska Morava 1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "AddressId", "Email", "FirstName", "LastName" },
+                values: new object[,]
+                {
+                    { 1, 1, "mishkov@misho.com", "Misho", "Mishkov" },
+                    { 2, 2, "petio@mvc.net", "Peter", "Petrov" },
+                    { 3, 3, "koksal@asd.tr", "Koksal", "Baba" },
+                    { 4, 4, "indebt@greece.gov", "Nikolaos", "Tsitsibaris" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "AddressId", "Email", "FirstName", "LastName" },
+                values: new object[] { 1, 1, "djoro@ekont.com", "Djoro", "Emploev" });
+
+            migrationBuilder.InsertData(
+                table: "WareHouses",
+                columns: new[] { "Id", "AddressId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Shipments",
+                columns: new[] { "Id", "ArrivalDate", "DepartureDate", "DestinationWareHouseId", "OriginWareHouseId", "StatusId" },
+                values: new object[] { 1, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local), 2, 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Shipments",
+                columns: new[] { "Id", "ArrivalDate", "DepartureDate", "DestinationWareHouseId", "OriginWareHouseId", "StatusId" },
+                values: new object[] { 2, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local), 2, 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Parcels",
+                columns: new[] { "Id", "CategoryId", "CustomerId", "DeliverToAddress", "ShipmentId", "WareHouseId", "Weight" },
+                values: new object[] { 1, 1, 1, true, 1, 1, 1234.5599999999999 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_CityId",
                 table: "Addresses",

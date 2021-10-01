@@ -5,7 +5,7 @@ namespace DeliverIT.Services.Contracts
 {
     public interface ICityService : ICRUDshared<CityDTO>
     {
-        Task<CityDTO> GetCityById(int id);
-        Task<CityDTO> GetCityByName(string name);
+        Task<CityDTO> GetCityByIdAsync(int id);
+        Task<CityDTO> GetCityByNameAsync(string name);
     }
 }

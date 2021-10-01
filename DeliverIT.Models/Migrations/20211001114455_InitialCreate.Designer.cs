@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211001112156_update")]
-    partial class update
+    [Migration("20211001114455_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -124,9 +124,12 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name", "CountryId")
+                        .IsUnique();
 
                     b.HasIndex(new[] { "CountryId" }, "IX_Cities_CountryId");
 
@@ -174,9 +177,12 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Countries");
 
@@ -481,7 +487,8 @@ namespace DeliverIT.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId");
+                    b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId")
+                        .IsUnique();
 
                     b.ToTable("WareHouses");
 

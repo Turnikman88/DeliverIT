@@ -18,27 +18,27 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
         
-        public async Task<CountryDTO> GetCountryById(int id)
+        public async Task<CountryDTO> GetCountryByIdAsync(int id)
         {
             return CountryDTOMapperExtension.GetDTO(await db.Countries.Where(x => x.Id == id).Include(c=>c.Cities).FirstOrDefaultAsync());
         }
 
-        public async Task<CountryDTO> GetCountryByName(string name)
+        public async Task<CountryDTO> GetCountryByNameAsync(string name)
         {
             return CountryDTOMapperExtension.GetDTO(await db.Countries.Include(c => c.Cities).Where(x => x.Name == name).FirstOrDefaultAsync());
         }
 
-        public async Task<IEnumerable<CountryDTO>> GetCountriesByPartName(string part)
+        public async Task<IEnumerable<CountryDTO>> GetCountriesByPartNameAsync(string part)
         {
             return await db.Countries.Where(x => x.Name.Contains(part)).Include(c => c.Cities).Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public async Task<IEnumerable<CountryDTO>> Get()
+        public async Task<IEnumerable<CountryDTO>> GetAsync()
         {
             return await db.Countries.Include(c => c.Cities).Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public async Task<CountryDTO> Post(CountryDTO obj)
+        public async Task<CountryDTO> PostAsync(CountryDTO obj)
         {
             var newCountry = obj.GetEntity();
 
@@ -50,7 +50,7 @@ namespace DeliverIT.Services.Services
             return obj;
         }
 
-        public async Task<CountryDTO> Update(int id, CountryDTO obj)
+        public async Task<CountryDTO> UpdateAsync(int id, CountryDTO obj)
         {
             var model = await this.db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -60,7 +60,7 @@ namespace DeliverIT.Services.Services
             return model.GetDTO();
         }
 
-        public async Task<CountryDTO> Delete(int id)
+        public async Task<CountryDTO> DeleteAsync(int id)
         {
             var model = await this.db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
 

@@ -17,58 +17,58 @@ namespace DeliverIT.API.Controllers
         {
             this.ss = ss;
         }
-        /*[HttpGet("{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ShipmentDTO>> GetShipmentById(int id)
+        public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync(int id)
         {
-            if (!await ws.WareHouseExists(id))
+            if (!await ss.ShipmentExistsAsync(id))
             {
                 return this.NotFound();
             }
-            return this.Ok(await ws.GetWareHouseById(id));
-        }*/
+            return this.Ok(await ss.GetShipmentByIdAsync(id));
+        }
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipments()
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipmentsAsync()
         {
-            return this.Ok(await ss.Get());
+            return this.Ok(await ss.GetAsync());
         }
 
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<ShipmentDTO>> CreateShipment(ShipmentDTO obj)
+        public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync(ShipmentDTO obj)
         {
             if (obj is null)
             {
                 return this.BadRequest();
             }
-            return this.Ok(await ss.Post(obj));
+            return this.Ok(await ss.PostAsync(obj));
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ShipmentDTO>> UpdateShipment(int id, ShipmentDTO obj)
+        public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync(int id, ShipmentDTO obj)
         {
             if (obj is null)
             {
                 return this.NotFound();
             }
-            return this.Ok(await ss.Update(id, obj));
+            return this.Ok(await ss.UpdateAsync(id, obj));
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ShipmentDTO>> DeleteShipment(int id)
+        public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync(int id)
         {
-            if (!await ss.ShipmentExists(id))
+            if (!await ss.ShipmentExistsAsync(id))
             {
                 return this.NotFound();
             }
-            return this.Ok(await ss.Delete(id));
+            return this.Ok(await ss.DeleteAsync(id));
         }
     }
 }

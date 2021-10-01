@@ -6,8 +6,8 @@ namespace DeliverIT.Services.Contracts
 {
     public interface ICountryService : ICRUDshared<CountryDTO>
     {
-        Task<CountryDTO> GetCountryById(int id);
-        Task<CountryDTO> GetCountryByName(string name);
-        Task<IEnumerable<CountryDTO>> GetCountriesByPartName(string part);
+        Task<CountryDTO> GetCountryByIdAsync(int id);
+        Task<CountryDTO> GetCountryByNameAsync(string name);
+        Task<IEnumerable<CountryDTO>> GetCountriesByPartNameAsync(string part);
     }
 }

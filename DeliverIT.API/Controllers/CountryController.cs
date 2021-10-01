@@ -18,22 +18,22 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountries()
+        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync()
         {
-            var countries = await cs.Get();
+            var countries = await cs.GetAsync();
             return this.Ok(countries);
         }
 
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<CountryDTO>> CreateCountry(CountryDTO obj)
+        public async Task<ActionResult<CountryDTO>> CreateCountryAsync(CountryDTO obj)
         {
             if (obj is null)
             {
                 return this.BadRequest();
             }
-            await this.cs.Post(obj);
+            await this.cs.PostAsync(obj);
 
             return this.Created("Get", obj);
         }
@@ -41,35 +41,35 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<CountryDTO>> UpdateCountry(int id, CountryDTO obj)
+        public async Task<ActionResult<CountryDTO>> UpdateCountryAsync(int id, CountryDTO obj)
         {
-            if (obj is null || await cs.GetCountryById(id) is null)
+            if (obj is null || await cs.GetCountryByIdAsync(id) is null)
             {
                 return this.NotFound();
             }
 
-            return this.Ok(await this.cs.Update(id, obj));
+            return this.Ok(await this.cs.UpdateAsync(id, obj));
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<CountryDTO>> DeleteCountry(int id)
+        public async Task<ActionResult<CountryDTO>> DeleteCountryAsync(int id)
         {
-            if (await cs.GetCountryById(id) is null)
+            if (await cs.GetCountryByIdAsync(id) is null)
             {
                 return this.NotFound();
             }
 
-            return this.Ok(await this.cs.Delete(id));
+            return this.Ok(await this.cs.DeleteAsync(id));
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<CountryDTO>> GetCountryById(int id)
+        public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync(int id)
         {
-            var country = await cs.GetCountryById(id);
+            var country = await cs.GetCountryByIdAsync(id);
             if (country is null)
             {
                 return this.NotFound();
@@ -80,9 +80,9 @@ namespace DeliverIT.API.Controllers
         [HttpGet("name/{name}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<CountryDTO>> GetCountryByName(string name)
+        public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync(string name)
         {
-            var country = await cs.GetCountryByName(name);
+            var country = await cs.GetCountryByNameAsync(name);
             if (country == null)
             {
                 return this.NotFound();
@@ -93,9 +93,9 @@ namespace DeliverIT.API.Controllers
         [HttpGet("partname/{part}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePart(string part)
+        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync(string part)
         {
-            var countries = await cs.GetCountriesByPartName(part);
+            var countries = await cs.GetCountriesByPartNameAsync(part);
             if (countries == null)
             {
                 return this.NotFound();

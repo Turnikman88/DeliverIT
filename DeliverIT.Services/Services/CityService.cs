@@ -18,7 +18,7 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
 
-        public async Task<IEnumerable<CityDTO>> Get()
+        public async Task<IEnumerable<CityDTO>> GetAsync()
         {
             return await this.db.Cities
                 .Include(x => x.Addresses)
@@ -33,7 +33,7 @@ namespace DeliverIT.Services.Services
                 }).ToListAsync(); //JSON does not return arr of countries and addresses
         }
 
-        public async Task<CityDTO> GetCityById(int id)
+        public async Task<CityDTO> GetCityByIdAsync(int id)
         {
             var city = await db.Cities
                 .Include(x => x.Addresses)
@@ -42,7 +42,7 @@ namespace DeliverIT.Services.Services
             return city.GetDTO();
         }
 
-        public async Task<CityDTO> GetCityByName(string name)
+        public async Task<CityDTO> GetCityByNameAsync(string name)
         {
             var city = await db.Cities
                 .Include(x => x.Addresses)
@@ -51,7 +51,7 @@ namespace DeliverIT.Services.Services
             return city.GetDTO();
         }
 
-        public async Task<CityDTO> Post(CityDTO obj)
+        public async Task<CityDTO> PostAsync(CityDTO obj)
         {
             var newCity = obj.GetEntity();
             await this.db.Cities.AddAsync(newCity);
@@ -66,7 +66,7 @@ namespace DeliverIT.Services.Services
             return obj;
         }
 
-        public async Task<CityDTO> Update(int id, CityDTO obj)
+        public async Task<CityDTO> UpdateAsync(int id, CityDTO obj)
         {
             var city = await this.db.Cities
                 .Include(x => x.Addresses)
@@ -78,7 +78,7 @@ namespace DeliverIT.Services.Services
 
             return city.GetDTO();
         }
-        public async Task<CityDTO> Delete(int id)
+        public async Task<CityDTO> DeleteAsync(int id)
         {
             var city = await this.db.Cities
                 .Include(x => x.Addresses)

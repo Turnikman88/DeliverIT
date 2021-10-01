@@ -9,6 +9,7 @@ namespace DeliverIT.Services.Contracts
 {
     public interface IShipmentService : ICRUDshared<ShipmentDTO>
     {
-        Task<bool> ShipmentExists(int id);
+        Task<bool> ShipmentExistsAsync(int id);
+        Task<ShipmentDTO> GetShipmentByIdAsync(int id);
     }
 }
