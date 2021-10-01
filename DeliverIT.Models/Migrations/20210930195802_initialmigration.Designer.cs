@@ -4,14 +4,16 @@ using DeliverIT.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    partial class DeliverITDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210930195802_initialmigration")]
+    partial class initialmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,38 +40,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasIndex(new[] { "CityId" }, "IX_Addresses_CityId");
 
                     b.ToTable("Addresses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CityId = 1,
-                            StreetName = "Vasil Levski 14"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CityId = 2,
-                            StreetName = "blv. Iztochen 23"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CityId = 3,
-                            StreetName = "blv. Halic 12"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CityId = 4,
-                            StreetName = "blv. Zeus 12"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CityId = 5,
-                            StreetName = "blv. Romunska Morava 1"
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Category", b =>
@@ -86,28 +56,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Electronics"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Shoes"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Clothing"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Medical supplies"
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.City", b =>
@@ -122,12 +70,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name", "CountryId")
-                        .IsUnique();
 
                     b.HasIndex(new[] { "CountryId" }, "IX_Cities_CountryId");
 
@@ -175,12 +120,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Countries");
 
@@ -236,40 +178,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasIndex(new[] { "AddressId" }, "IX_Customers_AddressId");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressId = 1,
-                            Email = "mishkov@misho.com",
-                            FirstName = "Misho",
-                            LastName = "Mishkov"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddressId = 2,
-                            Email = "petio@mvc.net",
-                            FirstName = "Peter",
-                            LastName = "Petrov"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AddressId = 3,
-                            Email = "koksal@asd.tr",
-                            FirstName = "Koksal",
-                            LastName = "Baba"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AddressId = 4,
-                            Email = "indebt@greece.gov",
-                            FirstName = "Nikolaos",
-                            LastName = "Tsitsibaris"
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Employee", b =>
@@ -304,37 +212,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasIndex(new[] { "AddressId" }, "IX_Employees_AddressId");
 
                     b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressId = 1,
-                            Email = "djoro@ekont.com",
-                            FirstName = "Djoro",
-                            LastName = "Emploev"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "gonzales@speedy.net",
-                            FirstName = "Speedy",
-                            LastName = "Gonzales"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "dormut@dhl.tr",
-                            FirstName = "Dormut",
-                            LastName = "Baba"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "ontime@fedex.us",
-                            FirstName = "Stafanakis",
-                            LastName = "Kurierakis"
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Parcel", b =>
@@ -373,18 +250,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasIndex(new[] { "WareHouseId" }, "IX_Parcels_WareHouseId");
 
                     b.ToTable("Parcels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 1,
-                            CustomerId = 1,
-                            DeliverToAddress = true,
-                            ShipmentId = 1,
-                            WareHouseId = 1,
-                            Weight = 1234.5599999999999
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Shipment", b =>
@@ -418,26 +283,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasIndex(new[] { "StatusId" }, "IX_Shipments_StatusId");
 
                     b.ToTable("Shipments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ArrivalDate = new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local),
-                            DestinationWareHouseId = 2,
-                            OriginWareHouseId = 1,
-                            StatusId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ArrivalDate = new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local),
-                            DestinationWareHouseId = 2,
-                            OriginWareHouseId = 1,
-                            StatusId = 1
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Status", b =>
@@ -454,23 +299,6 @@ namespace DeliverIT.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Preparing"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "On the way"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Completed"
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.WareHouse", b =>
@@ -485,22 +313,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId")
-                        .IsUnique();
+                    b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId");
 
                     b.ToTable("WareHouses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddressId = 2
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Address", b =>

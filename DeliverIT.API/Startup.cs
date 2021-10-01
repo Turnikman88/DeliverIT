@@ -23,8 +23,10 @@ namespace DeliverIT.API
         {
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSingleton<IConfiguration>(Configuration);
+
             services.AddDbContext<DeliverITDBContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<ICountryService, CountryService>();

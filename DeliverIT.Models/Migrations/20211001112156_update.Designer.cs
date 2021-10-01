@@ -4,14 +4,16 @@ using DeliverIT.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    partial class DeliverITDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211001112156_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,12 +124,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name", "CountryId")
-                        .IsUnique();
 
                     b.HasIndex(new[] { "CountryId" }, "IX_Cities_CountryId");
 
@@ -175,12 +174,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Countries");
 
@@ -485,8 +481,7 @@ namespace DeliverIT.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId")
-                        .IsUnique();
+                    b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId");
 
                     b.ToTable("WareHouses");
 
