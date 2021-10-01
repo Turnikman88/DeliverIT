@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DeliverIT.Services.DTOMappers
 {
-    public static class ShippmentDTOMapperExtension
+    public static class ShipmentDTOMapperExtension
     {
         public static ShipmentDTO GetDTO(this Shipment shipment)
         {

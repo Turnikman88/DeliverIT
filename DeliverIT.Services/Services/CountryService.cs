@@ -17,7 +17,7 @@ namespace DeliverIT.Services.Services
         {
             this.db = db;
         }
-
+        
         public async Task<CountryDTO> GetCountryById(int id)
         {
             return CountryDTOMapperExtension.GetDTO(await db.Countries.Where(x => x.Id == id).Include(c=>c.Cities).FirstOrDefaultAsync());

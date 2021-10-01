@@ -3,11 +3,12 @@ using DeliverIT.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Contracts
 {
-    public interface IShippmentService : ICRUDshared<ShipmentDTO>
+    public interface IShipmentService : ICRUDshared<ShipmentDTO>
     {
-
+        Task<bool> ShipmentExists(int id);
     }
 }
