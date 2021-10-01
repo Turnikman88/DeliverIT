@@ -1,4 +1,5 @@
-﻿using DeliverIT.Models.DatabaseModels;
+﻿using DeliverIT.Models.DAL;
+using DeliverIT.Models.DatabaseModels;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -29,6 +30,7 @@ namespace DeliverIT.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

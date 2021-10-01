@@ -22,8 +22,11 @@ namespace DeliverIT.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddSingleton<IConfiguration>(Configuration);
+
             services.AddDbContext<DeliverITDBContext>(
-                options => options.UseSqlServer("Server=.;Integrated Security=true;Database=Test123")); //TODO: Fix it with .GETConnectionString("DefaultConnection");
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<ICountryService, CountryService>();
