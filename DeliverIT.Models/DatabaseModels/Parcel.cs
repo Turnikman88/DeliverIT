@@ -17,5 +17,6 @@ namespace DeliverIT.Models.DatabaseModels
         [Range(0, 10000)]
         public double Weight { get; set; }
         public bool DeliverToAddress { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

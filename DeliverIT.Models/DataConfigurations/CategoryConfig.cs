@@ -9,6 +9,8 @@ namespace DeliverIT.Models.DataConfigurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.Property(e => e.Name).IsRequired();
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

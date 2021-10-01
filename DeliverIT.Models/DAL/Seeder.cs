@@ -45,7 +45,7 @@ namespace DeliverIT.Models.DAL
                 new City
                 {
                     Id = 2,
-                    Name = "Plovidv",
+                    Name = "Plovdiv",
                     CountryId = 1
                 },
                 new City

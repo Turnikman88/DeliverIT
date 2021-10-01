@@ -41,12 +41,21 @@ namespace DeliverIT.Services.Services
         public async Task<CountryDTO> PostAsync(CountryDTO obj)
         {
             var newCountry = obj.GetEntity();
+            var deletedCountry = await db.Countries.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name == obj.Name);
 
-            await this.db.Countries.AddAsync(newCountry);
-            await db.SaveChangesAsync();
-            obj.Id = newCountry.Id;
-            //var newCountry = obj.GetDTO();
-            //return newCountry;
+            if (deletedCountry == null)
+            {
+                await this.db.Countries.AddAsync(newCountry);
+                await db.SaveChangesAsync();
+                obj.Id = newCountry.Id;
+            }
+            else
+            {
+                deletedCountry.IsDeleted = false;
+                await db.SaveChangesAsync();
+                obj.Id = deletedCountry.Id;
+            }
+            
             return obj;
         }
 
@@ -69,6 +78,5 @@ namespace DeliverIT.Services.Services
 
             return CountryDTOMapperExtension.GetDTO(model);
         }
-
     }
 }

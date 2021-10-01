@@ -20,6 +20,7 @@ namespace DeliverIT.Models.DatabaseModels
         public virtual WareHouse DestinationWareHouse { get; set; }
         public int StatusId { get; set; }
         public virtual Status Status { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Parcel> Parcels { get; set; }
     }

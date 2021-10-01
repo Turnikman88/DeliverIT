@@ -23,6 +23,8 @@ namespace DeliverIT.Models.DataConfigurations
             builder.Property(e => e.FirstName).IsRequired();
 
             builder.Property(e => e.LastName).IsRequired();
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

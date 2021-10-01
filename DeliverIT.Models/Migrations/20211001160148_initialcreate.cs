@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DeliverIT.Models.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,8 @@ namespace DeliverIT.Models.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,7 +27,8 @@ namespace DeliverIT.Models.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +41,8 @@ namespace DeliverIT.Models.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,7 +56,8 @@ namespace DeliverIT.Models.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false)
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +77,8 @@ namespace DeliverIT.Models.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CityId = table.Column<int>(type: "int", nullable: false),
-                    StreetName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StreetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,7 +100,8 @@ namespace DeliverIT.Models.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false)
+                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,7 +123,8 @@ namespace DeliverIT.Models.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
+                    AddressId = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -136,7 +143,8 @@ namespace DeliverIT.Models.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AddressId = table.Column<int>(type: "int", nullable: false)
+                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,7 +167,8 @@ namespace DeliverIT.Models.Migrations
                     ArrivalDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OriginWareHouseId = table.Column<int>(type: "int", nullable: false),
                     DestinationWareHouseId = table.Column<int>(type: "int", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false)
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,7 +204,8 @@ namespace DeliverIT.Models.Migrations
                     WareHouseId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Weight = table.Column<double>(type: "float", nullable: false),
-                    DeliverToAddress = table.Column<bool>(type: "bit", nullable: false)
+                    DeliverToAddress = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -228,109 +238,109 @@ namespace DeliverIT.Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Electronics" },
-                    { 2, "Shoes" },
-                    { 3, "Clothing" },
-                    { 4, "Medical supplies" }
+                    { 1, false, "Electronics" },
+                    { 2, false, "Shoes" },
+                    { 3, false, "Clothing" },
+                    { 4, false, "Medical supplies" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Countries",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Bulgaria" },
-                    { 2, "Turkey" },
-                    { 3, "Greece" },
-                    { 4, "Romania" }
+                    { 1, false, "Bulgaria" },
+                    { 2, false, "Turkey" },
+                    { 3, false, "Greece" },
+                    { 4, false, "Romania" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "AddressId", "Email", "FirstName", "LastName" },
+                columns: new[] { "Id", "AddressId", "Email", "FirstName", "IsDeleted", "LastName" },
                 values: new object[,]
                 {
-                    { 2, null, "gonzales@speedy.net", "Speedy", "Gonzales" },
-                    { 3, null, "dormut@dhl.tr", "Dormut", "Baba" },
-                    { 4, null, "ontime@fedex.us", "Stafanakis", "Kurierakis" }
+                    { 2, null, "gonzales@speedy.net", "Speedy", false, "Gonzales" },
+                    { 3, null, "dormut@dhl.tr", "Dormut", false, "Baba" },
+                    { 4, null, "ontime@fedex.us", "Stafanakis", false, "Kurierakis" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Statuses",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Preparing" },
-                    { 2, "On the way" },
-                    { 3, "Completed" }
+                    { 1, false, "Preparing" },
+                    { 2, false, "On the way" },
+                    { 3, false, "Completed" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Cities",
-                columns: new[] { "Id", "CountryId", "Name" },
+                columns: new[] { "Id", "CountryId", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, "Sofia" },
-                    { 2, 1, "Plovidv" },
-                    { 3, 2, "Istanbul" },
-                    { 4, 3, "Athenes" },
-                    { 5, 4, "Yash" }
+                    { 1, 1, false, "Sofia" },
+                    { 2, 1, false, "Plovdiv" },
+                    { 3, 2, false, "Istanbul" },
+                    { 4, 3, false, "Athenes" },
+                    { 5, 4, false, "Yash" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Addresses",
-                columns: new[] { "Id", "CityId", "StreetName" },
+                columns: new[] { "Id", "CityId", "IsDeleted", "StreetName" },
                 values: new object[,]
                 {
-                    { 1, 1, "Vasil Levski 14" },
-                    { 2, 2, "blv. Iztochen 23" },
-                    { 3, 3, "blv. Halic 12" },
-                    { 4, 4, "blv. Zeus 12" },
-                    { 5, 5, "blv. Romunska Morava 1" }
+                    { 1, 1, false, "Vasil Levski 14" },
+                    { 2, 2, false, "blv. Iztochen 23" },
+                    { 3, 3, false, "blv. Halic 12" },
+                    { 4, 4, false, "blv. Zeus 12" },
+                    { 5, 5, false, "blv. Romunska Morava 1" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "Id", "AddressId", "Email", "FirstName", "LastName" },
+                columns: new[] { "Id", "AddressId", "Email", "FirstName", "IsDeleted", "LastName" },
                 values: new object[,]
                 {
-                    { 1, 1, "mishkov@misho.com", "Misho", "Mishkov" },
-                    { 2, 2, "petio@mvc.net", "Peter", "Petrov" },
-                    { 3, 3, "koksal@asd.tr", "Koksal", "Baba" },
-                    { 4, 4, "indebt@greece.gov", "Nikolaos", "Tsitsibaris" }
+                    { 1, 1, "mishkov@misho.com", "Misho", false, "Mishkov" },
+                    { 2, 2, "petio@mvc.net", "Peter", false, "Petrov" },
+                    { 3, 3, "koksal@asd.tr", "Koksal", false, "Baba" },
+                    { 4, 4, "indebt@greece.gov", "Nikolaos", false, "Tsitsibaris" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "Id", "AddressId", "Email", "FirstName", "LastName" },
-                values: new object[] { 1, 1, "djoro@ekont.com", "Djoro", "Emploev" });
+                columns: new[] { "Id", "AddressId", "Email", "FirstName", "IsDeleted", "LastName" },
+                values: new object[] { 1, 1, "djoro@ekont.com", "Djoro", false, "Emploev" });
 
             migrationBuilder.InsertData(
                 table: "WareHouses",
-                columns: new[] { "Id", "AddressId" },
+                columns: new[] { "Id", "AddressId", "IsDeleted" },
                 values: new object[,]
                 {
-                    { 1, 1 },
-                    { 2, 2 }
+                    { 1, 1, false },
+                    { 2, 2, false }
                 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
-                columns: new[] { "Id", "ArrivalDate", "DepartureDate", "DestinationWareHouseId", "OriginWareHouseId", "StatusId" },
-                values: new object[] { 1, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local), 2, 1, 1 });
+                columns: new[] { "Id", "ArrivalDate", "DepartureDate", "DestinationWareHouseId", "IsDeleted", "OriginWareHouseId", "StatusId" },
+                values: new object[] { 1, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Shipments",
-                columns: new[] { "Id", "ArrivalDate", "DepartureDate", "DestinationWareHouseId", "OriginWareHouseId", "StatusId" },
-                values: new object[] { 2, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local), 2, 1, 1 });
+                columns: new[] { "Id", "ArrivalDate", "DepartureDate", "DestinationWareHouseId", "IsDeleted", "OriginWareHouseId", "StatusId" },
+                values: new object[] { 2, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Parcels",
-                columns: new[] { "Id", "CategoryId", "CustomerId", "DeliverToAddress", "ShipmentId", "WareHouseId", "Weight" },
-                values: new object[] { 1, 1, 1, true, 1, 1, 1234.5599999999999 });
+                columns: new[] { "Id", "CategoryId", "CustomerId", "DeliverToAddress", "IsDeleted", "ShipmentId", "WareHouseId", "Weight" },
+                values: new object[] { 1, 1, 1, true, false, 1, 1, 1234.5599999999999 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_CityId",

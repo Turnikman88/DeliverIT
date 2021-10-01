@@ -13,6 +13,7 @@ namespace DeliverIT.Models.DatabaseModels
         public string Name { get; set; }
         public int CountryId { get; set; }
         public virtual Country Country { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; }
     }

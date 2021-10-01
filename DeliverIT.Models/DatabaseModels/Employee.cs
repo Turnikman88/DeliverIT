@@ -16,5 +16,6 @@ namespace DeliverIT.Models.DatabaseModels
         public string Email { get; set; }
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

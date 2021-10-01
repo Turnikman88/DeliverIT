@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211001114455_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211001160148_initialcreate")]
+    partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,9 @@ namespace DeliverIT.Models.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("StreetName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -46,30 +49,35 @@ namespace DeliverIT.Models.Migrations
                         {
                             Id = 1,
                             CityId = 1,
+                            IsDeleted = false,
                             StreetName = "Vasil Levski 14"
                         },
                         new
                         {
                             Id = 2,
                             CityId = 2,
+                            IsDeleted = false,
                             StreetName = "blv. Iztochen 23"
                         },
                         new
                         {
                             Id = 3,
                             CityId = 3,
+                            IsDeleted = false,
                             StreetName = "blv. Halic 12"
                         },
                         new
                         {
                             Id = 4,
                             CityId = 4,
+                            IsDeleted = false,
                             StreetName = "blv. Zeus 12"
                         },
                         new
                         {
                             Id = 5,
                             CityId = 5,
+                            IsDeleted = false,
                             StreetName = "blv. Romunska Morava 1"
                         });
                 });
@@ -80,6 +88,9 @@ namespace DeliverIT.Models.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -93,21 +104,25 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             Name = "Electronics"
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             Name = "Shoes"
                         },
                         new
                         {
                             Id = 3,
+                            IsDeleted = false,
                             Name = "Clothing"
                         },
                         new
                         {
                             Id = 4,
+                            IsDeleted = false,
                             Name = "Medical supplies"
                         });
                 });
@@ -121,6 +136,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -140,30 +158,35 @@ namespace DeliverIT.Models.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
+                            IsDeleted = false,
                             Name = "Sofia"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 1,
-                            Name = "Plovidv"
+                            IsDeleted = false,
+                            Name = "Plovdiv"
                         },
                         new
                         {
                             Id = 3,
                             CountryId = 2,
+                            IsDeleted = false,
                             Name = "Istanbul"
                         },
                         new
                         {
                             Id = 4,
                             CountryId = 3,
+                            IsDeleted = false,
                             Name = "Athenes"
                         },
                         new
                         {
                             Id = 5,
                             CountryId = 4,
+                            IsDeleted = false,
                             Name = "Yash"
                         });
                 });
@@ -174,6 +197,9 @@ namespace DeliverIT.Models.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -190,21 +216,25 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             Name = "Bulgaria"
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             Name = "Turkey"
                         },
                         new
                         {
                             Id = 3,
+                            IsDeleted = false,
                             Name = "Greece"
                         },
                         new
                         {
                             Id = 4,
+                            IsDeleted = false,
                             Name = "Romania"
                         });
                 });
@@ -228,6 +258,9 @@ namespace DeliverIT.Models.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -246,6 +279,7 @@ namespace DeliverIT.Models.Migrations
                             AddressId = 1,
                             Email = "mishkov@misho.com",
                             FirstName = "Misho",
+                            IsDeleted = false,
                             LastName = "Mishkov"
                         },
                         new
@@ -254,6 +288,7 @@ namespace DeliverIT.Models.Migrations
                             AddressId = 2,
                             Email = "petio@mvc.net",
                             FirstName = "Peter",
+                            IsDeleted = false,
                             LastName = "Petrov"
                         },
                         new
@@ -262,6 +297,7 @@ namespace DeliverIT.Models.Migrations
                             AddressId = 3,
                             Email = "koksal@asd.tr",
                             FirstName = "Koksal",
+                            IsDeleted = false,
                             LastName = "Baba"
                         },
                         new
@@ -270,6 +306,7 @@ namespace DeliverIT.Models.Migrations
                             AddressId = 4,
                             Email = "indebt@greece.gov",
                             FirstName = "Nikolaos",
+                            IsDeleted = false,
                             LastName = "Tsitsibaris"
                         });
                 });
@@ -293,6 +330,9 @@ namespace DeliverIT.Models.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -314,6 +354,7 @@ namespace DeliverIT.Models.Migrations
                             AddressId = 1,
                             Email = "djoro@ekont.com",
                             FirstName = "Djoro",
+                            IsDeleted = false,
                             LastName = "Emploev"
                         },
                         new
@@ -321,6 +362,7 @@ namespace DeliverIT.Models.Migrations
                             Id = 2,
                             Email = "gonzales@speedy.net",
                             FirstName = "Speedy",
+                            IsDeleted = false,
                             LastName = "Gonzales"
                         },
                         new
@@ -328,6 +370,7 @@ namespace DeliverIT.Models.Migrations
                             Id = 3,
                             Email = "dormut@dhl.tr",
                             FirstName = "Dormut",
+                            IsDeleted = false,
                             LastName = "Baba"
                         },
                         new
@@ -335,6 +378,7 @@ namespace DeliverIT.Models.Migrations
                             Id = 4,
                             Email = "ontime@fedex.us",
                             FirstName = "Stafanakis",
+                            IsDeleted = false,
                             LastName = "Kurierakis"
                         });
                 });
@@ -353,6 +397,9 @@ namespace DeliverIT.Models.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("DeliverToAddress")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("ShipmentId")
@@ -383,6 +430,7 @@ namespace DeliverIT.Models.Migrations
                             CategoryId = 1,
                             CustomerId = 1,
                             DeliverToAddress = true,
+                            IsDeleted = false,
                             ShipmentId = 1,
                             WareHouseId = 1,
                             Weight = 1234.5599999999999
@@ -404,6 +452,9 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<int>("DestinationWareHouseId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("OriginWareHouseId")
                         .HasColumnType("int");
@@ -428,6 +479,7 @@ namespace DeliverIT.Models.Migrations
                             ArrivalDate = new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartureDate = new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
+                            IsDeleted = false,
                             OriginWareHouseId = 1,
                             StatusId = 1
                         },
@@ -437,6 +489,7 @@ namespace DeliverIT.Models.Migrations
                             ArrivalDate = new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             DepartureDate = new DateTime(2021, 10, 6, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
+                            IsDeleted = false,
                             OriginWareHouseId = 1,
                             StatusId = 1
                         });
@@ -448,6 +501,9 @@ namespace DeliverIT.Models.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -461,16 +517,19 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             Name = "Preparing"
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             Name = "On the way"
                         },
                         new
                         {
                             Id = 3,
+                            IsDeleted = false,
                             Name = "Completed"
                         });
                 });
@@ -485,6 +544,9 @@ namespace DeliverIT.Models.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "AddressId" }, "IX_WareHouses_AddressId")
@@ -496,12 +558,14 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            AddressId = 1
+                            AddressId = 1,
+                            IsDeleted = false
                         },
                         new
                         {
                             Id = 2,
-                            AddressId = 2
+                            AddressId = 2,
+                            IsDeleted = false
                         });
                 });
 

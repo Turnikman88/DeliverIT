@@ -17,8 +17,9 @@ namespace DeliverIT.Models.DataConfigurations
             builder.HasOne(d => d.Country)
                 .WithMany(p => p.Cities)
                 .HasForeignKey(d => d.CountryId);
-                //.OnDelete(DeleteBehavior.SetNull);
-                
+            //.OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

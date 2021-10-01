@@ -28,6 +28,8 @@ namespace DeliverIT.Models.DataConfigurations
                 .WithMany(p => p.Shipments)
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

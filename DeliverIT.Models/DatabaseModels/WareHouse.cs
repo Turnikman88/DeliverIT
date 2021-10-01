@@ -14,6 +14,7 @@ namespace DeliverIT.Models.DatabaseModels
         public int Id { get; set; }
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<Parcel> Parcels { get; set; }
         public virtual ICollection<Shipment> ShipmentDestinationWareHouses { get; set; }

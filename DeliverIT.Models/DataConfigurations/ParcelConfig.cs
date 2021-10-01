@@ -32,6 +32,8 @@ namespace DeliverIT.Models.DataConfigurations
             builder.HasOne(d => d.Shipment)
                 .WithMany(p => p.Parcels)
                 .HasForeignKey(d => d.ShipmentId);
+
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }
