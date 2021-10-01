@@ -19,6 +19,7 @@ namespace DeliverIT.Services.DTOMappers
                 OriginWareHouseId = shipment.OriginWareHouseId,
                 DestinationWareHouseId = shipment.DestinationWareHouseId,
                 StatusId = shipment.StatusId,
+                Status = shipment.Status.Name,
                 Parcels = shipment.Parcels.Select(x => $"{x.Id}").ToList()
             };
         }

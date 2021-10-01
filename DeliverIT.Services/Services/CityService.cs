@@ -62,7 +62,7 @@ namespace DeliverIT.Services.Services
                 .Include(x => x.Country);
             var city = result.FirstOrDefault(x => x.Name == obj.Name);
             obj.Id = city.Id;
-
+            obj.CountryName = city.Country.Name;
             return obj;
         }
 

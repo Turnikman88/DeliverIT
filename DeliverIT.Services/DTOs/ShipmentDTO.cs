@@ -12,6 +12,7 @@ namespace DeliverIT.Services.DTOs
         public int OriginWareHouseId { get; set; }
         public int DestinationWareHouseId { get; set; }
         public int StatusId { get; set; }
+        public string Status { get; set; }
         public List<string> Parcels = new List<string>();
     }
 }
