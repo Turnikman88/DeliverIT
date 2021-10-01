@@ -14,6 +14,10 @@ namespace DeliverIT.Models.DataConfigurations
 
             builder.HasIndex(e => e.StatusId, "IX_Shipments_StatusId");
 
+            builder.Property(x => x.ArrivalDate).HasColumnType("date");
+
+            builder.Property(x => x.DepartureDate).HasColumnType("date");
+
             builder.HasOne(d => d.DestinationWareHouse)
                 .WithMany(prop => prop.ShipmentDestinationWareHouses)
                 .HasForeignKey(d => d.DestinationWareHouseId)

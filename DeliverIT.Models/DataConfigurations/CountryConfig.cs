@@ -12,6 +12,7 @@ namespace DeliverIT.Models.DataConfigurations
             builder.HasIndex(x => x.Name).IsUnique();
 
             builder.HasQueryFilter(x => !x.IsDeleted);
+
         }
     }
 }

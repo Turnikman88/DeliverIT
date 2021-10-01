@@ -25,6 +25,8 @@ namespace DeliverIT.Services.Services
         {
             var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
             var shipmentDTO = shipment.GetDTO();
+
+            shipment.DeletedOn = DateTime.Now;
             db.Shipments.Remove(shipment);
             await db.SaveChangesAsync();
             return shipmentDTO;
@@ -37,20 +39,27 @@ namespace DeliverIT.Services.Services
 
         public async Task<ShipmentDTO> PostAsync(ShipmentDTO obj)
         {
-            /*ShipmentDTO result = null;
+            ShipmentDTO result = null;
 
             var newShipment = obj.GetEntity();
             var deleteShipment = await db.Shipments.IgnoreQueryFilters().Include(x => x.Status)
-                .FirstOrDefaultAsync(x => x == newShipment);
+                .FirstOrDefaultAsync(x => x == newShipment && x.IsDeleted == true);
             if (deleteShipment == null)
             {
-
+                await db.Shipments.AddAsync(newShipment);
+                await db.SaveChangesAsync();
+                newShipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == newShipment.Id);
+                result = newShipment.GetDTO();
             }
-            await db.Shipments.AddAsync(newShipment);
-            await db.SaveChangesAsync();
-            obj.Id = newShipment.Id;*/
+            else
+            {
+                deleteShipment.DeletedOn = null;
+                deleteShipment.IsDeleted = false;
+                await db.SaveChangesAsync();
+                result = deleteShipment.GetDTO();
+            }                      
 
-            return obj; 
+            return result; 
         }
 
         public async Task<ShipmentDTO> UpdateAsync(int id, ShipmentDTO obj)

@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using DeliverIT.Models.Contracts;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
 namespace DeliverIT.Models.DatabaseModels
 {
-    public partial class Customer
+    public partial class Customer : IDeletable
     {
         public Customer()
         {
@@ -25,6 +27,7 @@ namespace DeliverIT.Models.DatabaseModels
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Parcel> Parcels { get; set; }
     }

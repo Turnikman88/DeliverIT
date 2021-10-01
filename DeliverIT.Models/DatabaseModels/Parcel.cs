@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DeliverIT.Models.Contracts;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeliverIT.Models.DatabaseModels
 {
-    public partial class Parcel
+    public partial class Parcel : IDeletable
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
@@ -18,5 +20,7 @@ namespace DeliverIT.Models.DatabaseModels
         public double Weight { get; set; }
         public bool DeliverToAddress { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedOn { get; set; }
+
     }
 }

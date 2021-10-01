@@ -51,6 +51,7 @@ namespace DeliverIT.Services.Services
             }
             else
             {
+                deletedCountry.DeletedOn = null;
                 deletedCountry.IsDeleted = false;
                 await db.SaveChangesAsync();
                 obj.Id = deletedCountry.Id;
@@ -72,7 +73,7 @@ namespace DeliverIT.Services.Services
         public async Task<CountryDTO> DeleteAsync(int id)
         {
             var model = await this.db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
-
+            model.DeletedOn = System.DateTime.Now;
             this.db.Countries.Remove(model);
             await db.SaveChangesAsync();
 

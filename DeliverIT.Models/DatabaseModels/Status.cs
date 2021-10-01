@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DeliverIT.Models.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace DeliverIT.Models.DatabaseModels
 {
-    public partial class Status
+    public partial class Status : IDeletable
     {
         public Status()
         {
@@ -12,6 +14,7 @@ namespace DeliverIT.Models.DatabaseModels
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Shipment> Shipments { get; set; }
     }

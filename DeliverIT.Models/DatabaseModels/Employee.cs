@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DeliverIT.Models.Contracts;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeliverIT.Models.DatabaseModels
 {
-    public partial class Employee
+    public partial class Employee : IDeletable
     {
         public int Id { get; set; }
 
@@ -17,5 +19,7 @@ namespace DeliverIT.Models.DatabaseModels
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedOn { get; set; }
+
     }
 }

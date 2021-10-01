@@ -27,6 +27,8 @@ namespace DeliverIT.Services.Services
                                             .ThenInclude(c => c.Country)
                                     .FirstOrDefaultAsync(x => x.Id == id);
             var modelGTO = model.GetDTO();
+
+            model.DeletedOn = System.DateTime.Now;
             this.db.WareHouses.Remove(model);
             await db.SaveChangesAsync();
 
@@ -93,6 +95,7 @@ namespace DeliverIT.Services.Services
             }
             else
             {
+                deleteWareHouse.DeletedOn = null;
                 deleteWareHouse.IsDeleted = false;
                 await db.SaveChangesAsync();
                 result = deleteWareHouse.GetDTO();

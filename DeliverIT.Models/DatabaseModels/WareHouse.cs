@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DeliverIT.Models.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace DeliverIT.Models.DatabaseModels
 {
-    public partial class WareHouse
+    public partial class WareHouse : IDeletable
     {
         public WareHouse()
         {
@@ -15,6 +17,7 @@ namespace DeliverIT.Models.DatabaseModels
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedOn { get; set; }
 
         public virtual ICollection<Parcel> Parcels { get; set; }
         public virtual ICollection<Shipment> ShipmentDestinationWareHouses { get; set; }

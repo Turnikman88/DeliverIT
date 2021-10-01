@@ -66,6 +66,7 @@ namespace DeliverIT.Services.Services
             }
             else
             {
+                deletedCity.DeletedOn = null;
                 deletedCity.IsDeleted = false;
                 await db.SaveChangesAsync();
                 result = deletedCity.GetDTO();
@@ -93,6 +94,7 @@ namespace DeliverIT.Services.Services
                 .Include(x => x.Country)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
+            city.DeletedOn = System.DateTime.Now;
             this.db.Cities.Remove(city);
             await db.SaveChangesAsync();
 
