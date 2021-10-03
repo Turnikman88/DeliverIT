@@ -32,22 +32,68 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<CustomerDTO>> GetAsync()
         {
-            return await db.Customers.Include(x => x.AddressId).Select(x => x.GetDTO()).ToListAsync();
+            return await db.Customers.Include(x => x.Address)
+                .Select(x => x.GetDTO())
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CustomerDTO>> GetCustomerByNameAsync(string name)
+        {
+            var customers = await db.Customers.Include(x => x.Address)
+                .Where(x => x.FirstName == name || x.LastName == name)
+                .Select(x => x.GetDTO())
+                .ToListAsync();
+            return customers;
         }
 
         public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
         {
-            throw new NotImplementedException();
+            var newCustomer = obj.GetEntity();
+            var deletedCustomer = await db.Customers.IgnoreQueryFilters()
+                .FirstOrDefaultAsync(x => x.FirstName == obj.FirstName && x.LastName == obj.LastName && x.IsDeleted == true);
+
+            if (deletedCustomer == null)
+            {
+                await db.Customers.AddAsync(newCustomer);
+            }
+            else
+            {
+                deletedCustomer.DeletedOn = null;
+                deletedCustomer.IsDeleted = false;
+            }
+
+            await db.SaveChangesAsync();
+            obj.Id = deletedCustomer.Id;
+
+            return obj;
         }
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
-            throw new NotImplementedException();
+            var model = await db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x=> x.Id == id);
+
+            model.FirstName = obj.FirstName;
+            model.LastName = obj.LastName;
+            model.AddressId = obj.AddressId;
+
+            await db.SaveChangesAsync();
+
+            return model.GetDTO();
         }
 
-        public async Task UserCountAsync()
+        public async Task<int> UserCountAsync()
         {
-            throw new NotImplementedException();
+            return await db.Customers.CountAsync();
+        }
+
+        public async Task<IEnumerable<CustomerDTO>> GetCustomersByEmailAsync(string part)
+        {
+            return await db.Customers.Where(x => x.Email.Contains(part)).Include(c => c.Address).Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<CustomerDTO> GetCustomerByIDAsync(int id)
+        {
+            return CustomerDTOMapperExtension.GetDTO(await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id));
         }
     }
 }
