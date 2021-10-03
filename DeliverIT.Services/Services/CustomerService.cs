@@ -21,7 +21,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> DeleteAsync(int id)
         {
-            var customer = await db.Customers.Include(x => x.AddressId).FirstOrDefaultAsync(x => x.Id == id);
+            var customer = await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id);
             var customerDTO = customer.GetDTO();
 
             customer.DeletedOn = DateTime.Now;

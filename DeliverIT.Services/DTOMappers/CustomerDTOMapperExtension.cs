@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
+using System.Linq;
 
 namespace DeliverIT.Services.DTOMappers
 {
@@ -14,6 +15,8 @@ namespace DeliverIT.Services.DTOMappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 AddressId = customer.AddressId,
+                Address = customer.Address.StreetName,
+                Parcels = customer.Parcels.Select( x => (x.Category.Name + x.Shipment.Status.Name + x.Weight)).ToList(),
                 Email = customer.Email
             };
         }

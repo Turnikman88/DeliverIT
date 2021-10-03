@@ -27,8 +27,29 @@ namespace DeliverIT.API.Controllers
             return this.Ok(await cs.GetAsync());
         }
 
+        [HttpGet("{parameter}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+
+        public async Task<ActionResult<IEnumerable<CustomerDTO
+            >>> FindCustomerByOneWord(string parameter)
+        {
+            var result = await cs.GetCustomersByEmailAsync(parameter);
+
+            if (result is null)
+            {
+                result = await cs.GetCustomerByNameAsync(parameter);
+
+                if (result is null)
+                {
+                    return this.NotFound();
+                }
+            }
+
+            return this.Ok(result);
+        }
         // Find a customer by his/her name (first or last) if more than one matches - list
-        [HttpGet("{name}")]
+        [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
 
@@ -37,7 +58,7 @@ namespace DeliverIT.API.Controllers
         {
             var result = await cs.GetCustomerByNameAsync(name);
 
-            if(result.Count() == 0)
+            if (result.Count() == 0)
             {
                 return this.NotFound();
             }
@@ -57,13 +78,13 @@ namespace DeliverIT.API.Controllers
             }
             return this.Ok(customers);
         }
-             
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CustomerDTO>> CreateCustomerAsync(CustomerDTO obj)
         {
-            if(obj is null)
+            if (obj is null)
             {
                 return this.BadRequest();
             }
@@ -76,7 +97,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<CustomerDTO>> DeleteCustomer(int id)
         {
-            if(await cs.GetCustomerByIDAsync(id) is null)
+            if (await cs.GetCustomerByIDAsync(id) is null)
             {
                 return this.NotFound();
             }
@@ -86,7 +107,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync(int id, CustomerDTO obj)
         {
-            if(obj is null || await cs.GetCustomerByIDAsync(id) is null)
+            if (obj is null || await cs.GetCustomerByIDAsync(id) is null)
             {
                 return this.NotFound();
             }

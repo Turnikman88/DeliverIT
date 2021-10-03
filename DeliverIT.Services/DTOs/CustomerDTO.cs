@@ -1,4 +1,6 @@
-﻿namespace DeliverIT.Services.DTOs
+﻿using System.Collections.Generic;
+
+namespace DeliverIT.Services.DTOs
 {
     public class CustomerDTO
     {
@@ -7,5 +9,8 @@
         public string LastName { get; set; }
         public string Email { get; set; }
         public int AddressId { get; set; }
+        public string Address { get; set; }
+        public List<string> Parcels { get; set; }
+
     }
 }
