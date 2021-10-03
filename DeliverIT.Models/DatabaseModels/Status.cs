@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DeliverIT.Models.DatabaseModels
+namespace DeliverIT.Models.DatabaseModels //ToDo: ENUM?
 {
     public partial class Status : IDeletable
     {

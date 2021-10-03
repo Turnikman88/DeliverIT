@@ -1,8 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
-using DeliverIT.Services.Services;
 using DeliverIT.Services.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +19,13 @@ namespace DeliverIT.API.Controllers
 
         // must be public - non authorisation needed
         [HttpGet]
+        public async Task<ActionResult> CustomerCount()
+        {
+            return Ok(await cs.UserCountAsync());
+        }
+
+
+        [HttpGet("all")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync()
         {
@@ -30,7 +35,6 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{parameter}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> FindCustomerByOneWord(string parameter)
         {
@@ -48,11 +52,11 @@ namespace DeliverIT.API.Controllers
 
             return this.Ok(result);
         }
+
         // Find a customer by his/her name (first or last) if more than one matches - list
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> FindCustomerByNameAsync(string name)
         {
@@ -67,7 +71,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("email/{email}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByEmailAsync(string email)
         {
@@ -80,7 +84,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CustomerDTO>> CreateCustomerAsync(CustomerDTO obj)
         {
@@ -94,7 +98,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CustomerDTO>> DeleteCustomer(int id)
         {
             if (await cs.GetCustomerByIDAsync(id) is null)
@@ -104,7 +108,40 @@ namespace DeliverIT.API.Controllers
             return this.Ok(await this.cs.DeleteAsync(id));
         }
 
+        [HttpGet("multi/{name}/orderby/{param}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria(string name, string param) //TODO: maybe in service? not working properly fix
+        {
+            var result = await cs.GetCustomersByEmailAsync(param);
+
+            if (result is null)
+            {
+                result = await cs.GetCustomerByNameAsync(param);
+                if (result == null)
+                {
+                    return BadRequest();
+                }
+            }
+
+            if (param == "name")
+            {
+                result.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+            }
+            else if (param == "email")
+            {
+                result.OrderBy(x => x.Email);
+            }
+            else
+            {
+                result.OrderBy(x => x.Id);
+            }
+            return this.Ok(result);
+        }
+
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync(int id, CustomerDTO obj)
         {
             if (obj is null || await cs.GetCustomerByIDAsync(id) is null)

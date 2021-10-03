@@ -39,14 +39,17 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerByNameAsync(string name)
         {
-            var customers = await db.Customers.Include(x => x.Address)
+            var customers = await db.Customers.Include(x => x.Parcels)
+                .ThenInclude(x => x.Category)
+                .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                .Include(x => x.Address)
                 .Where(x => x.FirstName == name || x.LastName == name)
                 .Select(x => x.GetDTO())
                 .ToListAsync();
             return customers;
         }
 
-        public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
+        public async Task<CustomerDTO> PostAsync(CustomerDTO obj) //ToDo: bug if there is already existing customer and not soft deleted
         {
             var newCustomer = obj.GetEntity();
             var deletedCustomer = await db.Customers.IgnoreQueryFilters()
@@ -70,7 +73,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
-            var model = await db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x=> x.Id == id);
+            var model = await db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id);
 
             model.FirstName = obj.FirstName;
             model.LastName = obj.LastName;

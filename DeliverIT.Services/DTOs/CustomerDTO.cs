@@ -10,7 +10,7 @@ namespace DeliverIT.Services.DTOs
         public string Email { get; set; }
         public int AddressId { get; set; }
         public string Address { get; set; }
-        public List<string> Parcels { get; set; }
+        public List<string> Parcels { get; set; } = new List<string>(); //TODO: ParcelDTO
 
     }
 }
