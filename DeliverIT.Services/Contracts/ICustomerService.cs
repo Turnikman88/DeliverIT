@@ -1,7 +1,10 @@
-﻿namespace DeliverIT.Services.Contracts
+﻿using DeliverIT.Services.DTOs;
+using System.Threading.Tasks;
+
+namespace DeliverIT.Services.Contracts
 {
-    public interface ICustomerService
+    public interface ICustomerService : ICRUDshared<CustomerDTO>
     {
-        int UserCountAsync();
+        Task UserCountAsync();
     }
 }

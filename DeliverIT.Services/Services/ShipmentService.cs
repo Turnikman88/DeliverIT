@@ -1,5 +1,4 @@
 ﻿using DeliverIT.Models;
-using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
@@ -7,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
@@ -57,9 +55,9 @@ namespace DeliverIT.Services.Services
                 deleteShipment.IsDeleted = false;
                 await db.SaveChangesAsync();
                 result = deleteShipment.GetDTO();
-            }                      
+            }
 
-            return result; 
+            return result;
         }
 
         public async Task<ShipmentDTO> UpdateAsync(int id, ShipmentDTO obj)
