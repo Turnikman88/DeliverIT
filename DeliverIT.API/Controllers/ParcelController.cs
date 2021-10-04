@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ParcelController : ControllerBase
     {
         private readonly IParcelService ps;
@@ -69,6 +71,47 @@ namespace DeliverIT.API.Controllers
                 return this.NotFound();
             }
             return this.Ok(await ps.DeleteAsync(id));
+        }
+
+        [HttpGet("filter/weight/{criteria}/{weight}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync(string criteria, int weight)
+        {
+            if (criteria != "above" && criteria != "below")
+            {
+                return this.BadRequest();
+            }
+            return this.Ok(await ps.FilterByWeightAsync(criteria, weight));
+        }
+        
+
+        [HttpGet("filter/customer/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync(int id)
+        {
+            return this.Ok(await ps.FilterByCustomerIdAsync(id));
+        }
+        
+        [HttpGet("filter/customer/name/{name}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync(string name)
+        {
+            return this.Ok(await ps.FilterByCustomerNameAsync(name));
+        }
+        
+        [HttpGet("filter/customer/email/{email}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync(string email)
+        {
+            return this.Ok(await ps.FilterByCustomerEmailAsync(email));
+        }
+        
+        [HttpGet("filter/customer/address/{address}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync(string address)
+        {
+            return this.Ok(await ps.FilterByCustomerAddressAsync(address));
         }
     }
 }

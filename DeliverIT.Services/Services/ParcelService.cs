@@ -90,5 +90,58 @@ namespace DeliverIT.Services.Services
             var parcel = await db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
             return parcel is null ? false : true;
         }
+
+        public async Task<IEnumerable<ParcelDTO>> FilterByWeightAsync(string criteria, double weight)
+        {
+            if (criteria == "below")
+            {
+                return await this.db.Parcels.Where(x => x.Weight <= weight).Include(x => x.Category)
+                    .Select(x => x.GetDTO()).ToListAsync();
+            }
+            else 
+            {
+                return await this.db.Parcels.Where(x => x.Weight >= weight).Include(x => x.Category)
+                    .Select(x => x.GetDTO()).ToListAsync();
+            }
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerIdAsync(int id)
+        {
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.CustomerId == id).Select(x => x.GetDTO()).ToListAsync();            
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerNameAsync(string name)
+        {
+            return await this.db.Parcels.Include(x => x.Category)
+                .Where(x => x.Customer.FirstName.Contains(name) || x.Customer.LastName.Contains(name))
+                .Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerEmailAsync(string email)
+        {
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.Customer.Email.Contains(email))
+                .Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerAddressAsync(string address)
+        {
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.Customer.Address.StreetName.Contains(address))
+               .Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
