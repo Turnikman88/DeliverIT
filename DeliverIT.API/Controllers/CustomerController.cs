@@ -97,7 +97,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<CustomerDTO>> DeleteCustomer(int id)
         {

@@ -31,7 +31,8 @@ namespace DeliverIT.API
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICityService, CityService>();
-            services.AddScoped<IShipmentService, ShipmentService>();            
+            services.AddScoped<IShipmentService, ShipmentService>();
+            services.AddScoped<IParcelService, ParcelService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

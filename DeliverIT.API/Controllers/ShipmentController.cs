@@ -17,6 +17,7 @@ namespace DeliverIT.API.Controllers
         {
             this.ss = ss;
         }
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -76,6 +77,12 @@ namespace DeliverIT.API.Controllers
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync(int id)
         {            
             return this.Ok(await ss.FilterByDestinationWareHouseAsync(id));
+        }
+        [HttpGet("filter/originwarehouse/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByOriginWareHouseAsync(int id)
+        {
+            return this.Ok(await ss.FilterByOriginWareHouseAsync(id));
         }
     }
 }

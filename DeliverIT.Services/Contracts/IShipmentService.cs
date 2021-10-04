@@ -12,5 +12,6 @@ namespace DeliverIT.Services.Contracts
         Task<bool> ShipmentExistsAsync(int id);
         Task<ShipmentDTO> GetShipmentByIdAsync(int id);
         Task<IEnumerable<ShipmentDTO>> FilterByDestinationWareHouseAsync(int id);
+        Task<IEnumerable<ShipmentDTO>> FilterByOriginWareHouseAsync(int id);
     }
 }

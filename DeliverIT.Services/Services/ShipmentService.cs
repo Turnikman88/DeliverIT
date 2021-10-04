@@ -42,7 +42,13 @@ namespace DeliverIT.Services.Services
 
             var newShipment = obj.GetEntity();
             var deleteShipment = await db.Shipments.IgnoreQueryFilters().Include(x => x.Status)
-                .FirstOrDefaultAsync(x => x == newShipment && x.IsDeleted == true);
+                .FirstOrDefaultAsync(x => x.DepartureDate == newShipment.DepartureDate
+                && x.ArrivalDate == newShipment.ArrivalDate
+                && x.DestinationWareHouseId == newShipment.DestinationWareHouseId
+                && x.OriginWareHouseId == newShipment.OriginWareHouseId
+                && x.StatusId == newShipment.StatusId
+                && x.IsDeleted == true);
+
             if (deleteShipment == null)
             {
                 await db.Shipments.AddAsync(newShipment);
@@ -88,5 +94,12 @@ namespace DeliverIT.Services.Services
         {
             return await this.db.Shipments.Include(x => x.Status).Where(x => x.DestinationWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
         }
+
+        public async Task<IEnumerable<ShipmentDTO>> FilterByOriginWareHouseAsync(int id)
+        {
+            return await this.db.Shipments.Include(x => x.Status).Where(x => x.OriginWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        //ToDo: implement filter by customer
     }
 }
