@@ -20,7 +20,7 @@ namespace DeliverIT.Services.DTOMappers
                 DestinationWareHouseId = shipment.DestinationWareHouseId,
                 StatusId = shipment.StatusId,
                 Status = shipment.Status.Name,
-                Parcels = shipment.Parcels.Select(x => $"{x.Id}").ToList()
+                Parcels = shipment.Parcels.Select(x => $"Id: {x.Id}").ToList()
             };
         }
 

@@ -84,5 +84,32 @@ namespace DeliverIT.API.Controllers
         {
             return this.Ok(await ss.FilterByOriginWareHouseAsync(id));
         }
+
+        [HttpGet("filter/customer/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync(int id)
+        {
+            return this.Ok(await ss.FilterByCustomerIdAsync(id));
+        }
+        [HttpGet("filter/customer/name/{name}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync(string name)
+        {
+            return this.Ok(await ss.FilterByCustomerNameAsync(name));
+        }
+
+        [HttpGet("filter/customer/email/{email}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync(string email)
+        {
+            return this.Ok(await ss.FilterByCustomerEmailAsync(email));
+        }
+
+        [HttpGet("filter/customer/address/{address}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync(string address)
+        {
+            return this.Ok(await ss.FilterByCustomerAddressAsync(address));
+        }
     }
 }

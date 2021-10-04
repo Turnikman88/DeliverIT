@@ -22,7 +22,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<ShipmentDTO> DeleteAsync(int id)
         {
-            var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
             var shipmentDTO = shipment.GetDTO();
 
             shipment.DeletedOn = DateTime.Now;
@@ -33,7 +33,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<ShipmentDTO>> GetAsync()
         {
-            return await db.Shipments.Include(x => x.Status).Select(x => x.GetDTO()).ToListAsync();
+            return await db.Shipments.Include(x => x.Status).Include(x => x.Parcels).Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<ShipmentDTO> PostAsync(ShipmentDTO obj)
@@ -41,7 +41,7 @@ namespace DeliverIT.Services.Services
             ShipmentDTO result = null;
 
             var newShipment = obj.GetEntity();
-            var deleteShipment = await db.Shipments.IgnoreQueryFilters().Include(x => x.Status)
+            var deleteShipment = await db.Shipments.IgnoreQueryFilters().Include(x => x.Status).Include(x => x.Parcels)
                 .FirstOrDefaultAsync(x => x.DepartureDate == newShipment.DepartureDate
                 && x.ArrivalDate == newShipment.ArrivalDate
                 && x.DestinationWareHouseId == newShipment.DestinationWareHouseId
@@ -53,7 +53,9 @@ namespace DeliverIT.Services.Services
             {
                 await db.Shipments.AddAsync(newShipment);
                 await db.SaveChangesAsync();
-                newShipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == newShipment.Id);
+                newShipment = await db.Shipments.Include(x => x.Status).Include(x => x.Parcels)
+                    .FirstOrDefaultAsync(x => x.Id == newShipment.Id);
+
                 result = newShipment.GetDTO();
             }
             else
@@ -69,7 +71,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<ShipmentDTO> UpdateAsync(int id, ShipmentDTO obj)
         {
-            var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
 
             shipment.ArrivalDate = obj.ArrivalDate;
             shipment.DepartureDate = obj.DepartureDate;
@@ -81,25 +83,63 @@ namespace DeliverIT.Services.Services
         }
         public async Task<bool> ShipmentExistsAsync(int id)
         {
-            var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
             return shipment is null ? false : true;
         }
         public async Task<ShipmentDTO> GetShipmentByIdAsync(int id)
         {
-            var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
 
             return shipment.GetDTO();
         }
         public async Task<IEnumerable<ShipmentDTO>> FilterByDestinationWareHouseAsync(int id)
         {
-            return await this.db.Shipments.Include(x => x.Status).Where(x => x.DestinationWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
+            return await this.db.Shipments.Include(x => x.Status).Include(x => x.Parcels)
+                .Where(x => x.DestinationWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByOriginWareHouseAsync(int id)
         {
-            return await this.db.Shipments.Include(x => x.Status).Where(x => x.OriginWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
+            return await this.db.Shipments.Include(x => x.Status).Include(x => x.Parcels)
+                .Where(x => x.OriginWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
         }
 
-        //ToDo: implement filter by customer
+        public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerIdAsync(int id)
+        {
+            var shipments = await this.db.Shipments.Include(x => x.Status).Include(x => x.Parcels.Where(y => y.CustomerId == id)).ToListAsync();
+            var result = shipments.Where(x => x.Parcels.Count > 0).Select(x => x.GetDTO()).ToList();
+               
+            return result;
+        }
+
+        public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerNameAsync(string name)
+        {
+            var shipments = await this.db.Shipments.Include(x => x.Status)
+                .Include(x => x.Parcels.Where(y => y.Customer.FirstName.Contains(name) || y.Customer.LastName.Contains(name))).ToListAsync();
+
+            var result = shipments.Where(x => x.Parcels.Count > 0).Select(x => x.GetDTO()).ToList();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerEmailAsync(string email)
+        {
+            var shipments = await this.db.Shipments.Include(x => x.Status)
+                .Include(x => x.Parcels.Where(y => y.Customer.Email.Contains(email))).ToListAsync();
+
+            var result = shipments.Where(x => x.Parcels.Count > 0).Select(x => x.GetDTO()).ToList();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerAddressAsync(string address)
+        {
+            var shipments = await this.db.Shipments.Include(x => x.Status)
+                .Include(x => x.Parcels.Where(y => y.Customer.Address.StreetName.Contains(address))).ToListAsync();
+
+            var result = shipments.Where(x => x.Parcels.Count > 0).Select(x => x.GetDTO()).ToList();
+
+            return result;
+        }
     }
 }
