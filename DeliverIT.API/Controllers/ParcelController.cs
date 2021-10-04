@@ -134,5 +134,33 @@ namespace DeliverIT.API.Controllers
         {
             return this.Ok(await ps.FilterByCategoryNameAsync(name));
         }
+
+        [HttpGet("filter/customer-category")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerAndCategoryIdAsync(int categoryId, int customerId)
+        {
+            return this.Ok(await ps.FilterByCustomerAndCategoryIdAsync(categoryId, customerId));
+        }
+
+        [HttpGet("sort/weight")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAsync()
+        {
+            return this.Ok(await ps.SortByWeightAsync());
+        }
+
+        [HttpGet("sort/arrival")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByArrivalDateAsync()
+        {
+            return this.Ok(await ps.SortByArrivalDateAsync());
+        }
+
+        [HttpGet("sort/weight/arrival")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAndArrivalDateAsync()
+        {
+            return this.Ok(await ps.SortByWeightAndArrivalDateAsync());
+        }
     }
 }

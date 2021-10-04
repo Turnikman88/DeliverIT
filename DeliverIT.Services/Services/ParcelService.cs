@@ -146,5 +146,29 @@ namespace DeliverIT.Services.Services
             return await this.db.Parcels.Include(x => x.Category).Where(x => x.Category.Name.Contains(name))
                 .Select(x => x.GetDTO()).ToListAsync();
         }
+
+        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerAndCategoryIdAsync(int categoryId, int customerId)
+        {
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.CategoryId == categoryId || x.CustomerId == customerId)
+                .Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> SortByWeightAsync()
+        {
+            return await this.db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight)
+                .Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> SortByArrivalDateAsync()
+        {
+            return await this.db.Parcels.Include(x => x.Category).OrderBy(x => x.Shipment.ArrivalDate)
+                .Select(x => x.GetDTO()).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ParcelDTO>> SortByWeightAndArrivalDateAsync()
+        {
+            return await this.db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight).ThenBy(x => x.Shipment.ArrivalDate)
+                .Select(x => x.GetDTO()).ToListAsync();
+        }        
     }
 }

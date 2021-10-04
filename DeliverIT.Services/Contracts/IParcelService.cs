@@ -18,6 +18,10 @@ namespace DeliverIT.Services.Contracts
         Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsyncId(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name);
+        Task<IEnumerable<ParcelDTO>> FilterByCustomerAndCategoryIdAsync(int customerd, int categoryId); // ToDo: maybe more filters?
+        Task<IEnumerable<ParcelDTO>> SortByWeightAsync();
+        Task<IEnumerable<ParcelDTO>> SortByArrivalDateAsync();
+        Task<IEnumerable<ParcelDTO>> SortByWeightAndArrivalDateAsync();
 
     }
 }
