@@ -26,7 +26,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<City>> GetCityByIdAsync(int id)
         {
@@ -39,7 +39,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("name/{name}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<City>> GetCityByNameAsync(string name)
         {
@@ -52,7 +52,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CityDTO>> CreateCityAsync(CityDTO obj) //TODO Fix
         {
@@ -65,7 +65,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CityDTO>> UpdateCityAsync(int id, CityDTO obj)
         {
@@ -78,7 +78,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<City>> DeleteCityAsync(int id)
         {

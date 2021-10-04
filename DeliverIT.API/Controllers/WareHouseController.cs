@@ -20,7 +20,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<WareHouseDTO>> GetWareHouseByIdAsync(int id)
         {
@@ -38,7 +38,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync(WareHouseDTO obj)
         {
@@ -50,7 +50,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<WareHouseDTO>> UpdateWareHouseAsync(int id, WareHouseDTO obj)
         {
@@ -62,7 +62,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<WareHouseDTO>> DeleteWareHouseAsync(int id)
         {

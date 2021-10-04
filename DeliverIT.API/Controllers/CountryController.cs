@@ -25,7 +25,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CountryDTO>> CreateCountryAsync(CountryDTO obj)
         {
@@ -38,7 +38,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CountryDTO>> UpdateCountryAsync(int id, CountryDTO obj)
         {
@@ -51,7 +51,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CountryDTO>> DeleteCountryAsync(int id)
         {
@@ -64,7 +64,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync(int id)
         {
@@ -77,7 +77,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("name/{name}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync(string name)
         {
@@ -90,7 +90,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpGet("partname/{part}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync(string part)
         {

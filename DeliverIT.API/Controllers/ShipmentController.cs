@@ -18,7 +18,7 @@ namespace DeliverIT.API.Controllers
             this.ss = ss;
         }
         [HttpGet("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync(int id)
         {
@@ -36,7 +36,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync(ShipmentDTO obj)
         {
@@ -48,7 +48,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync(int id, ShipmentDTO obj)
         {
@@ -60,7 +60,7 @@ namespace DeliverIT.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(204)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync(int id)
         {
@@ -69,6 +69,13 @@ namespace DeliverIT.API.Controllers
                 return this.NotFound();
             }
             return this.Ok(await ss.DeleteAsync(id));
+        }
+
+        [HttpGet("filter/destwarehouse/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync(int id)
+        {            
+            return this.Ok(await ss.FilterByDestinationWareHouseAsync(id));
         }
     }
 }

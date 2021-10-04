@@ -19,6 +19,7 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
 
+
         public async Task<ShipmentDTO> DeleteAsync(int id)
         {
             var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
@@ -77,12 +78,15 @@ namespace DeliverIT.Services.Services
             var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
             return shipment is null ? false : true;
         }
-
         public async Task<ShipmentDTO> GetShipmentByIdAsync(int id)
         {
             var shipment = await db.Shipments.Include(x => x.Status).FirstOrDefaultAsync(x => x.Id == id);
 
             return shipment.GetDTO();
+        }
+        public async Task<IEnumerable<ShipmentDTO>> FilterByDestinationWareHouseAsync(int id)
+        {
+            return await this.db.Shipments.Include(x => x.Status).Where(x => x.DestinationWareHouseId == id).Select(x => x.GetDTO()).ToListAsync();
         }
     }
 }
