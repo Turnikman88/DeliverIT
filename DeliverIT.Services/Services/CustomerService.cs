@@ -43,20 +43,27 @@ namespace DeliverIT.Services.Services
                 .ThenInclude(x => x.Category)
                 .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
                 .Include(x => x.Address)
-                .Where(x => x.FirstName == name || x.LastName == name)
+                .Where(x => x.FirstName.ToLower() == name || x.LastName.ToLower() == name)
                 .Select(x => x.GetDTO())
                 .ToListAsync();
             return customers;
         }
 
-        public async Task<CustomerDTO> PostAsync(CustomerDTO obj) //ToDo: bug if there is already existing customer and not soft deleted
+        public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
         {
             var newCustomer = obj.GetEntity();
             var deletedCustomer = await db.Customers.IgnoreQueryFilters()
-                .FirstOrDefaultAsync(x => x.FirstName == obj.FirstName && x.LastName == obj.LastName && x.IsDeleted == true);
+                .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
+            var existingCustomer = await db.Customers.IgnoreQueryFilters()
+                .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == false);
 
             if (deletedCustomer == null)
             {
+                if (existingCustomer != null)
+                {
+                    obj.Id = existingCustomer.Id;
+                    return obj;
+                }
                 await db.Customers.AddAsync(newCustomer);
             }
             else

@@ -111,13 +111,16 @@ namespace DeliverIT.API.Controllers
         [HttpGet("multi/{name}/orderby/{param}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria(string name, string param) //TODO: maybe in service? not working properly fix
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria(string name, string param)
         {
-            var result = await cs.GetCustomersByEmailAsync(param);
+            name = name.ToLower();
+            param = param.ToLower();
 
-            if (result is null)
+            var result = await cs.GetCustomersByEmailAsync(name);
+
+            if (result is null || result.Count() == 0)
             {
-                result = await cs.GetCustomerByNameAsync(param);
+                result = await cs.GetCustomerByNameAsync(name);
                 if (result == null)
                 {
                     return BadRequest();
@@ -126,15 +129,15 @@ namespace DeliverIT.API.Controllers
 
             if (param == "name")
             {
-                result.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
+                result = result.OrderBy(x => x.FirstName).ThenBy(x => x.LastName);
             }
             else if (param == "email")
             {
-                result.OrderBy(x => x.Email);
+                result = result.OrderBy(x => x.Email);
             }
             else
             {
-                result.OrderBy(x => x.Id);
+                result = result.OrderBy(x => x.Id);
             }
             return this.Ok(result);
         }
