@@ -129,19 +129,22 @@ namespace DeliverIT.Services.Services
                .Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsync(int id)
+        public async Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsyncId(int id)
         {
-            throw new NotImplementedException();
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.WareHouseId == id)
+                .Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id)
+        public async Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.CategoryId == id)
+                .Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name)
+        public async Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.Category.Name.Contains(name))
+                .Select(x => x.GetDTO()).ToListAsync();
         }
     }
 }

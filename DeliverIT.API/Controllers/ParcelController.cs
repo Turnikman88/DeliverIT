@@ -76,7 +76,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/weight/{criteria}/{weight}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync(string criteria, int weight)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByDestinationWareHouseAsync(string criteria, int weight)
         {
             if (criteria != "above" && criteria != "below")
             {
@@ -88,30 +88,51 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/customer/{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync(int id)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync(int id)
         {
             return this.Ok(await ps.FilterByCustomerIdAsync(id));
         }
         
         [HttpGet("filter/customer/name/{name}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync(string name)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerNameAsync(string name)
         {
             return this.Ok(await ps.FilterByCustomerNameAsync(name));
         }
         
         [HttpGet("filter/customer/email/{email}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync(string email)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerEmailAsync(string email)
         {
             return this.Ok(await ps.FilterByCustomerEmailAsync(email));
         }
         
         [HttpGet("filter/customer/address/{address}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync(string address)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerAddressAsync(string address)
         {
             return this.Ok(await ps.FilterByCustomerAddressAsync(address));
+        }
+
+        [HttpGet("filter/warehouse/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByWareHouseIdAsync(int id)
+        {
+            return this.Ok(await ps.FilterByWareHouseAsyncId(id));
+        }
+
+        [HttpGet("filter/category/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCategoryIdAsync(int id)
+        {
+            return this.Ok(await ps.FilterByCategoryIdAsync(id));
+        }
+
+        [HttpGet("filter/category/name/{name}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCategoryNameAsync(string name)
+        {
+            return this.Ok(await ps.FilterByCategoryNameAsync(name));
         }
     }
 }

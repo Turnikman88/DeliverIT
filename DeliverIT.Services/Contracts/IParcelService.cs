@@ -15,7 +15,7 @@ namespace DeliverIT.Services.Contracts
         Task<IEnumerable<ParcelDTO>> FilterByCustomerNameAsync(string name);
         Task<IEnumerable<ParcelDTO>> FilterByCustomerEmailAsync(string email);
         Task<IEnumerable<ParcelDTO>> FilterByCustomerAddressAsync(string address);
-        Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsync(int id);
+        Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsyncId(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name);
 
