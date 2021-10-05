@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Models.DatabaseModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
@@ -153,8 +154,27 @@ namespace DeliverIT.Models.DAL
 
             db.Entity<Category>().HasData(categories);
 
-            var customers = new List<Customer>() 
-            { 
+            // Roles
+            var roles = new List<AppRole>()
+            {
+                new AppRole
+                {
+                    Id = 1,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+                new AppRole
+                {
+                    Id = 2,
+                    Name = "User",
+                    NormalizedName = "USER"
+                }
+            };
+
+            db.Entity<AppRole>().HasData(roles);
+
+            var customers = new List<Customer>()
+            {
                 new Customer
                 {
                     Id = 1,
@@ -195,7 +215,7 @@ namespace DeliverIT.Models.DAL
             {
                 new Employee
                 {
-                    Id = 1,
+                    Id = 5,
                     FirstName = "Djoro",
                     LastName = "Emploev",
                     Email = "djoro@ekont.com",
@@ -203,7 +223,7 @@ namespace DeliverIT.Models.DAL
                 },
                 new Employee
                 {
-                    Id = 2,
+                    Id = 6,
                     FirstName = "Speedy",
                     LastName = "Gonzales",
                     Email = "gonzales@speedy.net",
@@ -211,7 +231,7 @@ namespace DeliverIT.Models.DAL
                 },
                 new Employee
                 {
-                    Id = 3,
+                    Id = 7,
                     FirstName = "Dormut",
                     LastName = "Baba",
                     Email = "dormut@dhl.tr",
@@ -219,7 +239,7 @@ namespace DeliverIT.Models.DAL
                 },
                 new Employee
                 {
-                    Id = 4,
+                    Id = 8,
                     FirstName = "Stafanakis",
                     LastName = "Kurierakis",
                     Email = "ontime@fedex.us",
@@ -229,7 +249,53 @@ namespace DeliverIT.Models.DAL
 
             db.Entity<Employee>().HasData(employees);
 
-            var warehouses = new List<WareHouse>() 
+            var userRoles = new List<IdentityUserRole<int>>()
+            {
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 2,    // Customers
+                    UserId = customers[0].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 2,    // Customers
+                    UserId = customers[1].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 2,    // Customers
+                    UserId = customers[2].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 2,    // Customers
+                    UserId = customers[3].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 1,    // Employees/Admin
+                    UserId = employees[0].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 1,    // Employees/Admin
+                    UserId = employees[1].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 1,    // Employees/Admin
+                    UserId = employees[2].Id
+                },
+                new IdentityUserRole<int>()
+                {
+                    RoleId = 1,    // Employees/Admin
+                    UserId = employees[3].Id
+                }
+            };
+
+            db.Entity<IdentityUserRole<int>>().HasData(userRoles);
+
+            var warehouses = new List<WareHouse>()
             {
                 new WareHouse
                 {

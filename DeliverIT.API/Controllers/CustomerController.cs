@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("all")]
         [ProducesResponseType(200)]
+        [Authorize("Admin")]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync()
         {
             return this.Ok(await cs.GetAsync());

@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models.DAL;
 using DeliverIT.Models.DatabaseModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Threading;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Models
 {
-    public partial class DeliverITDBContext : DbContext
+    public partial class DeliverITDBContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public DeliverITDBContext()
         {

@@ -16,7 +16,7 @@ namespace DeliverIT.Models.DataConfigurations
                 .WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.CityId);
 
-            builder.HasQueryFilter(x => !x.IsDeleted);            
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

@@ -14,17 +14,6 @@ namespace DeliverIT.Models.DataConfigurations
             builder.HasOne(d => d.Address)
                 .WithMany(p => p.Employees)
                 .HasForeignKey(d => d.AddressId);
-
-
-            builder.Property(e => e.Email).IsRequired();
-
-            builder.HasIndex(e => e.Email).IsUnique();
-
-            builder.Property(e => e.FirstName).IsRequired();
-
-            builder.Property(e => e.LastName).IsRequired();
-
-            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }
