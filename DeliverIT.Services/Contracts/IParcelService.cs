@@ -18,7 +18,8 @@ namespace DeliverIT.Services.Contracts
         Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsyncId(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name);
-        Task<IEnumerable<ParcelDTO>> FilterByCustomerAndCategoryIdAsync(int customerd, int categoryId); // ToDo: maybe more filters?
+        Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
+                    int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight);
         Task<IEnumerable<ParcelDTO>> SortByWeightAsync();
         Task<IEnumerable<ParcelDTO>> SortByArrivalDateAsync();
         Task<IEnumerable<ParcelDTO>> SortByWeightAndArrivalDateAsync();

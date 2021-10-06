@@ -147,12 +147,6 @@ namespace DeliverIT.Services.Services
                 .Select(x => x.GetDTO()).ToListAsync();
         }
 
-        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerAndCategoryIdAsync(int categoryId, int customerId)
-        {
-            return await this.db.Parcels.Include(x => x.Category).Where(x => x.CategoryId == categoryId || x.CustomerId == customerId)
-                .Select(x => x.GetDTO()).ToListAsync();
-        }
-
         public async Task<IEnumerable<ParcelDTO>> SortByWeightAsync()
         {
             return await this.db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight)
@@ -169,6 +163,47 @@ namespace DeliverIT.Services.Services
         {
             return await this.db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight).ThenBy(x => x.Shipment.ArrivalDate)
                 .Select(x => x.GetDTO()).ToListAsync();
-        }        
+        }
+        
+        public async Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
+            int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
+        {
+            var result = await this.db.Parcels.Include(x => x.Category).Select(x => x.GetDTO()).ToListAsync();
+
+            if (id.HasValue)
+            {
+                result = result.FindAll(x => x.Id == id);
+            }
+            if (customerId.HasValue)
+            {
+                result = result.FindAll(x => x.CustomerId == customerId);
+            }
+            if (shipmentId.HasValue)
+            {
+                result = result.FindAll(x => x.ShipmentId == shipmentId);
+            }
+            if (warehouseId.HasValue)
+            {
+                result = result.FindAll(x => x.WareHouseId == warehouseId);
+            }
+            if (categoryId.HasValue)
+            {
+                result = result.FindAll(x => x.CategoryId == categoryId);
+            }
+            if (!string.IsNullOrEmpty(categoryName))
+            {
+                result = result.FindAll(x => x.CategoryName.Contains(categoryName));
+            }
+            if (minWeight.HasValue)
+            {
+                result = result.FindAll(x => x.Weight >= minWeight);
+            }
+            if (maxWeight.HasValue)
+            {
+                result = result.FindAll(x => x.Weight <= maxWeight);
+            }          
+            
+            return result;
+        }
     }
 }

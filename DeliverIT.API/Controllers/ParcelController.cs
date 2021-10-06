@@ -135,11 +135,12 @@ namespace DeliverIT.API.Controllers
             return this.Ok(await ps.FilterByCategoryNameAsync(name));
         }
 
-        [HttpGet("filter/customer-category")]
+        [HttpGet("filter")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerAndCategoryIdAsync(int categoryId, int customerId)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
+            int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {
-            return this.Ok(await ps.FilterByCustomerAndCategoryIdAsync(categoryId, customerId));
+            return this.Ok(await ps.MultiFilterAsync(id, customerId, shipmentId, warehouseId, categoryId, categoryName, minWeight, maxWeight));
         }
 
         [HttpGet("sort/weight")]
