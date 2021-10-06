@@ -1,6 +1,5 @@
 ﻿using DeliverIT.Models.DAL;
 using DeliverIT.Models.DatabaseModels;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Threading;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Models
 {
-    public partial class DeliverITDBContext : IdentityDbContext<AppUser, AppRole, int>
+    public partial class DeliverITDBContext : DbContext
     {
         public DeliverITDBContext()
         {
@@ -30,6 +29,7 @@ namespace DeliverIT.Models
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<WareHouse> WareHouses { get; set; }
+        public virtual DbSet<AppUserRole> AppUserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

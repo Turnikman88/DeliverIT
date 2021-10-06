@@ -1,6 +1,5 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +12,11 @@ namespace DeliverIT.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService cs;
-        public CustomerController(ICustomerService cs)
+        private readonly IAuthenticationService auth;
+        public CustomerController(ICustomerService cs, IAuthenticationService auth)
         {
             this.cs = cs;
+            this.auth = auth;
         }
 
         // must be public - non authorisation needed
@@ -28,10 +29,14 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("all")]
         [ProducesResponseType(200)]
-        [Authorize("Admin")]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync()
+        //[Authorize("Employee")]
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync([FromHeader] string authorization)
         {
-            return this.Ok(await cs.GetAsync());
+            if (auth.FindEmployee(authorization))
+            {
+                return this.Ok(await cs.GetAsync());
+            }
+            return this.Unauthorized();
         }
 
         [HttpGet("{parameter}")]

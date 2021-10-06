@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace DeliverIT.Models.DatabaseModels
+﻿namespace DeliverIT.Models.DatabaseModels
 {
-    public class AppRole : IdentityRole<int>
+    public class AppRole
     {
-
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

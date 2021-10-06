@@ -1,5 +1,4 @@
 ﻿using DeliverIT.Models.DatabaseModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
@@ -161,13 +160,11 @@ namespace DeliverIT.Models.DAL
                 {
                     Id = 1,
                     Name = "Admin",
-                    NormalizedName = "ADMIN"
                 },
                 new AppRole
                 {
                     Id = 2,
                     Name = "User",
-                    NormalizedName = "USER"
                 }
             };
 
@@ -249,51 +246,51 @@ namespace DeliverIT.Models.DAL
 
             db.Entity<Employee>().HasData(employees);
 
-            var userRoles = new List<IdentityUserRole<int>>()
+            var userRoles = new List<AppUserRole>()
             {
-                new IdentityUserRole<int>()
+                new AppUserRole()
                 {
-                    RoleId = 2,    // Customers
-                    UserId = customers[0].Id
+                   AppRoleId = 2,
+                   AppUserId = customers[0].Id
                 },
-                new IdentityUserRole<int>()
+               new AppUserRole()
+               {
+                   AppRoleId = 2,    // Customers
+                   AppUserId = customers[1].Id
+               },
+               new AppUserRole()
+               {
+                    AppRoleId = 2,    // Customers
+                    AppUserId = customers[2].Id
+               },
+                new AppUserRole()
                 {
-                    RoleId = 2,    // Customers
-                    UserId = customers[1].Id
-                },
-                new IdentityUserRole<int>()
-                {
-                    RoleId = 2,    // Customers
-                    UserId = customers[2].Id
-                },
-                new IdentityUserRole<int>()
-                {
-                    RoleId = 2,    // Customers
-                    UserId = customers[3].Id
-                },
-                new IdentityUserRole<int>()
-                {
-                    RoleId = 1,    // Employees/Admin
-                    UserId = employees[0].Id
-                },
-                new IdentityUserRole<int>()
-                {
-                    RoleId = 1,    // Employees/Admin
-                    UserId = employees[1].Id
-                },
-                new IdentityUserRole<int>()
-                {
-                    RoleId = 1,    // Employees/Admin
-                    UserId = employees[2].Id
-                },
-                new IdentityUserRole<int>()
-                {
-                    RoleId = 1,    // Employees/Admin
-                    UserId = employees[3].Id
-                }
+                   AppRoleId = 2,    // Customers
+                   AppUserId = customers[3].Id
+               },
+               new AppUserRole()
+               {
+                    AppRoleId = 1,    // Employees/Admin
+                   AppUserId = employees[0].Id
+               },
+               new AppUserRole()
+               {
+                    AppRoleId = 1,    // Employees/Admin
+                    AppUserId = employees[1].Id
+               },
+               new AppUserRole()
+               {
+                    AppRoleId = 1,    // Employees/Admin
+                    AppUserId = employees[2].Id
+               },
+               new AppUserRole()
+               {
+                    AppRoleId = 1,    // Employees/Admin
+                    AppUserId = employees[3].Id
+               }
             };
 
-            db.Entity<IdentityUserRole<int>>().HasData(userRoles);
+            db.Entity<AppUserRole>().HasData(userRoles);
 
             var warehouses = new List<WareHouse>()
             {

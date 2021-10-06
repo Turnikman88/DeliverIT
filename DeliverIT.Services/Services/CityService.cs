@@ -37,7 +37,7 @@ namespace DeliverIT.Services.Services
         {
             var city = await db.Cities
                 .Include(x => x.Addresses)
-                .Include(x => x.Country)                
+                .Include(x => x.Country)
                 .FirstOrDefaultAsync(x => x.Id == id);
             return city.GetDTO();
         }
@@ -53,7 +53,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
-            CityDTO result = null; 
+            CityDTO result = null;
             var deletedCity = await db.Cities.Include(x => x.Country).IgnoreQueryFilters()
                 .FirstOrDefaultAsync(x => x.CountryId == obj.CountryId && x.Name == obj.Name && x.IsDeleted == true);
             var newCity = obj.GetEntity();
