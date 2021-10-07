@@ -12,15 +12,23 @@ namespace DeliverIT.API.Controllers
     public class CityController : ControllerBase
     {
         private readonly ICityService cs;
-        public CityController(ICityService cs)
+        private readonly IAuthenticationService auth;
+
+        public CityController(ICityService cs, IAuthenticationService auth)
         {
             this.cs = cs;
+            this.auth = auth;
         }
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitiesAsync()
+        public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitiesAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             var cities = await cs.GetAsync();
             return this.Ok(cities);
         }
@@ -28,8 +36,13 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<City>> GetCityByIdAsync(int id)
+        public async Task<ActionResult<City>> GetCityByIdAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             var city = await cs.GetCityByIdAsync(id);
             if (city is null)
             {
@@ -41,8 +54,13 @@ namespace DeliverIT.API.Controllers
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<City>> GetCityByNameAsync(string name)
+        public async Task<ActionResult<City>> GetCityByNameAsync([FromHeader] string authorization, string name)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             var city = await cs.GetCityByNameAsync(name);
             if (city == null)
             {
@@ -54,8 +72,13 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<CityDTO>> CreateCityAsync(CityDTO obj) //TODO Fix
+        public async Task<ActionResult<CityDTO>> CreateCityAsync([FromHeader] string authorization, CityDTO obj) //TODO Fix
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null)
             {
                 return this.BadRequest();
@@ -67,8 +90,13 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<CityDTO>> UpdateCityAsync(int id, CityDTO obj)
+        public async Task<ActionResult<CityDTO>> UpdateCityAsync([FromHeader] string authorization, int id, CityDTO obj)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null || await cs.GetCityByIdAsync(id) is null)
             {
                 return this.BadRequest();
@@ -80,8 +108,13 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<City>> DeleteCityAsync(int id)
+        public async Task<ActionResult<City>> DeleteCityAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (await cs.GetCityByIdAsync(id) is null)
             {
                 return this.BadRequest();

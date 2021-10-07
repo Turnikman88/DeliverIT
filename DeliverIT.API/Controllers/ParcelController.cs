@@ -22,8 +22,13 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ParcelDTO>> GetParcelByIdAsync(int id)
+        public async Task<ActionResult<ParcelDTO>> GetParcelByIdAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (!await ps.ParcelExistsAsync(id))
             {
                 return this.NotFound();
@@ -33,8 +38,13 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> GetParcelsAsync()
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> GetParcelsAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ps.GetAsync());
         }
 
@@ -87,96 +97,54 @@ namespace DeliverIT.API.Controllers
                 return this.NotFound();
             }
             return this.Ok(await ps.DeleteAsync(id));
-        }
-
-        [HttpGet("filter/weight/{criteria}/{weight}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByDestinationWareHouseAsync(string criteria, int weight)
-        {
-            if (criteria != "above" && criteria != "below")
-            {
-                return this.BadRequest();
-            }
-            return this.Ok(await ps.FilterByWeightAsync(criteria, weight));
-        }
-
-
-        [HttpGet("filter/customer/{id}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync(int id)
-        {
-            return this.Ok(await ps.FilterByCustomerIdAsync(id));
-        }
-
-        [HttpGet("filter/customer/name/{name}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerNameAsync(string name)
-        {
-            return this.Ok(await ps.FilterByCustomerNameAsync(name));
-        }
-
-        [HttpGet("filter/customer/email/{email}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerEmailAsync(string email)
-        {
-            return this.Ok(await ps.FilterByCustomerEmailAsync(email));
-        }
-
-        [HttpGet("filter/customer/address/{address}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerAddressAsync(string address)
-        {
-            return this.Ok(await ps.FilterByCustomerAddressAsync(address));
-        }
-
-        [HttpGet("filter/warehouse/{id}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByWareHouseIdAsync(int id)
-        {
-            return this.Ok(await ps.FilterByWareHouseAsyncId(id));
-        }
-
-        [HttpGet("filter/category/{id}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCategoryIdAsync(int id)
-        {
-            return this.Ok(await ps.FilterByCategoryIdAsync(id));
-        }
-
-        [HttpGet("filter/category/name/{name}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCategoryNameAsync(string name)
-        {
-            return this.Ok(await ps.FilterByCategoryNameAsync(name));
-        }
+        }       
 
         [HttpGet("filter")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
-            int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> MultiFilterAsync([FromHeader] string authorization, int? id, int? customerId,
+            int? shipmentId, int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ps.MultiFilterAsync(id, customerId, shipmentId, warehouseId, categoryId, categoryName, minWeight, maxWeight));
         }
 
         [HttpGet("sort/weight")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAsync()
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ps.SortByWeightAsync());
         }
 
         [HttpGet("sort/arrival")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByArrivalDateAsync()
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByArrivalDateAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ps.SortByArrivalDateAsync());
         }
 
         [HttpGet("sort/weight/arrival")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAndArrivalDateAsync()
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAndArrivalDateAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ps.SortByWeightAndArrivalDateAsync());
         }
     }

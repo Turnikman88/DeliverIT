@@ -13,16 +13,24 @@ namespace DeliverIT.API.Controllers
     public class ShipmentController : ControllerBase
     {
         private readonly IShipmentService ss;
-        public ShipmentController(IShipmentService ss)
+        private readonly IAuthenticationService auth;
+
+        public ShipmentController(IShipmentService ss, IAuthenticationService auth)
         {
             this.ss = ss;
+            this.auth = auth;
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync(int id)
+        public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (!await ss.ShipmentExistsAsync(id))
             {
                 return this.NotFound();
@@ -31,16 +39,26 @@ namespace DeliverIT.API.Controllers
         }
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipmentsAsync()
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipmentsAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.GetAsync());
         }
 
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync(ShipmentDTO obj)
+        public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync([FromHeader] string authorization, ShipmentDTO obj)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null)
             {
                 return this.BadRequest();
@@ -51,8 +69,13 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync(int id, ShipmentDTO obj)
+        public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync([FromHeader] string authorization, int id, ShipmentDTO obj)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null)
             {
                 return this.NotFound();
@@ -63,8 +86,13 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync(int id)
+        public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (!await ss.ShipmentExistsAsync(id))
             {
                 return this.NotFound();
@@ -74,41 +102,71 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/destwarehouse/{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync(int id)
-        {            
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync([FromHeader] string authorization, int id)
+        {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.FilterByDestinationWareHouseAsync(id));
         }
         [HttpGet("filter/originwarehouse/{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByOriginWareHouseAsync(int id)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByOriginWareHouseAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.FilterByOriginWareHouseAsync(id));
         }
 
         [HttpGet("filter/customer/{id}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync(int id)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.FilterByCustomerIdAsync(id));
         }
         [HttpGet("filter/customer/name/{name}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync(string name)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync([FromHeader] string authorization, string name)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.FilterByCustomerNameAsync(name));
         }
 
         [HttpGet("filter/customer/email/{email}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync(string email)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync([FromHeader] string authorization, string email)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.FilterByCustomerEmailAsync(email));
         }
 
         [HttpGet("filter/customer/address/{address}")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync(string address)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync([FromHeader] string authorization, string address)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             return this.Ok(await ss.FilterByCustomerAddressAsync(address));
         }
     }

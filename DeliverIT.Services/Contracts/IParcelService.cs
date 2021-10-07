@@ -9,15 +9,7 @@ namespace DeliverIT.Services.Contracts
     public interface IParcelService : ICRUDshared<ParcelDTO>
     {
         Task<ParcelDTO> GetParcelByIdAsync(int id);
-        Task<bool> ParcelExistsAsync(int id);
-        Task<IEnumerable<ParcelDTO>> FilterByWeightAsync(string criteria, double weight);
-        Task<IEnumerable<ParcelDTO>> FilterByCustomerIdAsync(int id);
-        Task<IEnumerable<ParcelDTO>> FilterByCustomerNameAsync(string name);
-        Task<IEnumerable<ParcelDTO>> FilterByCustomerEmailAsync(string email);
-        Task<IEnumerable<ParcelDTO>> FilterByCustomerAddressAsync(string address);
-        Task<IEnumerable<ParcelDTO>> FilterByWareHouseAsyncId(int id);
-        Task<IEnumerable<ParcelDTO>> FilterByCategoryIdAsync(int id);
-        Task<IEnumerable<ParcelDTO>> FilterByCategoryNameAsync(string name);
+        Task<bool> ParcelExistsAsync(int id);        
         Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
                     int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight);
         Task<IEnumerable<ParcelDTO>> SortByWeightAsync();

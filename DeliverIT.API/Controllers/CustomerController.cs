@@ -45,8 +45,13 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<CustomerDTO
-            >>> FindCustomerByOneWord(string parameter)
+            >>> FindCustomerByOneWord([FromHeader] string authorization, string parameter)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             var result = await cs.GetCustomersByEmailAsync(parameter);
 
             if (result is null)
@@ -67,8 +72,13 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<IEnumerable<CustomerDTO
-            >>> FindCustomerByNameAsync(string name)
+            >>> FindCustomerByNameAsync([FromHeader] string authorization, string name)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             var result = await cs.GetCustomerByNameAsync(name);
 
             if (result.Count() == 0)
@@ -82,8 +92,13 @@ namespace DeliverIT.API.Controllers
         [HttpGet("email/{email}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByEmailAsync(string email)
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByEmailAsync([FromHeader] string authorization, string email)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             var customers = await cs.GetCustomersByEmailAsync(email);
             if (customers is null)
             {
@@ -109,20 +124,39 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<CustomerDTO>> DeleteCustomer(int id)
+        public async Task<ActionResult<CustomerDTO>> DeleteCustomer([FromHeader] string authorization, int id) // ToDo: change when add passwords
         {
             if (await cs.GetCustomerByIDAsync(id) is null)
             {
                 return this.NotFound();
             }
-            return this.Ok(await this.cs.DeleteAsync(id));
+
+            if (auth.FindEmployee(authorization))
+            {
+                return this.Ok(await this.cs.DeleteAsync(id));
+            }
+            else if (auth.FindUser(authorization))
+            {
+                var customer = await cs.GetCustomerByIDAsync(id);
+                if (customer.Email == authorization)
+                {
+                    return this.Ok(await this.cs.DeleteAsync(id));
+                }                
+            }
+
+            return this.Unauthorized();
         }
 
         [HttpGet("multi/{name}/orderby/{param}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria(string name, string param)
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria([FromHeader] string authorization, string name, string param)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             name = name.ToLower();
             param = param.ToLower();
 
@@ -155,8 +189,13 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync(int id, CustomerDTO obj)
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync([FromHeader] string authorization, int id, CustomerDTO obj)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null || await cs.GetCustomerByIDAsync(id) is null)
             {
                 return this.NotFound();
