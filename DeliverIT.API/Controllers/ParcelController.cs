@@ -105,6 +105,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync([FromHeader] string authorization, int id)
         {
+            //var login = authorization.Split().ToList();
             if (auth.FindUser(authorization))
             {
                 var customer = await cs.GetCustomerByIDAsync(id);
@@ -130,18 +131,19 @@ namespace DeliverIT.API.Controllers
             }
             return this.Unauthorized();
         }
-        [HttpPut("deliveraddress/{customerId}/{deliverToAddress}")]
+
+        [HttpPut("deliveraddress/{customerId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<string
-            >>> ChangeDeliverLocationAsync([FromHeader] string authorization, int customerId, string deliverToAddress)
+        public async Task<ActionResult<IEnumerable<string // maybe read it from the body?
+            >>> ChangeDeliverLocationAsync([FromHeader] string authorization, int customerId)
         {
             if (auth.FindUser(authorization))
             {
                 var customer = await cs.GetCustomerByIDAsync(customerId);
                 if (customer.Email == authorization)
                 {
-                    return this.Ok(await ps.ChangeDeliverLocationAsync(customerId, deliverToAddress));
+                    return this.Ok(await ps.ChangeDeliverLocationAsync(customerId));
                 }
             }
             return this.Unauthorized();

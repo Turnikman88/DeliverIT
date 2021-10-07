@@ -159,7 +159,7 @@ namespace DeliverIT.Services.Services
             return await this.db.Parcels.Where(x => x.CustomerId == customerId)
                 .Select(x => $"Id: {x.Id}, {x.Shipment.Status.Name}").ToListAsync();
         }
-        public async Task<ParcelDTO> ChangeDeliverLocationAsync(int id, string deliverToAddress)
+        public async Task<ParcelDTO> ChangeDeliverLocationAsync(int id)
         {
             var parcel = await db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -169,7 +169,8 @@ namespace DeliverIT.Services.Services
             }
             else
             {
-                parcel.DeliverToAddress = deliverToAddress == "yes" ? true : false;
+
+                parcel.DeliverToAddress = parcel.DeliverToAddress == true ? false : true;
             }
 
             var parcelDTO = parcel.GetDTO();

@@ -108,7 +108,7 @@ namespace DeliverIT.API.Controllers
         }
 
         //must be public
-        [HttpPost]
+        [HttpPost("register")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<CustomerDTO>> CreateCustomerAsync(CustomerDTO obj)

@@ -14,6 +14,7 @@ namespace DeliverIT.Services.Services
 
         public bool FindUser(string email)
         {
+
             return this.db.Customers.Any(x => x.Email == email);
         }
 

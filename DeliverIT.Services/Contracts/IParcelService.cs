@@ -17,6 +17,6 @@ namespace DeliverIT.Services.Contracts
         Task<IEnumerable<ParcelDTO>> SortByWeightAsync();
         Task<IEnumerable<ParcelDTO>> SortByArrivalDateAsync();
         Task<IEnumerable<ParcelDTO>> SortByWeightAndArrivalDateAsync();
-        Task<ParcelDTO> ChangeDeliverLocationAsync(int id, string deliverToAddress);
+        Task<ParcelDTO> ChangeDeliverLocationAsync(int id);
     }
 }

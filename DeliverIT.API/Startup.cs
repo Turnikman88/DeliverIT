@@ -49,7 +49,7 @@ namespace DeliverIT.API
             app.UseRouting();
 
             app.UseAuthorization(); //what you can do
-            //app.UseAuthentication(); //who you are
+            app.UseAuthentication(); //who you are
 
             app.UseEndpoints(endpoints =>
             {
