@@ -12,15 +12,28 @@ namespace DeliverIT.Services.Services
             this.db = db;
         }
 
-        public bool FindUser(string email)
+        public bool FindUser(string authorization)
         {
-
-            return this.db.Customers.Any(x => x.Email == email);
+            if (authorization == null || !authorization.Contains(" "))
+            {
+                return false;
+            }
+            var splitted = authorization.Split();
+            var email = splitted[0];
+            var password = splitted[1];
+            return this.db.Customers.Any(x => x.Email == email && x.Password == password);
         }
 
-        public bool FindEmployee(string email) //TODO: await?
+        public bool FindEmployee(string authorization) //TODO: await?
         {
-            return this.db.Employees.Any(x => x.Email == email);
+            if (authorization == null || !authorization.Contains(" "))
+            {
+                return false;
+            }
+            var splitted = authorization.Split();
+            var email = splitted[0];
+            var password = splitted[1];
+            return this.db.Employees.Any(x => x.Email == email && x.Password == password);
         }
     }
 }

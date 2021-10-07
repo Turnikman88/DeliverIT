@@ -22,6 +22,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitiesAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -36,6 +37,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<City>> GetCityByIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -54,6 +56,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<City>> GetCityByNameAsync([FromHeader] string authorization, string name)
         {
             if (!auth.FindEmployee(authorization))
@@ -72,6 +75,7 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CityDTO>> CreateCityAsync([FromHeader] string authorization, CityDTO obj) //TODO Fix
         {
             if (!auth.FindEmployee(authorization))
@@ -90,6 +94,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CityDTO>> UpdateCityAsync([FromHeader] string authorization, int id, CityDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -108,6 +113,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<City>> DeleteCityAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))

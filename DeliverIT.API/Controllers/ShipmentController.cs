@@ -24,6 +24,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -39,6 +40,7 @@ namespace DeliverIT.API.Controllers
         }
         [HttpGet]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipmentsAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -52,6 +54,7 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync([FromHeader] string authorization, ShipmentDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -69,6 +72,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync([FromHeader] string authorization, int id, ShipmentDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -86,6 +90,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -102,6 +107,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/destwarehouse/{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -111,8 +117,10 @@ namespace DeliverIT.API.Controllers
 
             return this.Ok(await ss.FilterByDestinationWareHouseAsync(id));
         }
+
         [HttpGet("filter/originwarehouse/{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByOriginWareHouseAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -125,6 +133,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/customer/{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -134,8 +143,10 @@ namespace DeliverIT.API.Controllers
 
             return this.Ok(await ss.FilterByCustomerIdAsync(id));
         }
+
         [HttpGet("filter/customer/name/{name}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync([FromHeader] string authorization, string name)
         {
             if (!auth.FindEmployee(authorization))
@@ -148,6 +159,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/customer/email/{email}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync([FromHeader] string authorization, string email)
         {
             if (!auth.FindEmployee(authorization))
@@ -160,6 +172,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/customer/address/{address}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync([FromHeader] string authorization, string address)
         {
             if (!auth.FindEmployee(authorization))
@@ -172,6 +185,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/status/{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByStatusIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))

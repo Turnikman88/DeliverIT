@@ -16,6 +16,9 @@ namespace DeliverIT.Models.DatabaseModels
 
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
+
+        [MinLength(8)]
+        public string Password { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
     }

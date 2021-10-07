@@ -178,6 +178,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Misho",
                     LastName = "Mishkov",
                     Email = "mishkov@misho.com",
+                    Password = "12345678",
                     AddressId = 1
                 },
                 new Customer
@@ -186,6 +187,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Peter",
                     LastName = "Petrov",
                     Email = "petio@mvc.net",
+                    Password = "123456789",
                     AddressId = 2
                 },
                 new Customer
@@ -194,6 +196,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Koksal",
                     LastName = "Baba",
                     Email = "koksal@asd.tr",
+                    Password = "1234567899",
                     AddressId = 3
                 },
                 new Customer
@@ -202,6 +205,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Nikolaos",
                     LastName = "Tsitsibaris",
                     Email = "indebt@greece.gov",
+                    Password = "12345678999",
                     AddressId = 4
                 }
             };
@@ -216,6 +220,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Djoro",
                     LastName = "Emploev",
                     Email = "djoro@ekont.com",
+                    Password = "adminadmin",
                     AddressId = 1
                 },
                 new Employee
@@ -224,6 +229,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Speedy",
                     LastName = "Gonzales",
                     Email = "gonzales@speedy.net",
+                    Password = "adminadmin1",
                     AddressId = null
                 },
                 new Employee
@@ -232,6 +238,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Dormut",
                     LastName = "Baba",
                     Email = "dormut@dhl.tr",
+                    Password = "adminadmin2",
                     AddressId = null
                 },
                 new Employee
@@ -240,6 +247,7 @@ namespace DeliverIT.Models.DAL
                     FirstName = "Stafanakis",
                     LastName = "Kurierakis",
                     Email = "ontime@fedex.us",
+                    Password = "adminadmin3",
                     AddressId = null
                 }
             };

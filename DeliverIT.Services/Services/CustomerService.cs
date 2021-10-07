@@ -51,31 +51,35 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
         {
-            var newCustomer = obj.GetEntity();
-            var deletedCustomer = await db.Customers.IgnoreQueryFilters()
-                .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
-            var existingCustomer = await db.Customers.IgnoreQueryFilters()
-                .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == false);
+            CustomerDTO result = null;
 
+            var newCustomer = obj.GetEntity();
+
+            var deletedCustomer = await db.Customers.Include(x => x.Parcels)
+                .ThenInclude(x => x.Category)
+                .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                .Include(x => x.Address).IgnoreQueryFilters()
+                .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
+                        
             if (deletedCustomer == null)
-            {
-                if (existingCustomer != null)
-                {
-                    obj.Id = existingCustomer.Id;
-                    return obj;
-                }
+            {                
                 await db.Customers.AddAsync(newCustomer);
+                await this.db.SaveChangesAsync();
+                newCustomer = await this.db.Customers.Include(x => x.Parcels)
+                .ThenInclude(x => x.Category)
+                .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                .Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
+                result = newCustomer.GetDTO();
             }
             else
             {
                 deletedCustomer.DeletedOn = null;
                 deletedCustomer.IsDeleted = false;
+                await this.db.SaveChangesAsync();
+                result = deletedCustomer.GetDTO();
             }
 
-            await db.SaveChangesAsync();
-            obj.Id = deletedCustomer.Id;
-
-            return obj;
+            return result;
         }
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)

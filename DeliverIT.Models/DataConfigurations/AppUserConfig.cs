@@ -8,6 +8,8 @@ namespace DeliverIT.Models.DataConfigurations
     {
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
+            builder.Property(e => e.Password).IsRequired();
+
             builder.Property(e => e.Email).IsRequired();
 
             builder.HasIndex(e => e.Email).IsUnique();

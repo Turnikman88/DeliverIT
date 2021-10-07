@@ -21,6 +21,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -35,6 +36,7 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> CreateCountryAsync([FromHeader] string authorization, CountryDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -53,6 +55,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> UpdateCountryAsync([FromHeader] string authorization, int id, CountryDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -71,6 +74,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> DeleteCountryAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -89,6 +93,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -107,6 +112,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync([FromHeader] string authorization, string name)
         {
             if (!auth.FindEmployee(authorization))
@@ -125,6 +131,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("partname/{part}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync([FromHeader] string authorization, string part)
         {
             if (!auth.FindEmployee(authorization))

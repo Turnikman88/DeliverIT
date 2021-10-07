@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211007110938_init")]
-    partial class init
+    [Migration("20211007175334_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -142,6 +142,10 @@ namespace DeliverIT.Models.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -593,6 +597,7 @@ namespace DeliverIT.Models.Migrations
                             FirstName = "Misho",
                             IsDeleted = false,
                             LastName = "Mishkov",
+                            Password = "12345678",
                             AddressId = 1
                         },
                         new
@@ -602,6 +607,7 @@ namespace DeliverIT.Models.Migrations
                             FirstName = "Peter",
                             IsDeleted = false,
                             LastName = "Petrov",
+                            Password = "123456789",
                             AddressId = 2
                         },
                         new
@@ -611,6 +617,7 @@ namespace DeliverIT.Models.Migrations
                             FirstName = "Koksal",
                             IsDeleted = false,
                             LastName = "Baba",
+                            Password = "1234567899",
                             AddressId = 3
                         },
                         new
@@ -620,6 +627,7 @@ namespace DeliverIT.Models.Migrations
                             FirstName = "Nikolaos",
                             IsDeleted = false,
                             LastName = "Tsitsibaris",
+                            Password = "12345678999",
                             AddressId = 4
                         });
                 });
@@ -644,6 +652,7 @@ namespace DeliverIT.Models.Migrations
                             FirstName = "Djoro",
                             IsDeleted = false,
                             LastName = "Emploev",
+                            Password = "adminadmin",
                             AddressId = 1
                         },
                         new
@@ -652,7 +661,8 @@ namespace DeliverIT.Models.Migrations
                             Email = "gonzales@speedy.net",
                             FirstName = "Speedy",
                             IsDeleted = false,
-                            LastName = "Gonzales"
+                            LastName = "Gonzales",
+                            Password = "adminadmin1"
                         },
                         new
                         {
@@ -660,7 +670,8 @@ namespace DeliverIT.Models.Migrations
                             Email = "dormut@dhl.tr",
                             FirstName = "Dormut",
                             IsDeleted = false,
-                            LastName = "Baba"
+                            LastName = "Baba",
+                            Password = "adminadmin2"
                         },
                         new
                         {
@@ -668,7 +679,8 @@ namespace DeliverIT.Models.Migrations
                             Email = "ontime@fedex.us",
                             FirstName = "Stafanakis",
                             IsDeleted = false,
-                            LastName = "Kurierakis"
+                            LastName = "Kurierakis",
+                            Password = "adminadmin3"
                         });
                 });
 

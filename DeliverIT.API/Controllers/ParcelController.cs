@@ -24,6 +24,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ParcelDTO>> GetParcelByIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -40,6 +41,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> GetParcelsAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -53,6 +55,7 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ParcelDTO>> CreateParcelAsync([FromHeader] string authorization, ParcelDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -70,6 +73,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ParcelDTO>> UpdateParcelAsync([FromHeader] string authorization, int id, ParcelDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -87,6 +91,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<ParcelDTO>> DeleteParcelAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -103,13 +108,15 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/customer/{id}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync([FromHeader] string authorization, int id)
         {
             //var login = authorization.Split().ToList();
             if (auth.FindUser(authorization))
             {
+                var email = authorization.Split()[0];
                 var customer = await cs.GetCustomerByIDAsync(id);
-                if (customer.Email == authorization)
+                if (customer.Email == email)
                 {
                     return this.Ok(await ps.FilterByCustomerIdAsync(id));
                 }
@@ -119,12 +126,14 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("filter/statuses/{customerId}")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<string>>> GetShipmentStatusAsync([FromHeader] string authorization, int customerId)
         {
             if (auth.FindUser(authorization))
             {
+                var email = authorization.Split()[0];
                 var customer = await cs.GetCustomerByIDAsync(customerId);
-                if (customer.Email == authorization)
+                if (customer.Email == email)
                 {
                     return this.Ok(await ps.GetShipmentStatusAsync(customerId));
                 }
@@ -135,21 +144,25 @@ namespace DeliverIT.API.Controllers
         [HttpPut("deliveraddress/{customerId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<string // maybe read it from the body?
             >>> ChangeDeliverLocationAsync([FromHeader] string authorization, int customerId)
         {
             if (auth.FindUser(authorization))
             {
+                var email = authorization.Split()[0];
                 var customer = await cs.GetCustomerByIDAsync(customerId);
-                if (customer.Email == authorization)
+                if (customer.Email == email)
                 {
                     return this.Ok(await ps.ChangeDeliverLocationAsync(customerId));
                 }
             }
             return this.Unauthorized();
         }
+
         [HttpGet("filter")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> MultiFilterAsync([FromHeader] string authorization, int? id, int? customerId,
             int? shipmentId, int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {
@@ -163,6 +176,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("sort/weight")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -175,6 +189,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("sort/arrival")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByArrivalDateAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -187,6 +202,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet("sort/weight/arrival")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> SortByWeightAndArrivalDateAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))

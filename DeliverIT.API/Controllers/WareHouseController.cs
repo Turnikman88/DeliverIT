@@ -31,6 +31,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> GetWareHouseByIdAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))
@@ -48,6 +49,7 @@ namespace DeliverIT.API.Controllers
         //must be public
         [HttpGet("all")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
@@ -61,6 +63,7 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync([FromHeader] string authorization, WareHouseDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -78,6 +81,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> UpdateWareHouseAsync([FromHeader] string authorization, int id, WareHouseDTO obj)
         {
             if (!auth.FindEmployee(authorization))
@@ -95,6 +99,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> DeleteWareHouseAsync([FromHeader] string authorization, int id)
         {
             if (!auth.FindEmployee(authorization))

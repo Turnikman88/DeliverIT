@@ -30,6 +30,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("all")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
+        [ProducesResponseType(401)]
         //[Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> GetAllCustomersAsync([FromHeader] string authorization)
@@ -44,6 +45,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("{parameter}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> FindCustomerByOneWord([FromHeader] string authorization, string parameter)
         {
@@ -71,6 +73,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> FindCustomerByNameAsync([FromHeader] string authorization, string name)
         {
@@ -92,6 +95,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("email/{email}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByEmailAsync([FromHeader] string authorization, string email)
         {
             if (!auth.FindEmployee(authorization))
@@ -124,6 +128,7 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CustomerDTO>> DeleteCustomer([FromHeader] string authorization, int id) // ToDo: change when add passwords
         {
             if (await cs.GetCustomerByIDAsync(id) is null)
@@ -137,8 +142,9 @@ namespace DeliverIT.API.Controllers
             }
             else if (auth.FindUser(authorization))
             {
+                var email = authorization.Split()[0];
                 var customer = await cs.GetCustomerByIDAsync(id);
-                if (customer.Email == authorization)
+                if (customer.Email == email)
                 {
                     return this.Ok(await this.cs.DeleteAsync(id));
                 }                
@@ -150,6 +156,7 @@ namespace DeliverIT.API.Controllers
         [HttpGet("multi/{name}/orderby/{param}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria([FromHeader] string authorization, string name, string param)
         {
             if (!auth.FindEmployee(authorization))
@@ -189,6 +196,7 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
         public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync([FromHeader] string authorization, int id, CustomerDTO obj)
         {
             if (!auth.FindEmployee(authorization))

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DeliverIT.Models.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -118,6 +118,7 @@ namespace DeliverIT.Models.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -278,12 +279,12 @@ namespace DeliverIT.Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "AppUser",
-                columns: new[] { "Id", "Employee_AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
+                columns: new[] { "Id", "Employee_AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName", "Password" },
                 values: new object[,]
                 {
-                    { 6, null, null, "Employee", "gonzales@speedy.net", "Speedy", false, "Gonzales" },
-                    { 7, null, null, "Employee", "dormut@dhl.tr", "Dormut", false, "Baba" },
-                    { 8, null, null, "Employee", "ontime@fedex.us", "Stafanakis", false, "Kurierakis" }
+                    { 6, null, null, "Employee", "gonzales@speedy.net", "Speedy", false, "Gonzales", "adminadmin1" },
+                    { 7, null, null, "Employee", "dormut@dhl.tr", "Dormut", false, "Baba", "adminadmin2" },
+                    { 8, null, null, "Employee", "ontime@fedex.us", "Stafanakis", false, "Kurierakis", "adminadmin3" }
                 });
 
             migrationBuilder.InsertData(
@@ -354,22 +355,22 @@ namespace DeliverIT.Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "AppUser",
-                columns: new[] { "Id", "AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
-                values: new object[] { 1, 1, null, "Customer", "mishkov@misho.com", "Misho", false, "Mishkov" });
+                columns: new[] { "Id", "AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName", "Password" },
+                values: new object[] { 1, 1, null, "Customer", "mishkov@misho.com", "Misho", false, "Mishkov", "12345678" });
 
             migrationBuilder.InsertData(
                 table: "AppUser",
-                columns: new[] { "Id", "Employee_AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
-                values: new object[] { 5, 1, null, "Employee", "djoro@ekont.com", "Djoro", false, "Emploev" });
+                columns: new[] { "Id", "Employee_AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName", "Password" },
+                values: new object[] { 5, 1, null, "Employee", "djoro@ekont.com", "Djoro", false, "Emploev", "adminadmin" });
 
             migrationBuilder.InsertData(
                 table: "AppUser",
-                columns: new[] { "Id", "AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
+                columns: new[] { "Id", "AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName", "Password" },
                 values: new object[,]
                 {
-                    { 2, 2, null, "Customer", "petio@mvc.net", "Peter", false, "Petrov" },
-                    { 3, 3, null, "Customer", "koksal@asd.tr", "Koksal", false, "Baba" },
-                    { 4, 4, null, "Customer", "indebt@greece.gov", "Nikolaos", false, "Tsitsibaris" }
+                    { 2, 2, null, "Customer", "petio@mvc.net", "Peter", false, "Petrov", "123456789" },
+                    { 3, 3, null, "Customer", "koksal@asd.tr", "Koksal", false, "Baba", "1234567899" },
+                    { 4, 4, null, "Customer", "indebt@greece.gov", "Nikolaos", false, "Tsitsibaris", "12345678999" }
                 });
 
             migrationBuilder.InsertData(
