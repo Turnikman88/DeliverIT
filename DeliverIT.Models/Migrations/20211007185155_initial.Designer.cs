@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211007175334_initial")]
+    [Migration("20211007185155_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -155,6 +155,8 @@ namespace DeliverIT.Models.Migrations
                     b.ToTable("AppUser");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
+
+                    b.HasCheckConstraint("Password_contains_space", "Password NOT LIKE '% %'");
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUserRole", b =>

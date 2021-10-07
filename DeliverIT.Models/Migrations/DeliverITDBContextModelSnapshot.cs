@@ -153,6 +153,8 @@ namespace DeliverIT.Models.Migrations
                     b.ToTable("AppUser");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
+
+                    b.HasCheckConstraint("Password_contains_space", "Password NOT LIKE '% %'");
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUserRole", b =>

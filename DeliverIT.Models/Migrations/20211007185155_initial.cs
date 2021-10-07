@@ -128,6 +128,7 @@ namespace DeliverIT.Models.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppUser", x => x.Id);
+                    table.CheckConstraint("Password_contains_space", "Password NOT LIKE '% %'");
                     table.ForeignKey(
                         name: "FK_AppUser_Addresses_AddressId",
                         column: x => x.AddressId,

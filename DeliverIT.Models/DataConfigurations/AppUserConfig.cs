@@ -9,6 +9,7 @@ namespace DeliverIT.Models.DataConfigurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.Property(e => e.Password).IsRequired();
+            builder.HasCheckConstraint("Password_contains_space", "Password NOT LIKE '% %'");
 
             builder.Property(e => e.Email).IsRequired();
 
