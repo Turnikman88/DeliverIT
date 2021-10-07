@@ -1,9 +1,7 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -30,6 +28,8 @@ namespace DeliverIT.API.Controllers
             }
             return this.Ok(await ws.GetWareHouseByIdAsync(id));
         }
+
+        //must be public
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync()
@@ -42,7 +42,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync(WareHouseDTO obj)
         {
-            if (obj is null || obj.AddressId == 0 )
+            if (obj is null || obj.AddressId == 0)
             {
                 return this.BadRequest();
             }

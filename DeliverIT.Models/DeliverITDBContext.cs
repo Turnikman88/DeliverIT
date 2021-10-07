@@ -29,6 +29,7 @@ namespace DeliverIT.Models
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<WareHouse> WareHouses { get; set; }
+        public virtual DbSet<AppUserRole> AppUserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

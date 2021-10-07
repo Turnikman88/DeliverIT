@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211003100641_testmigration")]
-    partial class testmigration
+    [Migration("20211006205047_testeasd")]
+    partial class testeasd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,6 +82,131 @@ namespace DeliverIT.Models.Migrations
                             CityId = 5,
                             IsDeleted = false,
                             StreetName = "blv. Romunska Morava 1"
+                        });
+                });
+
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
+                });
+
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("AppUser");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
+                });
+
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUserRole", b =>
+                {
+                    b.Property<int>("AppRoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppRoleId", "AppUserId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("AppUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            AppRoleId = 2,
+                            AppUserId = 1
+                        },
+                        new
+                        {
+                            AppRoleId = 2,
+                            AppUserId = 2
+                        },
+                        new
+                        {
+                            AppRoleId = 2,
+                            AppUserId = 3
+                        },
+                        new
+                        {
+                            AppRoleId = 2,
+                            AppUserId = 4
+                        },
+                        new
+                        {
+                            AppRoleId = 1,
+                            AppUserId = 5
+                        },
+                        new
+                        {
+                            AppRoleId = 1,
+                            AppUserId = 6
+                        },
+                        new
+                        {
+                            AppRoleId = 1,
+                            AppUserId = 7
+                        },
+                        new
+                        {
+                            AppRoleId = 1,
+                            AppUserId = 8
                         });
                 });
 
@@ -251,156 +376,6 @@ namespace DeliverIT.Models.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "AddressId" }, "IX_Customers_AddressId");
-
-                    b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressId = 1,
-                            Email = "mishkov@misho.com",
-                            FirstName = "Misho",
-                            IsDeleted = false,
-                            LastName = "Mishkov"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddressId = 2,
-                            Email = "petio@mvc.net",
-                            FirstName = "Peter",
-                            IsDeleted = false,
-                            LastName = "Petrov"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AddressId = 3,
-                            Email = "koksal@asd.tr",
-                            FirstName = "Koksal",
-                            IsDeleted = false,
-                            LastName = "Baba"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AddressId = 4,
-                            Email = "indebt@greece.gov",
-                            FirstName = "Nikolaos",
-                            IsDeleted = false,
-                            LastName = "Tsitsibaris"
-                        });
-                });
-
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex(new[] { "AddressId" }, "IX_Employees_AddressId");
-
-                    b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressId = 1,
-                            Email = "djoro@ekont.com",
-                            FirstName = "Djoro",
-                            IsDeleted = false,
-                            LastName = "Emploev"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "gonzales@speedy.net",
-                            FirstName = "Speedy",
-                            IsDeleted = false,
-                            LastName = "Gonzales"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "dormut@dhl.tr",
-                            FirstName = "Dormut",
-                            IsDeleted = false,
-                            LastName = "Baba"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "ontime@fedex.us",
-                            FirstName = "Stafanakis",
-                            IsDeleted = false,
-                            LastName = "Kurierakis"
-                        });
-                });
-
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Parcel", b =>
                 {
                     b.Property<int>("Id")
@@ -500,8 +475,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalDate = new DateTime(2021, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
@@ -510,8 +485,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalDate = new DateTime(2021, 10, 13, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 10, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
@@ -599,6 +574,104 @@ namespace DeliverIT.Models.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
+                {
+                    b.HasBaseType("DeliverIT.Models.DatabaseModels.AppUser");
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.HasIndex(new[] { "AddressId" }, "IX_Customers_AddressId");
+
+                    b.HasDiscriminator().HasValue("Customer");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "mishkov@misho.com",
+                            FirstName = "Misho",
+                            IsDeleted = false,
+                            LastName = "Mishkov",
+                            AddressId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "petio@mvc.net",
+                            FirstName = "Peter",
+                            IsDeleted = false,
+                            LastName = "Petrov",
+                            AddressId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "koksal@asd.tr",
+                            FirstName = "Koksal",
+                            IsDeleted = false,
+                            LastName = "Baba",
+                            AddressId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "indebt@greece.gov",
+                            FirstName = "Nikolaos",
+                            IsDeleted = false,
+                            LastName = "Tsitsibaris",
+                            AddressId = 4
+                        });
+                });
+
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Employee", b =>
+                {
+                    b.HasBaseType("DeliverIT.Models.DatabaseModels.AppUser");
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int")
+                        .HasColumnName("Employee_AddressId");
+
+                    b.HasIndex(new[] { "AddressId" }, "IX_Employees_AddressId");
+
+                    b.HasDiscriminator().HasValue("Employee");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 5,
+                            Email = "djoro@ekont.com",
+                            FirstName = "Djoro",
+                            IsDeleted = false,
+                            LastName = "Emploev",
+                            AddressId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Email = "gonzales@speedy.net",
+                            FirstName = "Speedy",
+                            IsDeleted = false,
+                            LastName = "Gonzales"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Email = "dormut@dhl.tr",
+                            FirstName = "Dormut",
+                            IsDeleted = false,
+                            LastName = "Baba"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Email = "ontime@fedex.us",
+                            FirstName = "Stafanakis",
+                            IsDeleted = false,
+                            LastName = "Kurierakis"
+                        });
+                });
+
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Address", b =>
                 {
                     b.HasOne("DeliverIT.Models.DatabaseModels.City", "City")
@@ -610,6 +683,25 @@ namespace DeliverIT.Models.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUserRole", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppRole", "AppRole")
+                        .WithMany()
+                        .HasForeignKey("AppRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppRole");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.City", b =>
                 {
                     b.HasOne("DeliverIT.Models.DatabaseModels.Country", "Country")
@@ -619,26 +711,6 @@ namespace DeliverIT.Models.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
-                {
-                    b.HasOne("DeliverIT.Models.DatabaseModels.Address", "Address")
-                        .WithMany("Customers")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Employee", b =>
-                {
-                    b.HasOne("DeliverIT.Models.DatabaseModels.Address", "Address")
-                        .WithMany("Employees")
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Parcel", b =>
@@ -710,6 +782,26 @@ namespace DeliverIT.Models.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.Address", "Address")
+                        .WithMany("Customers")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Employee", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.Address", "Address")
+                        .WithMany("Employees")
+                        .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
+                });
+
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Address", b =>
                 {
                     b.Navigation("Customers");
@@ -734,11 +826,6 @@ namespace DeliverIT.Models.Migrations
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
-                {
-                    b.Navigation("Parcels");
-                });
-
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Shipment", b =>
                 {
                     b.Navigation("Parcels");
@@ -756,6 +843,11 @@ namespace DeliverIT.Models.Migrations
                     b.Navigation("ShipmentDestinationWareHouses");
 
                     b.Navigation("ShipmentOriginWareHouses");
+                });
+
+            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
+                {
+                    b.Navigation("Parcels");
                 });
 #pragma warning restore 612, 618
         }

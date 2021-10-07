@@ -1,9 +1,7 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -13,9 +11,12 @@ namespace DeliverIT.API.Controllers
     public class ParcelController : ControllerBase
     {
         private readonly IParcelService ps;
-        public ParcelController(IParcelService ps)
+        private readonly IAuthenticationService auth;
+
+        public ParcelController(IParcelService ps, IAuthenticationService auth)
         {
             this.ps = ps;
+            this.auth = auth;
         }
 
         [HttpGet("{id}")]
@@ -40,8 +41,13 @@ namespace DeliverIT.API.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<ParcelDTO>> CreateParcelAsync(ParcelDTO obj)
+        public async Task<ActionResult<ParcelDTO>> CreateParcelAsync([FromHeader] string authorization, ParcelDTO obj)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null)
             {
                 return this.BadRequest();
@@ -52,8 +58,13 @@ namespace DeliverIT.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ParcelDTO>> UpdateParcelAsync(int id, ParcelDTO obj)
+        public async Task<ActionResult<ParcelDTO>> UpdateParcelAsync([FromHeader] string authorization, int id, ParcelDTO obj)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (obj is null)
             {
                 return this.NotFound();
@@ -64,8 +75,13 @@ namespace DeliverIT.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<ParcelDTO>> DeleteParcelAsync(int id)
+        public async Task<ActionResult<ParcelDTO>> DeleteParcelAsync([FromHeader] string authorization, int id)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
             if (!await ps.ParcelExistsAsync(id))
             {
                 return this.NotFound();
@@ -84,7 +100,7 @@ namespace DeliverIT.API.Controllers
             }
             return this.Ok(await ps.FilterByWeightAsync(criteria, weight));
         }
-        
+
 
         [HttpGet("filter/customer/{id}")]
         [ProducesResponseType(200)]
@@ -92,21 +108,21 @@ namespace DeliverIT.API.Controllers
         {
             return this.Ok(await ps.FilterByCustomerIdAsync(id));
         }
-        
+
         [HttpGet("filter/customer/name/{name}")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerNameAsync(string name)
         {
             return this.Ok(await ps.FilterByCustomerNameAsync(name));
         }
-        
+
         [HttpGet("filter/customer/email/{email}")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerEmailAsync(string email)
         {
             return this.Ok(await ps.FilterByCustomerEmailAsync(email));
         }
-        
+
         [HttpGet("filter/customer/address/{address}")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerAddressAsync(string address)

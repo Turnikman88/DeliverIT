@@ -4,14 +4,16 @@ using DeliverIT.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    partial class DeliverITDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211005210052_authtest")]
+    partial class authtest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,23 +92,41 @@ namespace DeliverIT.Models.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRole");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Name = "Admin"
+                            ConcurrencyStamp = "a9afde36-a462-4b48-a5e1-4c429f4c6bc5",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "User"
+                            ConcurrencyStamp = "4a2bb7eb-df82-49f8-8861-aa2ca8adbff9",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -117,6 +137,13 @@ namespace DeliverIT.Models.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
@@ -126,7 +153,11 @@ namespace DeliverIT.Models.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -141,71 +172,55 @@ namespace DeliverIT.Models.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("AppUser");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("AppUser");
-                });
-
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUserRole", b =>
-                {
-                    b.Property<int>("AppRoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppRoleId", "AppUserId");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("AppUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            AppRoleId = 2,
-                            AppUserId = 1
-                        },
-                        new
-                        {
-                            AppRoleId = 2,
-                            AppUserId = 2
-                        },
-                        new
-                        {
-                            AppRoleId = 2,
-                            AppUserId = 3
-                        },
-                        new
-                        {
-                            AppRoleId = 2,
-                            AppUserId = 4
-                        },
-                        new
-                        {
-                            AppRoleId = 1,
-                            AppUserId = 5
-                        },
-                        new
-                        {
-                            AppRoleId = 1,
-                            AppUserId = 6
-                        },
-                        new
-                        {
-                            AppRoleId = 1,
-                            AppUserId = 7
-                        },
-                        new
-                        {
-                            AppRoleId = 1,
-                            AppUserId = 8
-                        });
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Category", b =>
@@ -572,6 +587,149 @@ namespace DeliverIT.Models.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 6,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 7,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 8,
+                            RoleId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>
                 {
                     b.HasBaseType("DeliverIT.Models.DatabaseModels.AppUser");
@@ -587,37 +745,61 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f66dddf8-32fe-47be-8cbc-39a984455679",
                             Email = "mishkov@misho.com",
+                            EmailConfirmed = false,
                             FirstName = "Misho",
                             IsDeleted = false,
                             LastName = "Mishkov",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
                             AddressId = 1
                         },
                         new
                         {
                             Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2cdba0c7-794a-45bb-b25c-177c072795db",
                             Email = "petio@mvc.net",
+                            EmailConfirmed = false,
                             FirstName = "Peter",
                             IsDeleted = false,
                             LastName = "Petrov",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
                             AddressId = 2
                         },
                         new
                         {
                             Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6880b80a-65bb-4d56-83a0-4faab99ee4cf",
                             Email = "koksal@asd.tr",
+                            EmailConfirmed = false,
                             FirstName = "Koksal",
                             IsDeleted = false,
                             LastName = "Baba",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
                             AddressId = 3
                         },
                         new
                         {
                             Id = 4,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7074c658-bb55-41fe-9ad0-646964ca4bb7",
                             Email = "indebt@greece.gov",
+                            EmailConfirmed = false,
                             FirstName = "Nikolaos",
                             IsDeleted = false,
                             LastName = "Tsitsibaris",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
                             AddressId = 4
                         });
                 });
@@ -638,35 +820,59 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 5,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7aad18cf-26bb-4b5b-b978-f75f68f55f4f",
                             Email = "djoro@ekont.com",
+                            EmailConfirmed = false,
                             FirstName = "Djoro",
                             IsDeleted = false,
                             LastName = "Emploev",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
                             AddressId = 1
                         },
                         new
                         {
                             Id = 6,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "851a1a78-d660-4b82-8447-2cb54d84f549",
                             Email = "gonzales@speedy.net",
+                            EmailConfirmed = false,
                             FirstName = "Speedy",
                             IsDeleted = false,
-                            LastName = "Gonzales"
+                            LastName = "Gonzales",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = 7,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ac573fc5-4a15-4184-9361-7cebf71ad5e0",
                             Email = "dormut@dhl.tr",
+                            EmailConfirmed = false,
                             FirstName = "Dormut",
                             IsDeleted = false,
-                            LastName = "Baba"
+                            LastName = "Baba",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = 8,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0e541dc1-2d63-40f3-b908-cc926841d2b9",
                             Email = "ontime@fedex.us",
+                            EmailConfirmed = false,
                             FirstName = "Stafanakis",
                             IsDeleted = false,
-                            LastName = "Kurierakis"
+                            LastName = "Kurierakis",
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false
                         });
                 });
 
@@ -679,25 +885,6 @@ namespace DeliverIT.Models.Migrations
                         .IsRequired();
 
                     b.Navigation("City");
-                });
-
-            modelBuilder.Entity("DeliverIT.Models.DatabaseModels.AppUserRole", b =>
-                {
-                    b.HasOne("DeliverIT.Models.DatabaseModels.AppRole", "AppRole")
-                        .WithMany()
-                        .HasForeignKey("AppRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DeliverIT.Models.DatabaseModels.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppRole");
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.City", b =>
@@ -778,6 +965,57 @@ namespace DeliverIT.Models.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("DeliverIT.Models.DatabaseModels.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Customer", b =>

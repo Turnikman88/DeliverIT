@@ -1,7 +1,6 @@
 ﻿using DeliverIT.Models.Contracts;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace DeliverIT.Models.DatabaseModels
 {
@@ -19,7 +18,6 @@ namespace DeliverIT.Models.DatabaseModels
         public virtual City City { get; set; }
         public string StreetName { get; set; }
         public bool IsDeleted { get; set; }
-        
         public DateTime? DeletedOn { get; set; }
 
 

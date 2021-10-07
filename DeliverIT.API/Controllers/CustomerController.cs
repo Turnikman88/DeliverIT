@@ -12,9 +12,11 @@ namespace DeliverIT.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService cs;
-        public CustomerController(ICustomerService cs)
+        private readonly IAuthenticationService auth;
+        public CustomerController(ICustomerService cs, IAuthenticationService auth)
         {
             this.cs = cs;
+            this.auth = auth;
         }
 
         // must be public - non authorisation needed
@@ -24,11 +26,16 @@ namespace DeliverIT.API.Controllers
             return Ok(await cs.UserCountAsync());
         }
 
-
         [HttpGet("all")]
         [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync()
+        [ProducesResponseType(401)]
+        //[Authorize(Roles = "admin")]
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync([FromHeader] string authorization)
         {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
             return this.Ok(await cs.GetAsync());
         }
 
@@ -83,6 +90,7 @@ namespace DeliverIT.API.Controllers
             return this.Ok(customers);
         }
 
+        //must be public
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
