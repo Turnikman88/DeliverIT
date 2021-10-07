@@ -26,17 +26,17 @@ namespace DeliverIT.API.Controllers
             return Ok(await cs.UserCountAsync());
         }
 
-
         [HttpGet("all")]
         [ProducesResponseType(200)]
-        //[Authorize("Employee")]
+        [ProducesResponseType(401)]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync([FromHeader] string authorization)
         {
-            if (auth.FindEmployee(authorization))
+            if (!auth.FindEmployee(authorization))
             {
-                return this.Ok(await cs.GetAsync());
+                return this.Unauthorized();
             }
-            return this.Unauthorized();
+            return this.Ok(await cs.GetAsync());
         }
 
         [HttpGet("{parameter}")]
@@ -90,6 +90,7 @@ namespace DeliverIT.API.Controllers
             return this.Ok(customers);
         }
 
+        //must be public
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
