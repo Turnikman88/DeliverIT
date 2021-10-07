@@ -21,6 +21,7 @@ namespace DeliverIT.API.Controllers
 
         // must be public - non authorisation needed
         [HttpGet]
+        [ProducesResponseType(200)]
         public async Task<ActionResult> CustomerCount()
         {
             return Ok(await cs.UserCountAsync());
@@ -30,7 +31,8 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         //[Authorize(Roles = "admin")]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync([FromHeader] string authorization)
+        public async Task<ActionResult<IEnumerable<CustomerDTO
+            >>> GetAllCustomersAsync([FromHeader] string authorization)
         {
             if (!auth.FindEmployee(authorization))
             {

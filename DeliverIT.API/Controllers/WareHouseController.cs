@@ -17,6 +17,15 @@ namespace DeliverIT.API.Controllers
             this.ws = ws;
         }
 
+        // must be public - non authorisation needed
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<string>>> GetAddressesAsync()
+        {
+            return this.Ok(await ws.GetAddressesAsync());
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -30,7 +39,7 @@ namespace DeliverIT.API.Controllers
         }
 
         //must be public
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync()
         {

@@ -56,6 +56,17 @@ namespace DeliverIT.Services.Services
             return WareHousesDTO;
         }
 
+        public async Task<IEnumerable<string>> GetAddressesAsync()
+        {
+            return await db.WareHouses
+                .Include(x => x.Parcels)
+                .Include(w => w.Address)
+                    .ThenInclude(a => a.City)
+                        .ThenInclude(c => c.Country)
+                .Select(x => $"Id: {x.Id}, Country: {x.Address.City.Country.Name}, City: {x.Address.City.Name}, Address: {x.Address.StreetName}")
+                .ToListAsync();           
+        }
+
         public async Task<WareHouseDTO> GetWareHouseByIdAsync(int id)
         {
             var model = await this.db.WareHouses

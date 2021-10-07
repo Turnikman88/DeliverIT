@@ -9,6 +9,6 @@ namespace DeliverIT.Services.Contracts
     {
         Task<bool> WareHouseExistsAsync(int id);
         Task<WareHouseDTO> GetWareHouseByIdAsync(int id);
-
+        Task<IEnumerable<string>> GetAddressesAsync();
     }
 }

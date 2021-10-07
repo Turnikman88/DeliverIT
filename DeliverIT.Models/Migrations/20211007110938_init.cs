@@ -3,23 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DeliverIT.Models.Migrations
 {
-    public partial class authtest : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
+                name: "AppRole",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("PK_AppRole", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,27 +66,6 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -133,44 +110,31 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "AppUser",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: true),
-                    Employee_AddressId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Employee_AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_AppUser", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Addresses_AddressId",
+                        name: "FK_AppUser_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Addresses_Employee_AddressId",
+                        name: "FK_AppUser_Addresses_Employee_AddressId",
                         column: x => x.Employee_AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
@@ -199,86 +163,25 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "AppUserRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AppRoleId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_AppUserRoles", x => new { x.AppRoleId, x.AppUserId });
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        name: "FK_AppUserRoles_AppRole_AppRoleId",
+                        column: x => x.AppRoleId,
+                        principalTable: "AppRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_AppUserRoles_AppUser_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -339,9 +242,9 @@ namespace DeliverIT.Models.Migrations
                 {
                     table.PrimaryKey("PK_Parcels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Parcels_AspNetUsers_CustomerId",
+                        name: "FK_Parcels_AppUser_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -365,22 +268,22 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                table: "AppRole",
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "a9afde36-a462-4b48-a5e1-4c429f4c6bc5", "Admin", "ADMIN" },
-                    { 2, "4a2bb7eb-df82-49f8-8861-aa2ca8adbff9", "User", "USER" }
+                    { 1, "Admin" },
+                    { 2, "User" }
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Employee_AddressId", "ConcurrencyStamp", "DeletedOn", "Discriminator", "Email", "EmailConfirmed", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                table: "AppUser",
+                columns: new[] { "Id", "Employee_AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
                 values: new object[,]
                 {
-                    { 6, 0, null, "851a1a78-d660-4b82-8447-2cb54d84f549", null, "Employee", "gonzales@speedy.net", false, "Speedy", false, "Gonzales", false, null, null, null, null, null, false, null, false, null },
-                    { 7, 0, null, "ac573fc5-4a15-4184-9361-7cebf71ad5e0", null, "Employee", "dormut@dhl.tr", false, "Dormut", false, "Baba", false, null, null, null, null, null, false, null, false, null },
-                    { 8, 0, null, "0e541dc1-2d63-40f3-b908-cc926841d2b9", null, "Employee", "ontime@fedex.us", false, "Stafanakis", false, "Kurierakis", false, null, null, null, null, null, false, null, false, null }
+                    { 6, null, null, "Employee", "gonzales@speedy.net", "Speedy", false, "Gonzales" },
+                    { 7, null, null, "Employee", "dormut@dhl.tr", "Dormut", false, "Baba" },
+                    { 8, null, null, "Employee", "ontime@fedex.us", "Stafanakis", false, "Kurierakis" }
                 });
 
             migrationBuilder.InsertData(
@@ -416,8 +319,8 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
+                table: "AppUserRoles",
+                columns: new[] { "AppRoleId", "AppUserId" },
                 values: new object[,]
                 {
                     { 1, 6 },
@@ -450,23 +353,23 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AddressId", "ConcurrencyStamp", "DeletedOn", "Discriminator", "Email", "EmailConfirmed", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, 1, "f66dddf8-32fe-47be-8cbc-39a984455679", null, "Customer", "mishkov@misho.com", false, "Misho", false, "Mishkov", false, null, null, null, null, null, false, null, false, null });
+                table: "AppUser",
+                columns: new[] { "Id", "AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
+                values: new object[] { 1, 1, null, "Customer", "mishkov@misho.com", "Misho", false, "Mishkov" });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Employee_AddressId", "ConcurrencyStamp", "DeletedOn", "Discriminator", "Email", "EmailConfirmed", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 5, 0, 1, "7aad18cf-26bb-4b5b-b978-f75f68f55f4f", null, "Employee", "djoro@ekont.com", false, "Djoro", false, "Emploev", false, null, null, null, null, null, false, null, false, null });
+                table: "AppUser",
+                columns: new[] { "Id", "Employee_AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
+                values: new object[] { 5, 1, null, "Employee", "djoro@ekont.com", "Djoro", false, "Emploev" });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AddressId", "ConcurrencyStamp", "DeletedOn", "Discriminator", "Email", "EmailConfirmed", "FirstName", "IsDeleted", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                table: "AppUser",
+                columns: new[] { "Id", "AddressId", "DeletedOn", "Discriminator", "Email", "FirstName", "IsDeleted", "LastName" },
                 values: new object[,]
                 {
-                    { 2, 0, 2, "2cdba0c7-794a-45bb-b25c-177c072795db", null, "Customer", "petio@mvc.net", false, "Peter", false, "Petrov", false, null, null, null, null, null, false, null, false, null },
-                    { 3, 0, 3, "6880b80a-65bb-4d56-83a0-4faab99ee4cf", null, "Customer", "koksal@asd.tr", false, "Koksal", false, "Baba", false, null, null, null, null, null, false, null, false, null },
-                    { 4, 0, 4, "7074c658-bb55-41fe-9ad0-646964ca4bb7", null, "Customer", "indebt@greece.gov", false, "Nikolaos", false, "Tsitsibaris", false, null, null, null, null, null, false, null, false, null }
+                    { 2, 2, null, "Customer", "petio@mvc.net", "Peter", false, "Petrov" },
+                    { 3, 3, null, "Customer", "koksal@asd.tr", "Koksal", false, "Baba" },
+                    { 4, 4, null, "Customer", "indebt@greece.gov", "Nikolaos", false, "Tsitsibaris" }
                 });
 
             migrationBuilder.InsertData(
@@ -479,8 +382,8 @@ namespace DeliverIT.Models.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
+                table: "AppUserRoles",
+                columns: new[] { "AppRoleId", "AppUserId" },
                 values: new object[,]
                 {
                     { 2, 1 },
@@ -495,8 +398,8 @@ namespace DeliverIT.Models.Migrations
                 columns: new[] { "Id", "ArrivalDate", "DeletedOn", "DepartureDate", "DestinationWareHouseId", "IsDeleted", "OriginWareHouseId", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 10, 16, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
-                    { 2, new DateTime(2021, 10, 16, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 11, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
+                    { 1, new DateTime(2021, 10, 17, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 12, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
+                    { 2, new DateTime(2021, 10, 17, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 12, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -510,59 +413,25 @@ namespace DeliverIT.Models.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
-                table: "AspNetRoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
-                table: "AspNetUserLogins",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
-                table: "AspNetUserRoles",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_Email",
-                table: "AspNetUsers",
+                name: "IX_AppUser_Email",
+                table: "AppUser",
                 column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_AddressId",
-                table: "AspNetUsers",
+                table: "AppUser",
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_AddressId",
-                table: "AspNetUsers",
+                table: "AppUser",
                 column: "Employee_AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                name: "IX_AppUserRoles_AppUserId",
+                table: "AppUserRoles",
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
@@ -626,28 +495,16 @@ namespace DeliverIT.Models.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AppUserRoles");
 
             migrationBuilder.DropTable(
                 name: "Parcels");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AppRole");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AppUser");
 
             migrationBuilder.DropTable(
                 name: "Categories");
