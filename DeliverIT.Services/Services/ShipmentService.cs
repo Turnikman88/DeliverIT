@@ -141,5 +141,11 @@ namespace DeliverIT.Services.Services
 
             return result;
         }
+
+        public async Task<IEnumerable<ShipmentDTO>> FilterByStatusIdAsync(int id)
+        {
+            return await this.db.Shipments.Include(x => x.Status)
+                .Include(x => x.Parcels).Where(x => x.StatusId == id).Select(x => x.GetDTO()).ToListAsync();            
+        }
     }
 }

@@ -169,5 +169,17 @@ namespace DeliverIT.API.Controllers
 
             return this.Ok(await ss.FilterByCustomerAddressAsync(address));
         }
+
+        [HttpGet("filter/status/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByStatusIdAsync([FromHeader] string authorization, int id)
+        {
+            if (!auth.FindEmployee(authorization))
+            {
+                return this.Unauthorized();
+            }
+
+            return this.Ok(await ss.FilterByStatusIdAsync(id));
+        }
     }
 }

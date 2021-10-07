@@ -108,7 +108,11 @@ namespace DeliverIT.Services.Services
             return await this.db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight).ThenBy(x => x.Shipment.ArrivalDate)
                 .Select(x => x.GetDTO()).ToListAsync();
         }
-        
+        public async Task<IEnumerable<ParcelDTO>> FilterByCustomerIdAsync(int id)
+        {
+            return await this.db.Parcels.Include(x => x.Category).Where(x => x.CustomerId == id).Select(x => x.GetDTO()).ToListAsync();
+        }
+
         public async Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
             int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {
@@ -148,6 +152,29 @@ namespace DeliverIT.Services.Services
             }          
             
             return result;
+        }
+        
+        public async Task<IEnumerable<string>> GetShipmentStatusAsync(int customerId) // ToDo: search by parcel id?
+        {
+            return await this.db.Parcels.Where(x => x.CustomerId == customerId)
+                .Select(x => $"Id: {x.Id}, {x.Shipment.Status.Name}").ToListAsync();
+        }
+        public async Task<ParcelDTO> ChangeDeliverLocationAsync(int id, string deliverToAddress)
+        {
+            var parcel = await db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (parcel.Shipment.StatusId == 3)
+            {
+                //throw exception
+            }
+            else
+            {
+                parcel.DeliverToAddress = deliverToAddress == "yes" ? true : false;
+            }
+
+            var parcelDTO = parcel.GetDTO();
+            await db.SaveChangesAsync();
+            return parcelDTO;
         }
     }
 }

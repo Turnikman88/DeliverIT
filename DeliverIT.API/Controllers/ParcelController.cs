@@ -11,11 +11,13 @@ namespace DeliverIT.API.Controllers
     public class ParcelController : ControllerBase
     {
         private readonly IParcelService ps;
+        private readonly ICustomerService cs;
         private readonly IAuthenticationService auth;
 
-        public ParcelController(IParcelService ps, IAuthenticationService auth)
+        public ParcelController(IParcelService ps, ICustomerService cs, IAuthenticationService auth)
         {
             this.ps = ps;
+            this.cs = cs;
             this.auth = auth;
         }
 
@@ -97,8 +99,53 @@ namespace DeliverIT.API.Controllers
                 return this.NotFound();
             }
             return this.Ok(await ps.DeleteAsync(id));
-        }       
+        }
 
+        [HttpGet("filter/customer/{id}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync([FromHeader] string authorization, int id)
+        {
+            if (auth.FindUser(authorization))
+            {
+                var customer = await cs.GetCustomerByIDAsync(id);
+                if (customer.Email == authorization)
+                {
+                    return this.Ok(await ps.FilterByCustomerIdAsync(id));
+                }
+            }
+            return this.Unauthorized();
+        }
+
+        [HttpGet("filter/statuses/{customerId}")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<string>>> GetShipmentStatusAsync([FromHeader] string authorization, int customerId)
+        {
+            if (auth.FindUser(authorization))
+            {
+                var customer = await cs.GetCustomerByIDAsync(customerId);
+                if (customer.Email == authorization)
+                {
+                    return this.Ok(await ps.GetShipmentStatusAsync(customerId));
+                }
+            }
+            return this.Unauthorized();
+        }
+        [HttpPut("deliveraddress/{customerId}/{deliverToAddress}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        public async Task<ActionResult<IEnumerable<string
+            >>> ChangeDeliverLocationAsync([FromHeader] string authorization, int customerId, string deliverToAddress)
+        {
+            if (auth.FindUser(authorization))
+            {
+                var customer = await cs.GetCustomerByIDAsync(customerId);
+                if (customer.Email == authorization)
+                {
+                    return this.Ok(await ps.ChangeDeliverLocationAsync(customerId, deliverToAddress));
+                }
+            }
+            return this.Unauthorized();
+        }
         [HttpGet("filter")]
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> MultiFilterAsync([FromHeader] string authorization, int? id, int? customerId,

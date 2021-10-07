@@ -17,5 +17,6 @@ namespace DeliverIT.Services.Contracts
         Task<IEnumerable<ShipmentDTO>> FilterByCustomerNameAsync(string name);
         Task<IEnumerable<ShipmentDTO>> FilterByCustomerEmailAsync(string email);
         Task<IEnumerable<ShipmentDTO>> FilterByCustomerAddressAsync(string address);
+        Task<IEnumerable<ShipmentDTO>> FilterByStatusIdAsync(int id);
     }
 }
