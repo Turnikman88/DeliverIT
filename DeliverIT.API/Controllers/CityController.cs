@@ -44,12 +44,7 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var city = await _cs.GetCityByIdAsync(id);
-            if (city is null)
-            {
-                return this.NotFound();
-            }
-            return this.Ok(city);
+            return this.Ok(await _cs.GetCityByIdAsync(id));
         }
 
         [HttpGet("name/{name}")]
@@ -63,12 +58,7 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var city = await _cs.GetCityByNameAsync(name);
-            if (city == null)
-            {
-                return this.NotFound();
-            }
-            return this.Ok(city);
+            return this.Ok(await _cs.GetCityByNameAsync(name));
         }
 
         [HttpPost]
@@ -80,11 +70,6 @@ namespace DeliverIT.API.Controllers
             if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
-            if (obj is null)
-            {
-                return this.BadRequest();
             }
 
             return this.Created("Get", await this._cs.PostAsync(obj));
@@ -101,11 +86,6 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (obj is null || await _cs.GetCityByIdAsync(id) is null)
-            {
-                return this.BadRequest();
-            }
-
             return this.Ok(await this._cs.UpdateAsync(id, obj));
         }
 
@@ -118,11 +98,6 @@ namespace DeliverIT.API.Controllers
             if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
-            if (await _cs.GetCityByIdAsync(id) is null)
-            {
-                return this.BadRequest();
             }
 
             return this.Ok(await this._cs.DeleteAsync(id));

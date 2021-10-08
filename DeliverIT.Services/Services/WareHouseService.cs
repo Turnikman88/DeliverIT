@@ -21,12 +21,15 @@ namespace DeliverIT.Services.Services
         public async Task<WareHouseDTO> DeleteAsync(int id)
         {
             CheckId(id);
+
             var model = await this._db.WareHouses
                                     .Include(x => x.Parcels)
                                     .Include(w => w.Address)
                                         .ThenInclude(a => a.City)
                                             .ThenInclude(c => c.Country)
-                                    .FirstOrDefaultAsync(x => x.Id == id);
+                                    .FirstOrDefaultAsync(x => x.Id == id)
+                                    ?? throw new AppException(Constants.WAREHOUSE_NOT_FOUND);
+
             var modelGTO = model.GetDTO();
 
             model.DeletedOn = System.DateTime.Now;
@@ -71,12 +74,14 @@ namespace DeliverIT.Services.Services
         public async Task<WareHouseDTO> GetWareHouseByIdAsync(int id)
         {
             CheckId(id);
+
             var model = await this._db.WareHouses
                 .Include(x => x.Parcels)
                 .Include(w => w.Address)
                     .ThenInclude(a => a.City)
                         .ThenInclude(c => c.Country)
-                        .FirstOrDefaultAsync(x => x.Id == id);
+                        .FirstOrDefaultAsync(x => x.Id == id)
+                        ?? throw new AppException(Constants.WAREHOUSE_NOT_FOUND);
 
             var result = model.GetDTO();
             return result;
@@ -125,7 +130,10 @@ namespace DeliverIT.Services.Services
                 .Include(w => w.Address)
                     .ThenInclude(a => a.City)
                         .ThenInclude(c => c.Country)
-                        .FirstOrDefaultAsync(x => x.Id == id);
+                        .FirstOrDefaultAsync(x => x.Id == id)
+                        ?? throw new AppException(Constants.WAREHOUSE_NOT_FOUND);
+
+            CheckId(obj.AddressId);
 
             model.AddressId = obj.AddressId;
             var result = model.GetDTO();
@@ -134,14 +142,7 @@ namespace DeliverIT.Services.Services
 
             return result;
         }
-
-        public async Task<bool> WareHouseExistsAsync(int id)
-        {
-            CheckId(id);
-            var model = await _db.WareHouses.FirstOrDefaultAsync(x => x.Id == id);
-            return model is null ? false : true;
-        }
-
+                
         private static void CheckId(int id)
         {
             if (id <= 0)

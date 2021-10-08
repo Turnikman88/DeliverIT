@@ -18,7 +18,6 @@ namespace DeliverIT.API.Controllers
             this._cs = cs;
         }
 
-        // must be public - non authorisation needed
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<ActionResult> CustomerCount()
@@ -30,7 +29,6 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(401)]
-        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> GetAllCustomersAsync()
         {
@@ -69,7 +67,6 @@ namespace DeliverIT.API.Controllers
             return this.Ok(result);
         }
 
-        // Find a customer by his/her name (first or last) if more than one matches - list
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -82,14 +79,7 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var result = await _cs.GetCustomerByNameAsync(name);
-
-            if (result.Count() == 0)
-            {
-                return this.NotFound();
-            }
-
-            return this.Ok(result);
+            return this.Ok(await _cs.GetCustomerByNameAsync(name));
         }
 
         [HttpGet("email/{email}")]
@@ -103,12 +93,7 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var customers = await _cs.GetCustomersByEmailAsync(email);
-            if (customers is null)
-            {
-                return this.NotFound();
-            }
-            return this.Ok(customers);
+            return this.Ok(await _cs.GetCustomersByEmailAsync(email));
         }
 
         [HttpDelete("{id}")]
@@ -117,11 +102,6 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<CustomerDTO>> DeleteCustomer(int id) // ToDo: change when add passwords
         {
-            if (await _cs.GetCustomerByIDAsync(id) is null)
-            {
-                throw new KeyNotFoundException(Constants.ACCOUNT_NOT_FOUND);
-                //return this.NotFound();
-            }
 
             if (this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
@@ -129,13 +109,14 @@ namespace DeliverIT.API.Controllers
             }
             else if (this.Request.Cookies.ContainsKey(Constants.KEY_USER_ID))
             {
-                if (Request.Cookies[Constants.KEY_USER_ID] != null && id == int.Parse(Request.Cookies[Constants.KEY_USER_ID]))
+                if (id == int.Parse(Request.Cookies[Constants.KEY_USER_ID]))
                 {
                     return this.Ok(await this._cs.DeleteAsync(id));
                 }
+                return this.Unauthorized(Constants.NOT_LOGGED);
             }
 
-            return this.Unauthorized();
+            return this.Unauthorized(Constants.NOT_LOGGED);
         }
 
         [HttpGet("multi/{name}/orderby/{param}")]
@@ -187,11 +168,6 @@ namespace DeliverIT.API.Controllers
             if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
-            if (obj is null || await _cs.GetCustomerByIDAsync(id) is null)
-            {
-                return this.NotFound();
             }
 
             return this.Ok(await this._cs.UpdateAsync(id, obj));

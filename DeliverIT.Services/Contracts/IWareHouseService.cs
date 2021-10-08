@@ -7,7 +7,6 @@ namespace DeliverIT.Services.Contracts
 {
     public interface IWareHouseService : ICRUDshared<WareHouseDTO>
     {
-        Task<bool> WareHouseExistsAsync(int id);
         Task<WareHouseDTO> GetWareHouseByIdAsync(int id);
         Task<IEnumerable<string>> GetAddressesAsync();
     }

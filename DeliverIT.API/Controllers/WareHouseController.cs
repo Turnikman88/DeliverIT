@@ -38,10 +38,6 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (!await _ws.WareHouseExistsAsync(id))
-            {
-                return this.NotFound();
-            }
             return this.Ok(await _ws.GetWareHouseByIdAsync(id));
         }
 
@@ -70,10 +66,6 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (obj is null || obj.AddressId == 0)
-            {
-                return this.BadRequest();
-            }
             return this.Ok(await _ws.PostAsync(obj));
         }
 
@@ -88,10 +80,6 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (obj is null || obj.AddressId == 0 || !await _ws.WareHouseExistsAsync(id))
-            {
-                return this.NotFound();
-            }
             return this.Ok(await _ws.UpdateAsync(id, obj));
         }
 
@@ -106,10 +94,6 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (!await _ws.WareHouseExistsAsync(id))
-            {
-                return this.NotFound();
-            }
             return this.Ok(await _ws.DeleteAsync(id));
         }
     }

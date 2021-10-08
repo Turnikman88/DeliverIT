@@ -11,7 +11,7 @@ namespace DeliverIT.Services.DTOMappers
         {
             if (city is null || city.Name is null || city.Id <= 0 || city.CountryId <= 0 || city.Country.Name is null)
             {
-                throw new AppException(Constants.INVALID_OBJECT);
+                throw new AppException(Constants.INCORRECT_DATA);
             }
 
             return new CityDTO
@@ -28,7 +28,7 @@ namespace DeliverIT.Services.DTOMappers
         {
             if (city is null || city.Name is null || city.Id <= 0 || city.CountryId <= 0)
             {
-                throw new AppException(Constants.INVALID_OBJECT);
+                throw new AppException(Constants.INCORRECT_DATA);
             }
 
             return new City

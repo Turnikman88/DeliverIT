@@ -22,12 +22,15 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> DeleteAsync(int id)
         {
-            var customer = await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id) ?? throw new AppException();
+            var customer = await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
+
             var customerDTO = customer.GetDTO();
 
             customer.DeletedOn = DateTime.Now;
             db.Customers.Remove(customer);
             await db.SaveChangesAsync();
+
             return customerDTO;
         }
 
@@ -84,7 +87,13 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
-            var model = await db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id);
+            var model = await db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
+
+            if (obj.FirstName == null || obj.LastName == null || obj.AddressId <= 0)
+            {
+                throw new AppException(Constants.CUSTOMER_NOT_FOUND);
+            }
 
             model.FirstName = obj.FirstName;
             model.LastName = obj.LastName;
@@ -107,7 +116,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> GetCustomerByIDAsync(int id)
         {
-            return CustomerDTOMapperExtension.GetDTO(await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id));
+            return CustomerDTOMapperExtension.GetDTO(await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id))
+                ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
         }
     }
 }

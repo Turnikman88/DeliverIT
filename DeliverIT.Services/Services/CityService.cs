@@ -40,19 +40,21 @@ namespace DeliverIT.Services.Services
             var city = await _db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.CITY_NOT_FOUND);
+
             return city.GetDTO();
         }
 
 
         public async Task<CityDTO> GetCityByNameAsync(string name)
-        {
-            _ = name ?? throw new AppException();
-
+        {            
             var city = await _db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
-                .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
+                .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower())
+                ?? throw new AppException(Constants.CITY_NOT_FOUND);
+
             return city.GetDTO();
         }
 
@@ -88,7 +90,13 @@ namespace DeliverIT.Services.Services
             var city = await this._db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.CITY_NOT_FOUND);
+
+            if (obj.Name == null)
+            {
+                throw new AppException(Constants.INCORRECT_DATA);
+            }
 
             city.Name = obj.Name;
             await _db.SaveChangesAsync();
@@ -102,7 +110,8 @@ namespace DeliverIT.Services.Services
             var city = await this._db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.CITY_NOT_FOUND);
 
             city.DeletedOn = System.DateTime.Now;
             this._db.Cities.Remove(city);

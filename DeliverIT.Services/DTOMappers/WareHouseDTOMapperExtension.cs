@@ -9,9 +9,10 @@ namespace DeliverIT.Services.DTOMappers
     {
         public static WareHouseDTO GetDTO(this WareHouse wareHouse)
         {
-            if (wareHouse is null || wareHouse.Address is null)
+            if (wareHouse is null || wareHouse.AddressId <= 0 || wareHouse.Parcels == null
+                || wareHouse.Address == null)
             {
-                throw new AppException(Constants.INVALID_OBJECT);
+                throw new AppException(Constants.INCORRECT_DATA);
             }
 
             return new WareHouseDTO
@@ -27,16 +28,17 @@ namespace DeliverIT.Services.DTOMappers
 
         }
 
-        public static WareHouse GetEntity(this WareHouseDTO wareHouseDTO)
+        public static WareHouse GetEntity(this WareHouseDTO wareHouse)
         {
-            if (wareHouseDTO is null || wareHouseDTO.AddressId <= 0)
+            if (wareHouse is null || wareHouse.AddressId <= 0)
             {
-                throw new AppException(Constants.INVALID_OBJECT);
+                throw new AppException(Constants.INCORRECT_DATA);
             }
+
             return new WareHouse
             {
-                Id = wareHouseDTO.Id,
-                AddressId = wareHouseDTO.AddressId
+                Id = wareHouse.Id,
+                AddressId = wareHouse.AddressId
             };
         }
     }
