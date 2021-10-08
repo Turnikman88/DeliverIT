@@ -2,6 +2,7 @@
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<ParcelDTO> DeleteAsync(int id)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
+            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.PARCEL_NOT_FOUND); 
+
             var parcelDTO = parcel.GetDTO();
 
             parcel.DeletedOn = DateTime.Now;
@@ -66,7 +69,15 @@ namespace DeliverIT.Services.Services
 
         public async Task<ParcelDTO> UpdateAsync(int id, ParcelDTO obj)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
+            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
+
+            if (obj is null || obj.CustomerId <= 0 || obj.ShipmentId <= 0
+               || obj.WareHouseId <= 0 || obj.CategoryId <= 0
+               || obj.Weight < 0)
+            {
+                throw new AppException(Constants.INCORRECT_DATA);
+            }
 
             parcel.CustomerId = obj.CustomerId;
             parcel.ShipmentId = obj.ShipmentId;
@@ -77,18 +88,15 @@ namespace DeliverIT.Services.Services
 
             var parcelDTO = parcel.GetDTO();
             await _db.SaveChangesAsync();
+
             return parcelDTO;
         }
         public async Task<ParcelDTO> GetParcelByIdAsync(int id)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
+            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
 
             return parcel.GetDTO();
-        }
-        public async Task<bool> ParcelExistsAsync(int id)
-        {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
-            return parcel is null ? false : true;
         }
 
         public async Task<IEnumerable<ParcelDTO>> SortByWeightAsync()
@@ -159,22 +167,23 @@ namespace DeliverIT.Services.Services
             return await this._db.Parcels.Where(x => x.CustomerId == customerId)
                 .Select(x => $"Id: {x.Id}, {x.Shipment.Status.Name}").ToListAsync();
         }
+
         public async Task<ParcelDTO> ChangeDeliverLocationAsync(int id)
         {
             var parcel = await _db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id);
 
             if (parcel.Shipment.StatusId == 3)
             {
-                //throw exception
+                throw new AppException(Constants.SHIPMENT_ALREADY_ARRIVED);
             }
             else
             {
-
                 parcel.DeliverToAddress = parcel.DeliverToAddress == true ? false : true;
             }
 
             var parcelDTO = parcel.GetDTO();
             await _db.SaveChangesAsync();
+
             return parcelDTO;
         }
     }

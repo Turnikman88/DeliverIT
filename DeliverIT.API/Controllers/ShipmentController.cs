@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,39 +14,33 @@ namespace DeliverIT.API.Controllers
     public class ShipmentController : ControllerBase
     {
         private readonly IShipmentService _ss;
-        private readonly IAuthenticationService _auth;
 
         public ShipmentController(IShipmentService ss, IAuthenticationService auth)
         {
             this._ss = ss;
-            this._auth = auth;
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (!await _ss.ShipmentExistsAsync(id))
-            {
-                return this.NotFound();
-            }
             return this.Ok(await _ss.GetShipmentByIdAsync(id));
         }
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipmentsAsync([FromHeader] string authorization)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> GetShipmentsAsync()
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.GetAsync());
@@ -55,17 +50,13 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync([FromHeader] string authorization, ShipmentDTO obj)
+        public async Task<ActionResult<ShipmentDTO>> CreateShipmentAsync(ShipmentDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (obj is null)
-            {
-                return this.BadRequest();
-            }
             return this.Ok(await _ss.PostAsync(obj));
         }
 
@@ -73,17 +64,13 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync([FromHeader] string authorization, int id, ShipmentDTO obj)
+        public async Task<ActionResult<ShipmentDTO>> UpdateShipmentAsync(int id, ShipmentDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (obj is null)
-            {
-                return this.NotFound();
-            }
             return this.Ok(await _ss.UpdateAsync(id, obj));
         }
 
@@ -91,28 +78,24 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<ShipmentDTO>> DeleteShipmentAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (!await _ss.ShipmentExistsAsync(id))
-            {
-                return this.NotFound();
-            }
             return this.Ok(await _ss.DeleteAsync(id));
         }
 
         [HttpGet("filter/destwarehouse/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByDestinationWareHouseAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByDestinationWareHouseAsync(id));
@@ -121,11 +104,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/originwarehouse/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByOriginWareHouseAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByOriginWareHouseAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByOriginWareHouseAsync(id));
@@ -134,11 +117,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/customer/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerIdAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByCustomerIdAsync(id));
@@ -147,11 +130,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/customer/name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync([FromHeader] string authorization, string name)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerNameAsync(string name)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByCustomerNameAsync(name));
@@ -160,11 +143,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/customer/email/{email}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync([FromHeader] string authorization, string email)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerEmailAsync(string email)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByCustomerEmailAsync(email));
@@ -173,11 +156,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/customer/address/{address}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync([FromHeader] string authorization, string address)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByCustomerAddressAsync(string address)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByCustomerAddressAsync(address));
@@ -186,11 +169,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("filter/status/{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByStatusIdAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<IEnumerable<ShipmentDTO>>> FilterByStatusIdAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ss.FilterByStatusIdAsync(id));

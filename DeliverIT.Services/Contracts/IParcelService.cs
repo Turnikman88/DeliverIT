@@ -9,7 +9,6 @@ namespace DeliverIT.Services.Contracts
     public interface IParcelService : ICRUDshared<ParcelDTO>
     {
         Task<ParcelDTO> GetParcelByIdAsync(int id);
-        Task<bool> ParcelExistsAsync(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCustomerIdAsync(int id);
         Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
                     int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight);

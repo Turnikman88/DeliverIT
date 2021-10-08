@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,13 @@ namespace DeliverIT.Services.DTOMappers
     {
         public static ShipmentDTO GetDTO(this Shipment shipment)
         {
+            if (shipment is null || shipment.ArrivalDate == null || shipment.DepartureDate == null
+                || shipment.OriginWareHouseId <= 0 || shipment.DestinationWareHouseId <= 0
+                || shipment.StatusId <= 0)
+            {
+                throw new AppException(Constants.INCORRECT_DATA);
+            }
+
             return new ShipmentDTO
             {
                 Id = shipment.Id,
@@ -22,10 +30,17 @@ namespace DeliverIT.Services.DTOMappers
                 Status = shipment.Status.Name,
                 Parcels = shipment.Parcels.Select(x => $"Id: {x.Id}").ToList()
             };
-        }
+        }        
 
         public static Shipment GetEntity(this ShipmentDTO shipment)
         {
+            if (shipment is null || shipment.ArrivalDate == null || shipment.DepartureDate == null
+                || shipment.OriginWareHouseId <= 0 || shipment.DestinationWareHouseId <= 0
+                || shipment.StatusId <= 0)
+            {
+                throw new AppException(Constants.INCORRECT_DATA);
+            }
+
             return new Shipment
             {
                 Id = shipment.Id,
