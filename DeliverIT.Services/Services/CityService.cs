@@ -2,6 +2,7 @@
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,12 @@ namespace DeliverIT.Services.Services
                     CountryId = x.CountryId,
                     CountryName = x.Country.Name,
                     Addresses = x.Addresses.Select(y => y.StreetName).ToList()
-                }).ToListAsync(); //JSON does not return arr of countries and addresses
+                }).ToListAsync();
         }
 
         public async Task<CityDTO> GetCityByIdAsync(int id)
         {
+            CheckId(id);
             var city = await _db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
@@ -42,8 +44,11 @@ namespace DeliverIT.Services.Services
             return city.GetDTO();
         }
 
+
         public async Task<CityDTO> GetCityByNameAsync(string name)
         {
+            _ = name ?? throw new AppException();
+
             var city = await _db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
@@ -54,6 +59,7 @@ namespace DeliverIT.Services.Services
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
             CityDTO result = null;
+
             var deletedCity = await _db.Cities.Include(x => x.Country).IgnoreQueryFilters()
                 .FirstOrDefaultAsync(x => x.CountryId == obj.CountryId && x.Name == obj.Name && x.IsDeleted == true);
             var newCity = obj.GetEntity();
@@ -77,6 +83,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> UpdateAsync(int id, CityDTO obj)
         {
+            CheckId(id);
+
             var city = await this._db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
@@ -89,6 +97,8 @@ namespace DeliverIT.Services.Services
         }
         public async Task<CityDTO> DeleteAsync(int id)
         {
+            CheckId(id);
+
             var city = await this._db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
@@ -99,6 +109,14 @@ namespace DeliverIT.Services.Services
             await _db.SaveChangesAsync();
 
             return city.GetDTO();
+        }
+
+        private static void CheckId(int id)
+        {
+            if (id <= 0)
+            {
+                throw new AppException(Constants.INVALID_ID);
+            }
         }
     }
 }

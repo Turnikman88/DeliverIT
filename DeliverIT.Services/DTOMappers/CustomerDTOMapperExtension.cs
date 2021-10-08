@@ -12,9 +12,9 @@ namespace DeliverIT.Services.DTOMappers
         {
             if (customer is null || customer.FirstName is null
                 || customer.LastName is null || customer.Password is null
-                || customer.Email is null || customer.AddressId > 0)
+                || customer.Email is null || customer.AddressId <= 0)
             {
-                throw new AppException();
+                throw new AppException(Constants.INVALID_OBJECT);
             }
 
             return new CustomerDTO
@@ -41,7 +41,7 @@ namespace DeliverIT.Services.DTOMappers
                 || customer.LastName is null || customer.Password is null
                 || customer.Email is null || customer.AddressId > 0)
             {
-                throw new AppException();
+                throw new AppException(Constants.INVALID_OBJECT);
             }
             return new Customer
             {

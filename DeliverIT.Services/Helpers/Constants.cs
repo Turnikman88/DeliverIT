@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DeliverIT.Services.Helpers
+﻿namespace DeliverIT.Services.Helpers
 {
     public static class Constants
     {
@@ -14,5 +10,9 @@ namespace DeliverIT.Services.Helpers
 
         public static string LOGGED = "You logged successfully!";
         public static string ACCOUNT_NOT_FOUND = "Account not found!";
+
+        public static string INVALID_OBJECT = "Invalid object";
+        public static string INVALID_ID = "Invalid ID";
+        public static string NOTFOUND_OBJECT = "Object not found";
     }
 }

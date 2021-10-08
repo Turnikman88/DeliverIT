@@ -1,6 +1,7 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,22 +13,20 @@ namespace DeliverIT.API.Controllers
     public class CityController : ControllerBase
     {
         private readonly ICityService _cs;
-        private readonly IAuthenticationService _auth;
 
         public CityController(ICityService cs, IAuthenticationService auth)
         {
             this._cs = cs;
-            this._auth = auth;
         }
 
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitiesAsync([FromHeader] string authorization)
+        public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitiesAsync()
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var cities = await _cs.GetAsync();
@@ -38,11 +37,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<City>> GetCityByIdAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<City>> GetCityByIdAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var city = await _cs.GetCityByIdAsync(id);
@@ -57,11 +56,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<City>> GetCityByNameAsync([FromHeader] string authorization, string name)
+        public async Task<ActionResult<City>> GetCityByNameAsync(string name)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var city = await _cs.GetCityByNameAsync(name);
@@ -76,18 +75,18 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CityDTO>> CreateCityAsync([FromHeader] string authorization, CityDTO obj) //TODO Fix
+        public async Task<ActionResult<CityDTO>> CreateCityAsync(CityDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             if (obj is null)
             {
                 return this.BadRequest();
             }
-           
+
             return this.Created("Get", await this._cs.PostAsync(obj));
         }
 
@@ -95,13 +94,13 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CityDTO>> UpdateCityAsync([FromHeader] string authorization, int id, CityDTO obj)
+        public async Task<ActionResult<CityDTO>> UpdateCityAsync(int id, CityDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
-            
+
             if (obj is null || await _cs.GetCityByIdAsync(id) is null)
             {
                 return this.BadRequest();
@@ -114,14 +113,18 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<City>> DeleteCityAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<City>> DeleteCityAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
-              return this.Unauthorized();
-            
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
+            {
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
+            }
+
             if (await _cs.GetCityByIdAsync(id) is null)
-              return this.BadRequest();
-              
+            {
+                return this.BadRequest();
+            }
+
             return this.Ok(await this._cs.DeleteAsync(id));
         }
     }

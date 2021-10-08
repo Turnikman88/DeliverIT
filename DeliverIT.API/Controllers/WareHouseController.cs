@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,12 +12,10 @@ namespace DeliverIT.API.Controllers
     public class WareHouseController : ControllerBase
     {
         private readonly IWareHouseService _ws;
-        private readonly IAuthenticationService _auth;
 
         public WareHouseController(IWareHouseService ws, IAuthenticationService auth)
         {
             this._ws = ws;
-            this._auth = auth;
         }
 
         // must be public - non authorisation needed
@@ -32,11 +31,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<WareHouseDTO>> GetWareHouseByIdAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<WareHouseDTO>> GetWareHouseByIdAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             if (!await _ws.WareHouseExistsAsync(id))
@@ -50,11 +49,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet("all")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync([FromHeader] string authorization)
+        public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync()
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _ws.GetAsync());
@@ -64,11 +63,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync([FromHeader] string authorization, WareHouseDTO obj)
+        public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync(WareHouseDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             if (obj is null || obj.AddressId == 0)
@@ -82,11 +81,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<WareHouseDTO>> UpdateWareHouseAsync([FromHeader] string authorization, int id, WareHouseDTO obj)
+        public async Task<ActionResult<WareHouseDTO>> UpdateWareHouseAsync(int id, WareHouseDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             if (obj is null || obj.AddressId == 0 || !await _ws.WareHouseExistsAsync(id))
@@ -100,11 +99,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<WareHouseDTO>> DeleteWareHouseAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<WareHouseDTO>> DeleteWareHouseAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             if (!await _ws.WareHouseExistsAsync(id))

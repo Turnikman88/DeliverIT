@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace DeliverIT.Services.Services
         {
             if (authorization == null || !authorization.Contains(" "))
             {
-                throw new KeyNotFoundException();
-                //return false;
+                throw new KeyNotFoundException(Constants.ACCOUNT_NOT_FOUND);
             }
+
             var splitted = authorization.Split();
             var email = splitted[0];
             var password = splitted[1];
@@ -51,9 +52,9 @@ namespace DeliverIT.Services.Services
         {
             if (authorization == null || !authorization.Contains(" "))
             {
-                throw new KeyNotFoundException();
-                //return false;
+                throw new KeyNotFoundException(Constants.ACCOUNT_NOT_FOUND);
             }
+
             var splitted = authorization.Split();
             var email = splitted[0];
             var password = splitted[1];
