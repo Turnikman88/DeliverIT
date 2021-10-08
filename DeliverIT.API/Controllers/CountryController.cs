@@ -12,12 +12,10 @@ namespace DeliverIT.API.Controllers
     public class CountryController : ControllerBase
     {
         private readonly ICountryService _cs;
-        private readonly IAuthenticationService _auth;
 
         public CountryController(ICountryService cs, IAuthenticationService auth)
         {
             this._cs = cs;
-            this._auth = auth;
         }
 
         [HttpGet]
