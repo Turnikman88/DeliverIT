@@ -2,6 +2,7 @@
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<ParcelDTO> DeleteAsync(int id)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
+            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.SHIPMENT_NOT_FOUND); 
             var parcelDTO = parcel.GetDTO();
 
             parcel.DeletedOn = DateTime.Now;
@@ -84,11 +86,6 @@ namespace DeliverIT.Services.Services
             var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
 
             return parcel.GetDTO();
-        }
-        public async Task<bool> ParcelExistsAsync(int id)
-        {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id);
-            return parcel is null ? false : true;
         }
 
         public async Task<IEnumerable<ParcelDTO>> SortByWeightAsync()

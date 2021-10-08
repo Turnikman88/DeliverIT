@@ -2,6 +2,7 @@
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,14 @@ namespace DeliverIT.Services.Services
         
         public async Task<CountryDTO> GetCountryByIdAsync(int id)
         {
-            return CountryDTOMapperExtension.GetDTO(await _db.Countries.Where(x => x.Id == id).Include(c=>c.Cities).FirstOrDefaultAsync());
+            return CountryDTOMapperExtension.GetDTO(await _db.Countries
+                .Where(x => x.Id == id).Include(c=>c.Cities).FirstOrDefaultAsync()) ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
         }
 
         public async Task<CountryDTO> GetCountryByNameAsync(string name)
         {
-            return CountryDTOMapperExtension.GetDTO(await _db.Countries.Include(c => c.Cities).Where(x => x.Name == name).FirstOrDefaultAsync());
+            return CountryDTOMapperExtension.GetDTO(await _db.Countries.Include(c => c.Cities)
+                .Where(x => x.Name == name).FirstOrDefaultAsync()) ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
         }
 
         public async Task<IEnumerable<CountryDTO>> GetCountriesByPartNameAsync(string part)
@@ -62,7 +65,13 @@ namespace DeliverIT.Services.Services
 
         public async Task<CountryDTO> UpdateAsync(int id, CountryDTO obj)
         {
-            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
+            if (string.IsNullOrEmpty(obj.Name))
+            {
+                throw new AppException(Constants.INCORRECT_DATA);
+            }
+
+            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id) 
+                ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
 
             model.Name = obj.Name;
             await _db.SaveChangesAsync();
@@ -72,7 +81,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<CountryDTO> DeleteAsync(int id)
         {
-            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id);
+            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id) 
+                ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
+
             model.DeletedOn = System.DateTime.Now;
             this._db.Countries.Remove(model);
             await _db.SaveChangesAsync();

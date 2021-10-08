@@ -15,6 +15,10 @@ namespace DeliverIT.Services.Helpers
         public static string LOGGED = "You logged successfully!";
         public static string ACCOUNT_NOT_FOUND = "Account not found!"; 
         public static string WRONG_ID = "Wrong id!";
+        public static string INCORRECT_DATA = "Incorrect or missing data!";
 
+        public static string COUNTRY_NOT_FOUND = "Country not found!";
+        public static string SHIPMENT_NOT_FOUND = "Shipment not found!";
+        public static string PARCEL_NOT_FOUND = "Parcel not found!";
     }
 }

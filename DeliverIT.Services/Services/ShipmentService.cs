@@ -2,6 +2,7 @@
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,15 @@ namespace DeliverIT.Services.Services
 
         public async Task<ShipmentDTO> DeleteAsync(int id)
         {
-            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id)
+                ??throw new AppException(Constants.SHIPMENT_NOT_FOUND);
+
             var shipmentDTO = shipment.GetDTO();
 
             shipment.DeletedOn = DateTime.Now;
             _db.Shipments.Remove(shipment);
             await _db.SaveChangesAsync();
+
             return shipmentDTO;
         }
 
@@ -71,24 +75,30 @@ namespace DeliverIT.Services.Services
 
         public async Task<ShipmentDTO> UpdateAsync(int id, ShipmentDTO obj)
         {
-            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.SHIPMENT_NOT_FOUND);
+
+            if (obj is null || obj.ArrivalDate == null || obj.DepartureDate == null
+                            || obj.OriginWareHouseId <= 0 || obj.DestinationWareHouseId <= 0
+                            || obj.StatusId <= 0)
+            {
+                throw new AppException(Constants.INCORRECT_DATA);
+            }
 
             shipment.ArrivalDate = obj.ArrivalDate;
             shipment.DepartureDate = obj.DepartureDate;
             shipment.DestinationWareHouseId = obj.DestinationWareHouseId;
             shipment.StatusId = obj.StatusId;
+
             var shipmentDTO = shipment.GetDTO();
             await _db.SaveChangesAsync();
             return shipmentDTO;
         }
-        public async Task<bool> ShipmentExistsAsync(int id)
-        {
-            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
-            return shipment is null ? false : true;
-        }
+
         public async Task<ShipmentDTO> GetShipmentByIdAsync(int id)
         {
-            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id);
+            var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.SHIPMENT_NOT_FOUND); 
 
             return shipment.GetDTO();
         }
