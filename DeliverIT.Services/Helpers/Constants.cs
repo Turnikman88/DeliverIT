@@ -20,5 +20,6 @@ namespace DeliverIT.Services.Helpers
         public static string COUNTRY_NOT_FOUND = "Country not found!";
         public static string SHIPMENT_NOT_FOUND = "Shipment not found!";
         public static string PARCEL_NOT_FOUND = "Parcel not found!";
+        public static string SHIPMENT_ALREADY_ARRIVED = "Shipment already arrived!";
     }
 }
