@@ -10,13 +10,13 @@ namespace DeliverIT.API.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private readonly ICountryService cs;
-        private readonly IAuthenticationService auth;
+        private readonly ICountryService _cs;
+        private readonly IAuthenticationService _auth;
 
         public CountryController(ICountryService cs, IAuthenticationService auth)
         {
-            this.cs = cs;
-            this.auth = auth;
+            this._cs = cs;
+            this._auth = auth;
         }
 
         [HttpGet]
@@ -24,12 +24,12 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync([FromHeader] string authorization)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            var countries = await cs.GetAsync();
+            var countries = await _cs.GetAsync();
             return this.Ok(countries);
         }
 
@@ -39,7 +39,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> CreateCountryAsync([FromHeader] string authorization, CountryDTO obj)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
@@ -49,7 +49,7 @@ namespace DeliverIT.API.Controllers
                 return this.BadRequest();
             }
             
-            return this.Created("Get", await this.cs.PostAsync(obj));
+            return this.Created("Get", await this._cs.PostAsync(obj));
         }
 
         [HttpPut("{id}")]
@@ -58,17 +58,17 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> UpdateCountryAsync([FromHeader] string authorization, int id, CountryDTO obj)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            if (obj is null || await cs.GetCountryByIdAsync(id) is null)
+            if (obj is null || await _cs.GetCountryByIdAsync(id) is null)
             {
                 return this.NotFound();
             }
 
-            return this.Ok(await this.cs.UpdateAsync(id, obj));
+            return this.Ok(await this._cs.UpdateAsync(id, obj));
         }
 
         [HttpDelete("{id}")]
@@ -77,17 +77,17 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> DeleteCountryAsync([FromHeader] string authorization, int id)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            if (await cs.GetCountryByIdAsync(id) is null)
+            if (await _cs.GetCountryByIdAsync(id) is null)
             {
                 return this.NotFound();
             }
 
-            return this.Ok(await this.cs.DeleteAsync(id));
+            return this.Ok(await this._cs.DeleteAsync(id));
         }
 
         [HttpGet("{id}")]
@@ -96,12 +96,12 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync([FromHeader] string authorization, int id)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            var country = await cs.GetCountryByIdAsync(id);
+            var country = await _cs.GetCountryByIdAsync(id);
             if (country is null)
             {
                 return this.NotFound();
@@ -115,12 +115,12 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync([FromHeader] string authorization, string name)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            var country = await cs.GetCountryByNameAsync(name);
+            var country = await _cs.GetCountryByNameAsync(name);
             if (country == null)
             {
                 return this.NotFound();
@@ -134,12 +134,12 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync([FromHeader] string authorization, string part)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            var countries = await cs.GetCountriesByPartNameAsync(part);
+            var countries = await _cs.GetCountriesByPartNameAsync(part);
             if (countries == null)
             {
                 return this.NotFound();

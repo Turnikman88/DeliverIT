@@ -1,3 +1,4 @@
+using DeliverIT.API.Middleware;
 using DeliverIT.Models;
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.Services;
@@ -46,11 +47,13 @@ namespace DeliverIT.API
 
             app.UseHttpsRedirection();
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
             app.UseRouting();
 
             app.UseAuthorization(); //what you can do
-            app.UseAuthentication(); //who you are
-
+            //app.UseAuthentication(); //who you are
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -2,6 +2,7 @@
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> DeleteAsync(int id)
         {
-            var customer = await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id);
+            var customer = await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id) ?? throw new AppException();
             var customerDTO = customer.GetDTO();
 
             customer.DeletedOn = DateTime.Now;
@@ -39,20 +40,18 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerByNameAsync(string name)
         {
-            var customers = await db.Customers.Include(x => x.Parcels)
+            return await db.Customers.Include(x => x.Parcels)
                 .ThenInclude(x => x.Category)
                 .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
                 .Include(x => x.Address)
                 .Where(x => x.FirstName.ToLower() == name || x.LastName.ToLower() == name)
                 .Select(x => x.GetDTO())
                 .ToListAsync();
-            return customers;
         }
 
         public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
         {
             CustomerDTO result = null;
-
             var newCustomer = obj.GetEntity();
 
             var deletedCustomer = await db.Customers.Include(x => x.Parcels)
@@ -60,11 +59,12 @@ namespace DeliverIT.Services.Services
                 .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
                 .Include(x => x.Address).IgnoreQueryFilters()
                 .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
-                        
+
             if (deletedCustomer == null)
-            {                
+            {
                 await db.Customers.AddAsync(newCustomer);
                 await this.db.SaveChangesAsync();
+
                 newCustomer = await this.db.Customers.Include(x => x.Parcels)
                 .ThenInclude(x => x.Category)
                 .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)

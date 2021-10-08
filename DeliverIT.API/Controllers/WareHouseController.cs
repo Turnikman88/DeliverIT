@@ -10,13 +10,13 @@ namespace DeliverIT.API.Controllers
     [ApiController]
     public class WareHouseController : ControllerBase
     {
-        private readonly IWareHouseService ws;
-        private readonly IAuthenticationService auth;
+        private readonly IWareHouseService _ws;
+        private readonly IAuthenticationService _auth;
 
         public WareHouseController(IWareHouseService ws, IAuthenticationService auth)
         {
-            this.ws = ws;
-            this.auth = auth;
+            this._ws = ws;
+            this._auth = auth;
         }
 
         // must be public - non authorisation needed
@@ -25,7 +25,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<string>>> GetAddressesAsync()
         {
-            return this.Ok(await ws.GetAddressesAsync());
+            return this.Ok(await _ws.GetAddressesAsync());
         }
 
         [HttpGet("{id}")]
@@ -34,16 +34,16 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> GetWareHouseByIdAsync([FromHeader] string authorization, int id)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            if (!await ws.WareHouseExistsAsync(id))
+            if (!await _ws.WareHouseExistsAsync(id))
             {
                 return this.NotFound();
             }
-            return this.Ok(await ws.GetWareHouseByIdAsync(id));
+            return this.Ok(await _ws.GetWareHouseByIdAsync(id));
         }
 
         //must be public
@@ -52,12 +52,12 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync([FromHeader] string authorization)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            return this.Ok(await ws.GetAsync());
+            return this.Ok(await _ws.GetAsync());
         }
 
         [HttpPost]
@@ -66,7 +66,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync([FromHeader] string authorization, WareHouseDTO obj)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
@@ -75,7 +75,7 @@ namespace DeliverIT.API.Controllers
             {
                 return this.BadRequest();
             }
-            return this.Ok(await ws.PostAsync(obj));
+            return this.Ok(await _ws.PostAsync(obj));
         }
 
         [HttpPut("{id}")]
@@ -84,16 +84,16 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> UpdateWareHouseAsync([FromHeader] string authorization, int id, WareHouseDTO obj)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            if (obj is null || obj.AddressId == 0 || !await ws.WareHouseExistsAsync(id))
+            if (obj is null || obj.AddressId == 0 || !await _ws.WareHouseExistsAsync(id))
             {
                 return this.NotFound();
             }
-            return this.Ok(await ws.UpdateAsync(id, obj));
+            return this.Ok(await _ws.UpdateAsync(id, obj));
         }
 
         [HttpDelete("{id}")]
@@ -102,16 +102,16 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<WareHouseDTO>> DeleteWareHouseAsync([FromHeader] string authorization, int id)
         {
-            if (!auth.FindEmployee(authorization))
+            if (!_auth.FindEmployee(authorization))
             {
                 return this.Unauthorized();
             }
 
-            if (!await ws.WareHouseExistsAsync(id))
+            if (!await _ws.WareHouseExistsAsync(id))
             {
                 return this.NotFound();
             }
-            return this.Ok(await ws.DeleteAsync(id));
+            return this.Ok(await _ws.DeleteAsync(id));
         }
     }
 }
