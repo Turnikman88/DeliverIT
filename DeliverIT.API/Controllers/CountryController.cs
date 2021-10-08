@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,11 +23,11 @@ namespace DeliverIT.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync([FromHeader] string authorization)
+        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync()
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var countries = await _cs.GetAsync();
@@ -37,18 +38,13 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CountryDTO>> CreateCountryAsync([FromHeader] string authorization, CountryDTO obj)
+        public async Task<ActionResult<CountryDTO>> CreateCountryAsync(CountryDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            if (obj is null)
-            {
-                return this.BadRequest();
-            }
-            
             return this.Created("Get", await this._cs.PostAsync(obj));
         }
 
@@ -56,16 +52,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CountryDTO>> UpdateCountryAsync([FromHeader] string authorization, int id, CountryDTO obj)
+        public async Task<ActionResult<CountryDTO>> UpdateCountryAsync(int id, CountryDTO obj)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
-            }
-
-            if (obj is null || await _cs.GetCountryByIdAsync(id) is null)
-            {
-                return this.NotFound();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await this._cs.UpdateAsync(id, obj));
@@ -75,16 +66,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CountryDTO>> DeleteCountryAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<CountryDTO>> DeleteCountryAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
-            }
-
-            if (await _cs.GetCountryByIdAsync(id) is null)
-            {
-                return this.NotFound();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await this._cs.DeleteAsync(id));
@@ -94,57 +80,42 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync([FromHeader] string authorization, int id)
+        public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync(int id)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var country = await _cs.GetCountryByIdAsync(id);
-            if (country is null)
-            {
-                return this.NotFound();
-            }
-            return this.Ok(country);
+            return this.Ok(await _cs.GetCountryByIdAsync(id));
         }
 
         [HttpGet("name/{name}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync([FromHeader] string authorization, string name)
+        public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync(string name)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var country = await _cs.GetCountryByNameAsync(name);
-            if (country == null)
-            {
-                return this.NotFound();
-            }
-            return this.Ok(country);
+            return this.Ok(await _cs.GetCountryByNameAsync(name));
         }
 
         [HttpGet("partname/{part}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync([FromHeader] string authorization, string part)
+        public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync(string part)
         {
-            if (!_auth.FindEmployee(authorization))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized();
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            var countries = await _cs.GetCountriesByPartNameAsync(part);
-            if (countries == null)
-            {
-                return this.NotFound();
-            }
-            return this.Ok(countries);
+            return this.Ok(await _cs.GetCountriesByPartNameAsync(part));
         }
     }
 }

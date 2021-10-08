@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,8 +41,8 @@ namespace DeliverIT.API.Controllers
                 {
                     Expires = DateTime.Now.AddMinutes(5)
                 };
-                this.Response.Cookies.Append("userId", userId, options);
-                return this.Ok("logged");
+                this.Response.Cookies.Append(Constants.KEY_USER_ID, userId, options);
+                return this.Ok(Constants.LOGGED);
             }
 
             var isEmployeeExisting = this._auth.FindEmployee(credentials);
@@ -52,8 +53,8 @@ namespace DeliverIT.API.Controllers
                 {
                     Expires = DateTime.Now.AddMinutes(5)
                 };
-                this.Response.Cookies.Append("employeeId", employeeId, options);
-                return this.Ok("permissions granted!");
+                this.Response.Cookies.Append(Constants.KEY_EMPLOYEE_ID, employeeId, options);
+                return this.Ok(Constants.LOGGED);
             }
 
             return this.Unauthorized();
@@ -67,9 +68,9 @@ namespace DeliverIT.API.Controllers
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> GetAllCustomersAsync()
         {
-            if (!this.Request.Cookies.ContainsKey("employeeId"))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized("You are not an employee");
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             return this.Ok(await _cs.GetAsync());
@@ -82,9 +83,9 @@ namespace DeliverIT.API.Controllers
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> FindCustomerByOneWord(string parameter)
         {
-            if (!this.Request.Cookies.ContainsKey("employeeId"))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized("You are not an employee");
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var result = await _cs.GetCustomersByEmailAsync(parameter);
@@ -110,9 +111,9 @@ namespace DeliverIT.API.Controllers
         public async Task<ActionResult<IEnumerable<CustomerDTO
             >>> FindCustomerByNameAsync(string name)
         {
-            if (!this.Request.Cookies.ContainsKey("employeeId"))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized("You are not an employee");
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var result = await _cs.GetCustomerByNameAsync(name);
@@ -131,9 +132,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByEmailAsync(string email)
         {
-            if (!this.Request.Cookies.ContainsKey("employeeId"))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized("You are not an employee");
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             var customers = await _cs.GetCustomersByEmailAsync(email);
@@ -161,17 +162,17 @@ namespace DeliverIT.API.Controllers
         {
             if (await _cs.GetCustomerByIDAsync(id) is null)
             {
-                throw new KeyNotFoundException("Account not found");
+                throw new KeyNotFoundException(Constants.ACCOUNT_NOT_FOUND);
                 //return this.NotFound();
             }
 
-            if (this.Request.Cookies.ContainsKey("employeeId"))
+            if (this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
                 return this.Ok(await this._cs.DeleteAsync(id));
             }
-            else if (this.Request.Cookies.ContainsKey("userId"))
+            else if (this.Request.Cookies.ContainsKey(Constants.KEY_USER_ID))
             {
-                if (id == int.Parse(Request.Cookies["userId"]))
+                if (id == int.Parse(Request.Cookies[Constants.KEY_USER_ID]))
                 {
                     return this.Ok(await this._cs.DeleteAsync(id));
                 }
@@ -184,11 +185,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria([FromHeader] string authorization, string name, string param)
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria(string name, string param)
         {
-            if (!this.Request.Cookies.ContainsKey("employeeId"))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized("You are not an employee");
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             name = name.ToLower();
@@ -224,11 +225,11 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync([FromHeader] string authorization, int id, CustomerDTO obj)
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync(int id, CustomerDTO obj)
         {
-            if (!this.Request.Cookies.ContainsKey("employeeId"))
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
-                return this.Unauthorized("You are not an employee");
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
             if (obj is null || await _cs.GetCustomerByIDAsync(id) is null)
