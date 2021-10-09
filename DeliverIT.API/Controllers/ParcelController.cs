@@ -18,6 +18,20 @@ namespace DeliverIT.API.Controllers
             this._ps = ps;
         }
 
+        [HttpGet("incoming")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        public async Task<ActionResult<ParcelDTO>> ListCustomerIncomingParcelsAsync()
+        {
+            if (this.Request.Cookies.ContainsKey(Constants.KEY_USER_ID))
+            {
+                return this.Ok(await _ps.ListCustomerIncomingParcelsAsync(int.Parse(Request.Cookies[Constants.KEY_USER_ID]))); 
+            }
+
+            return this.Unauthorized(Constants.NOT_LOGGED);
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

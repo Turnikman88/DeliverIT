@@ -8,6 +8,7 @@ namespace DeliverIT.Services.Contracts
 {
     public interface IParcelService : ICRUDshared<ParcelDTO>
     {
+        Task<IEnumerable<ParcelDTO>> ListCustomerIncomingParcelsAsync(int id);
         Task<ParcelDTO> GetParcelByIdAsync(int id);
         Task<IEnumerable<ParcelDTO>> FilterByCustomerIdAsync(int id);
         Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,

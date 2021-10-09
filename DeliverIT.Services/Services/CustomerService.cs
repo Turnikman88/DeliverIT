@@ -19,7 +19,6 @@ namespace DeliverIT.Services.Services
         {
             this.db = db;
         }
-
         public async Task<CustomerDTO> DeleteAsync(int id)
         {
             var customer = await db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id)

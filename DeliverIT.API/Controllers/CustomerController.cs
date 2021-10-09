@@ -20,7 +20,7 @@ namespace DeliverIT.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<ActionResult> CustomerCount()
+        public async Task<ActionResult> CustomerCountAsync()
         {
             return Ok(await _cs.UserCountAsync());
         }
@@ -45,7 +45,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         public async Task<ActionResult<IEnumerable<CustomerDTO
-            >>> FindCustomerByOneWord(string parameter)
+            >>> FindCustomerByOneWordAsync(string parameter)
         {
             if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {
@@ -100,7 +100,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CustomerDTO>> DeleteCustomer(int id) // ToDo: change when add passwords
+        public async Task<ActionResult<CustomerDTO>> DeleteCustomerAsync(int id) // ToDo: change when add passwords
         {
 
             if (this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
@@ -123,7 +123,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteria(string name, string param)
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteriaAsync(string name, string param)
         {
             if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
             {

@@ -20,6 +20,11 @@ namespace DeliverIT.Services.Services
             this._db = db;
         }
 
+        public async Task<IEnumerable<ParcelDTO>> ListCustomerIncomingParcelsAsync(int id)
+        {
+            return await this._db.Parcels.Include(x => x.Category).Where(x => x.CustomerId == id && x.Shipment.StatusId == 2).Select(x => x.GetDTO()).ToListAsync();
+        }
+
         public async Task<ParcelDTO> DeleteAsync(int id)
         {
             var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
