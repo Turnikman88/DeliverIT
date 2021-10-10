@@ -1,10 +1,7 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.CountryServiceTests
@@ -13,9 +10,9 @@ namespace DeliverIT.Tests.CountryServiceTests
     public class GetAllAsync
     {
         [TestMethod]
-        public async Task GetAllAsyncTest()
+        public async Task GetAllCountriesAsyncTest()
         {
-            var options = Utils.GetOptions(nameof(GetAllAsyncTest));
+            var options = Utils.GetOptions(nameof(GetAllCountriesAsyncTest));
 
             var countries = Utils.GetCountries();
 
@@ -36,7 +33,7 @@ namespace DeliverIT.Tests.CountryServiceTests
         [TestMethod]
         public async Task Empty_When_GetAllAsyncTest()
         {
-            var options = Utils.GetOptions(nameof(GetAllAsyncTest));
+            var options = Utils.GetOptions(nameof(GetAllCountriesAsyncTest));
 
             using (var actContext = new DeliverITDBContext(options))
             {
