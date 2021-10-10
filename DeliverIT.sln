@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliverIT.Services", "Deliv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliverIT.Models", "DeliverIT.Models\DeliverIT.Models.csproj", "{B208FDA0-E606-42B3-929C-98ABFF528326}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliverIT.Tests", "DeliverIT.Tests\DeliverIT.Tests.csproj", "{12056C8D-8F07-4E0D-B082-962719BDAFFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{B208FDA0-E606-42B3-929C-98ABFF528326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B208FDA0-E606-42B3-929C-98ABFF528326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B208FDA0-E606-42B3-929C-98ABFF528326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12056C8D-8F07-4E0D-B082-962719BDAFFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12056C8D-8F07-4E0D-B082-962719BDAFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12056C8D-8F07-4E0D-B082-962719BDAFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12056C8D-8F07-4E0D-B082-962719BDAFFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

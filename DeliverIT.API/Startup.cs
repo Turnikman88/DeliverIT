@@ -28,8 +28,8 @@ namespace DeliverIT.API
             services.AddDbContext<DeliverITDBContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IWareHouseService, WareHouseService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IShipmentService, ShipmentService>();

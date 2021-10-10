@@ -129,42 +129,42 @@ namespace DeliverIT.Services.Services
         public async Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
             int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {
-            var result = await this._db.Parcels.Include(x => x.Category).Select(x => x.GetDTO()).ToListAsync();
+            var result = this._db.Parcels.Include(x => x.Category).AsQueryable();
 
             if (id.HasValue)
             {
-                result = result.FindAll(x => x.Id == id);
+                result = result.Where(x => x.Id == id);
             }
             if (customerId.HasValue)
             {
-                result = result.FindAll(x => x.CustomerId == customerId);
+                result = result.Where(x => x.CustomerId == customerId);
             }
             if (shipmentId.HasValue)
             {
-                result = result.FindAll(x => x.ShipmentId == shipmentId);
+                result = result.Where(x => x.ShipmentId == shipmentId);
             }
             if (warehouseId.HasValue)
             {
-                result = result.FindAll(x => x.WareHouseId == warehouseId);
+                result = result.Where(x => x.WareHouseId == warehouseId);
             }
             if (categoryId.HasValue)
             {
-                result = result.FindAll(x => x.CategoryId == categoryId);
+                result = result.Where(x => x.CategoryId == categoryId);
             }
             if (!string.IsNullOrEmpty(categoryName))
             {
-                result = result.FindAll(x => x.CategoryName.Contains(categoryName));
+                result = result.Where(x => x.Category.Name.Contains(categoryName));
             }
             if (minWeight.HasValue)
             {
-                result = result.FindAll(x => x.Weight >= minWeight);
+                result = result.Where(x => x.Weight >= minWeight);
             }
             if (maxWeight.HasValue)
             {
-                result = result.FindAll(x => x.Weight <= maxWeight);
+                result = result.Where(x => x.Weight <= maxWeight);
             }          
             
-            return result;
+            return await result.Select(x => x.GetDTO()).ToListAsync();
         }
         
         public async Task<IEnumerable<string>> GetShipmentStatusAsync(int customerId) // ToDo: search by parcel id?
