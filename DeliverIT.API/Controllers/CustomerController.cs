@@ -130,9 +130,6 @@ namespace DeliverIT.API.Controllers
                 return this.Unauthorized(Constants.NOT_EMPLOYEE);
             }
 
-            name = name.ToLower();
-            param = param.ToLower();
-
             var result = await _cs.GetCustomersByEmailAsync(name);
 
             if (result is null || result.Count() == 0)
