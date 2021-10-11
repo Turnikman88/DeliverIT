@@ -103,6 +103,7 @@ namespace DeliverIT.Services.Services
 
             return city.GetDTO();
         }
+
         public async Task<CityDTO> DeleteAsync(int id)
         {
             CheckId(id);

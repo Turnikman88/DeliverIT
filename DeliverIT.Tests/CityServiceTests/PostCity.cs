@@ -3,10 +3,7 @@ using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.CityServiceTests
@@ -81,11 +78,12 @@ namespace DeliverIT.Tests.CityServiceTests
                 //var deletedObj = sut.DeleteAsync(1);
                 var deletedObj = actContext.Cities.FindAsync(1);
                 deletedObj.Result.IsDeleted = true;
-                
+                await actContext.SaveChangesAsync();
+
 
                 Assert.AreEqual(cities[0].Id, deletedObj.Result.Id);
-               // Assert.AreEqual(cities[0].Name, deletedObj.Name); //Sofia
-               // Assert.AreEqual(cities[0].CountryId, deletedObj.CountryId); //Bulgaria                
+                // Assert.AreEqual(cities[0].Name, deletedObj.Name); //Sofia
+                // Assert.AreEqual(cities[0].CountryId, deletedObj.CountryId); //Bulgaria                
 
                 var dto = new CityDTO
                 {
