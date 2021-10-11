@@ -48,7 +48,7 @@ namespace DeliverIT.Services.Services
 
 
         public async Task<CityDTO> GetCityByNameAsync(string name)
-        {            
+        {
             var city = await _db.Cities
                 .Include(x => x.Addresses)
                 .Include(x => x.Country)
@@ -108,6 +108,7 @@ namespace DeliverIT.Services.Services
 
             return city.GetDTO();
         }
+
         public async Task<CityDTO> DeleteAsync(int id)
         {
             CheckId(id);
