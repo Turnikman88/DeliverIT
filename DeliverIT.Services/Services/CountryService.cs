@@ -43,6 +43,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<CountryDTO> PostAsync(CountryDTO obj)
         {
+            _ = await _db.Countries.FirstOrDefaultAsync(x => x.Name == obj.Name) != null 
+                ? throw new AppException(Constants.COUNTRY_EXISTS) : 0;
+
             var newCountry = obj.GetEntity();
             var deletedCountry = await _db.Countries.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name == obj.Name && x.IsDeleted == true);
 
@@ -65,6 +68,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<CountryDTO> UpdateAsync(int id, CountryDTO obj)
         {
+            _ = await _db.Countries.FirstOrDefaultAsync(x => x.Name == obj.Name) != null ? throw new AppException(Constants.COUNTRY_EXISTS) : 0;
+
             if (string.IsNullOrEmpty(obj.Name))
             {
                 throw new AppException(Constants.INCORRECT_DATA);

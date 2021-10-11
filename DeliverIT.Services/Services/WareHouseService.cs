@@ -89,6 +89,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<WareHouseDTO> PostAsync(WareHouseDTO obj)
         {
+            _ = await _db.WareHouses.FirstOrDefaultAsync(x => x.AddressId == obj.AddressId)
+                != null ? throw new AppException(Constants.WAREHOUSE_ADDRESS_EXISTS) : 0;
+
             WareHouseDTO result = null;
 
             var wareHouse = obj.GetEntity();

@@ -2,8 +2,6 @@
 {
     public static class Constants
     {
-/*        public const string KEY_USER_ID = "";
-        public const string KEY_EMPLOYEE_ID = "";*/
         public const string ROLE_EMPLOYEE = "Admin";
         public const string ROLE_USER = "User";
                
@@ -24,5 +22,9 @@
         public const string WAREHOUSE_NOT_FOUND = "Warehouse not found";
                
         public const string INVALID_ID = "Invalid ID";
+        public const string CUSTOMER_EXISTS = "Customer with this email already exists!";
+        public const string CITY_EXISTS = "City with this name already exists!";
+        public const string COUNTRY_EXISTS = "Country with this name already exists!";
+        public const string WAREHOUSE_ADDRESS_EXISTS = "Warehouse with this address already exists!";
     }
 }

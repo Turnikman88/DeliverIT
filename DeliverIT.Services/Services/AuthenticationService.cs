@@ -69,7 +69,7 @@ namespace DeliverIT.Services.Services
             
             return await _db.AppUserRoles.Include(x => x.AppUser).Include(x => x.AppRole)
                 .Where(x => x.AppUser.Email == email && x.AppUser.Password == password)
-                .Select(x => new UserDTO {Email = x.AppUser.Email, Role = x.AppRole.Name })
+                .Select(x => new UserDTO {Id = x.AppUserId.ToString(), Email = x.AppUser.Email, Role = x.AppRole.Name })
                 .FirstOrDefaultAsync();
         }
     }

@@ -60,6 +60,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
+            _ = await _db.Cities.FirstOrDefaultAsync(x => x.Name == obj.Name && x.CountryId == obj.CountryId)
+                != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
+
             CityDTO result = null;
 
             var deletedCity = await _db.Cities.Include(x => x.Country).IgnoreQueryFilters()
@@ -85,6 +88,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> UpdateAsync(int id, CityDTO obj)
         {
+            _ = await _db.Cities.FirstOrDefaultAsync(x => x.Name == obj.Name && x.CountryId == obj.CountryId)
+                != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
             CheckId(id);
 
             var city = await this._db.Cities
