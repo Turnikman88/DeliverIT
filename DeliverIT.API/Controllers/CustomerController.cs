@@ -1,9 +1,11 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -29,14 +31,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO
-            >>> GetAllCustomersAsync()
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomersAsync()
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _cs.GetAsync());
         }
 
@@ -44,14 +41,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO
-            >>> FindCustomerByOneWordAsync(string parameter)
-        {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByOneWordAsync(string parameter)
+        {            
             var result = await _cs.GetCustomersByEmailAsync(parameter);
 
             if (result is null)
@@ -71,14 +63,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<IEnumerable<CustomerDTO
-            >>> FindCustomerByNameAsync(string name)
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByNameAsync(string name)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _cs.GetCustomerByNameAsync(name));
         }
 
@@ -86,13 +73,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByEmailAsync(string email)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _cs.GetCustomersByEmailAsync(email));
         }
 
@@ -100,16 +83,20 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        public async Task<ActionResult<CustomerDTO>> DeleteCustomerAsync(int id) // ToDo: change when add passwords
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [Authorize(Roles = Constants.ROLE_USER)]
+        public async Task<ActionResult<CustomerDTO>> DeleteCustomerAsync(int id) 
         {
+            var role = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
+            var userId = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
-            if (this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
+            if (role == Constants.ROLE_EMPLOYEE)
             {
                 return this.Ok(await this._cs.DeleteAsync(id));
             }
-            else if (this.Request.Cookies.ContainsKey(Constants.KEY_USER_ID))
+            else if (role == Constants.ROLE_USER)
             {
-                if (id == int.Parse(Request.Cookies[Constants.KEY_USER_ID]))
+                if (id == int.Parse(userId))
                 {
                     return this.Ok(await this._cs.DeleteAsync(id));
                 }
@@ -123,13 +110,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteriaAsync(string name, string param)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             name = name.ToLower();
             param = param.ToLower();
 
@@ -163,13 +146,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CustomerDTO>> UpdateCustomerAsync(int id, CustomerDTO obj)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await this._cs.UpdateAsync(id, obj));
         }
     }

@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : IAppAuthenticationService
     {
         private readonly DeliverITDBContext _db;
         public AuthenticationService(DeliverITDBContext db)
@@ -59,6 +60,17 @@ namespace DeliverIT.Services.Services
             var email = splitted[0];
             var password = splitted[1];
             return this._db.Employees.Any(x => x.Email == email && x.Password == password);
+        }
+        public async Task<UserDTO> FindUs(string authorization)
+        {
+            var splitted = authorization.Split();
+            var email = splitted[0];
+            var password = splitted[1];
+            
+            return await _db.AppUserRoles.Include(x => x.AppUser).Include(x => x.AppRole)
+                .Where(x => x.AppUser.Email == email && x.AppUser.Password == password)
+                .Select(x => new UserDTO {Email = x.AppUser.Email, Role = x.AppRole.Name })
+                .FirstOrDefaultAsync();
         }
     }
 }

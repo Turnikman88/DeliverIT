@@ -1,9 +1,13 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -13,8 +17,8 @@ namespace DeliverIT.API.Controllers
     public class HomeController : ControllerBase
     {
         private readonly ICustomerService _cs;
-        private readonly IAuthenticationService _auth;
-        public HomeController(ICustomerService cs, IAuthenticationService auth)
+        private readonly IAppAuthenticationService _auth;
+        public HomeController(ICustomerService cs, IAppAuthenticationService auth)
         {
             this._cs = cs;
             this._auth = auth;
@@ -31,32 +35,40 @@ namespace DeliverIT.API.Controllers
         [HttpGet("login")]
         public async Task<ActionResult> Login([FromHeader] string credentials)
         {
-            var isUserExisting = this._auth.FindUser(credentials);
 
-            if (isUserExisting)
+            var user = await this._auth.FindUs(credentials);
+
+            if (user is null)
             {
-                var userId = await this._auth.GetUserID(credentials);
-                var options = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddMinutes(5)
-                };
-                this.Response.Cookies.Append(Constants.KEY_USER_ID, userId, options);
-                return this.Ok(Constants.LOGGED);
+                return this.Unauthorized();
             }
 
-            var isEmployeeExisting = this._auth.FindEmployee(credentials);
-            if (isEmployeeExisting)
-            {
-                var employeeId = await this._auth.GetEmployeeID(credentials);
-                var options = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddMinutes(5)
-                };
-                this.Response.Cookies.Append(Constants.KEY_EMPLOYEE_ID, employeeId, options);
-                return this.Ok(Constants.LOGGED);
-            }
+            await SignInWithRoleAsync(user);
 
-            return this.Unauthorized();
+            return this.Ok();
+
+        }
+        [HttpGet("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return Ok();
+        }
+
+        private async Task SignInWithRoleAsync(UserDTO user)
+        {
+            //You can add more claims as you wish but keep these KEYS here as is
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+            identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }

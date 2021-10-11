@@ -1,6 +1,7 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace DeliverIT.API.Controllers
     {
         private readonly IWareHouseService _ws;
 
-        public WareHouseController(IWareHouseService ws, IAuthenticationService auth)
+        public WareHouseController(IWareHouseService ws)
         {
             this._ws = ws;
         }
@@ -31,13 +32,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<WareHouseDTO>> GetWareHouseByIdAsync(int id)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _ws.GetWareHouseByIdAsync(id));
         }
 
@@ -45,13 +42,9 @@ namespace DeliverIT.API.Controllers
         [HttpGet("all")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<WareHouseDTO>>> GetWareHousesAsync()
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _ws.GetAsync());
         }
 
@@ -59,13 +52,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<WareHouseDTO>> CreateWareHouseAsync(WareHouseDTO obj)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _ws.PostAsync(obj));
         }
 
@@ -73,13 +62,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<WareHouseDTO>> UpdateWareHouseAsync(int id, WareHouseDTO obj)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _ws.UpdateAsync(id, obj));
         }
 
@@ -87,13 +72,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<WareHouseDTO>> DeleteWareHouseAsync(int id)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _ws.DeleteAsync(id));
         }
     }

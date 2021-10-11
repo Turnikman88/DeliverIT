@@ -1,6 +1,7 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace DeliverIT.API.Controllers
     {
         private readonly ICountryService _cs;
 
-        public CountryController(ICountryService cs, IAuthenticationService auth)
+        public CountryController(ICountryService cs)
         {
             this._cs = cs;
         }
@@ -21,28 +22,19 @@ namespace DeliverIT.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync()
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
-            var countries = await _cs.GetAsync();
-            return this.Ok(countries);
+            return this.Ok(await _cs.GetAsync());
         }
 
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> CreateCountryAsync(CountryDTO obj)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Created("Get", await this._cs.PostAsync(obj));
         }
 
@@ -50,13 +42,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> UpdateCountryAsync(int id, CountryDTO obj)
-        {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
+        {           
             return this.Ok(await this._cs.UpdateAsync(id, obj));
         }
 
@@ -64,13 +52,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> DeleteCountryAsync(int id)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await this._cs.DeleteAsync(id));
         }
 
@@ -78,13 +62,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> GetCountryByIdAsync(int id)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _cs.GetCountryByIdAsync(id));
         }
 
@@ -92,13 +72,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync(string name)
-        {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
+        {            
             return this.Ok(await _cs.GetCountryByNameAsync(name));
         }
 
@@ -106,13 +82,9 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountryByNamePartAsync(string part)
         {
-            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
-            {
-                return this.Unauthorized(Constants.NOT_EMPLOYEE);
-            }
-
             return this.Ok(await _cs.GetCountriesByPartNameAsync(part));
         }
     }
