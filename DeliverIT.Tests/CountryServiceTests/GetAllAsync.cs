@@ -33,7 +33,7 @@ namespace DeliverIT.Tests.CountryServiceTests
         [TestMethod]
         public async Task Empty_When_GetAllAsyncTest()
         {
-            var options = Utils.GetOptions(nameof(GetAllCountriesAsyncTest));
+            var options = Utils.GetOptions(nameof(Empty_When_GetAllAsyncTest));
 
             using (var actContext = new DeliverITDBContext(options))
             {

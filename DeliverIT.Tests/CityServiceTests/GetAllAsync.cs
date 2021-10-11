@@ -38,7 +38,7 @@ namespace DeliverIT.Tests.CityServiceTests
         [TestMethod]
         public async Task Empty_When_GetAllCitiesAsyncTest()
         {
-            var options = Utils.GetOptions(nameof(GetAllCitiesAsyncTest));
+            var options = Utils.GetOptions(nameof(Empty_When_GetAllCitiesAsyncTest));
 
             using (var actContext = new DeliverITDBContext(options))
             {

@@ -12,30 +12,12 @@ using System.Threading.Tasks;
 namespace DeliverIT.Tests.CountryServiceTests
 {
     [TestClass]
-    public class PostAsync
+    public class UpdateAsync
     {
         [TestMethod]
-        public async Task Success_When_PostAsync()
+        public async Task Success_When_UpdateAsync()
         {
-            var options = Utils.GetOptions(nameof(Success_When_PostAsync));
-
-            var dto = new CountryDTO { Name = "Test" };
-
-            using (var actContext = new DeliverITDBContext(options))
-            {
-                var sut = new CountryService(actContext);
-                var result = await sut.PostAsync(dto);
-
-                Assert.IsNotNull(result);
-                Assert.AreEqual(1, actContext.Countries.Count());
-            }
-        }
-        [TestMethod]
-        public async Task DeletedCity_GetsItsId()
-        {
-            var options = Utils.GetOptions(nameof(DeletedCity_GetsItsId));
-
-            var dto = new CountryDTO { Name = "Bulgaria" };
+            var options = Utils.GetOptions(nameof(Success_When_UpdateAsync));
 
             var countries = Utils.GetCountries();
 
@@ -44,54 +26,59 @@ namespace DeliverIT.Tests.CountryServiceTests
                 await arrangeContext.Countries.AddRangeAsync(countries);
                 await arrangeContext.SaveChangesAsync();
             }
+            var dto = new CountryDTO { Name = "Test" };
+
             using (var actContext = new DeliverITDBContext(options))
             {
-                var deleted = actContext.Countries.FirstOrDefault(x => x.Id == 1);
-                deleted.IsDeleted = true;
-                await actContext.SaveChangesAsync();
-
                 var sut = new CountryService(actContext);
-                var result = await sut.PostAsync(dto);
+                var result = await sut.UpdateAsync(1, dto);
 
                 Assert.IsNotNull(result);
-                Assert.AreEqual(1, result.Id);
+                Assert.AreEqual(actContext.Countries.FirstOrDefault().Name, "Test");
             }
         }
 
         [TestMethod]
-        public async Task Throws_When_PostInvalidName()
+        public async Task Throws_When_UpdateNullAsync()
         {
-            var options = Utils.GetOptions(nameof(Throws_When_PostInvalidName));
+            var options = Utils.GetOptions(nameof(Throws_When_UpdateNullAsync));
 
+            var countries = Utils.GetCountries();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Countries.AddRangeAsync(countries);
+                await arrangeContext.SaveChangesAsync();
+            }
             var dto = new CountryDTO { Name = null };
 
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CountryService(actContext);
 
-                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.PostAsync(dto));
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.UpdateAsync(1, dto));
             }
         }
+
         [TestMethod]
-        public async Task Throws_When_PostExistingName()
+        public async Task Throws_When_UpdateExistingAsync()
         {
-            var options = Utils.GetOptions(nameof(Throws_When_PostExistingName));
+            var options = Utils.GetOptions(nameof(Throws_When_UpdateExistingAsync));
 
             var countries = Utils.GetCountries();
-
-            var dto = new CountryDTO { Name = "Bulgaria" };
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Countries.AddRangeAsync(countries);
                 await arrangeContext.SaveChangesAsync();
             }
+            var dto = new CountryDTO { Name = "Bulgaria" };
 
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CountryService(actContext);
 
-                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.PostAsync(dto));
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.UpdateAsync(1, dto));
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Models;
+using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,12 +12,12 @@ using System.Threading.Tasks;
 namespace DeliverIT.Tests.CountryServiceTests
 {
     [TestClass]
-    public class GetCountryByNameAsync
+    public class DeleteAsync
     {
         [TestMethod]
-        public async Task GetCountryByName()
+        public async Task Success_When_DeleteAsync()
         {
-            var options = Utils.GetOptions(nameof(GetCountryByName));
+            var options = Utils.GetOptions(nameof(Success_When_DeleteAsync));
 
             var countries = Utils.GetCountries();
 
@@ -25,20 +26,21 @@ namespace DeliverIT.Tests.CountryServiceTests
                 await arrangeContext.Countries.AddRangeAsync(countries);
                 await arrangeContext.SaveChangesAsync();
             }
-
+           
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CountryService(actContext);
-                var result = await sut.GetCountryByNameAsync("Turkey");
+                var result = await sut.DeleteAsync(1);
 
-                Assert.AreEqual(countries.Skip(1).First().Id, result.Id);
+                Assert.IsNotNull(result);
+                Assert.AreEqual(countries.Count() - 1, actContext.Countries.Count());
             }
         }
 
         [TestMethod]
-        public async Task Throws_When_GetCountryByWrongName()
+        public async Task Throws_When_DeleteAsync()
         {
-            var options = Utils.GetOptions(nameof(Throws_When_GetCountryByWrongName));
+            var options = Utils.GetOptions(nameof(Throws_When_DeleteAsync));
 
             var countries = Utils.GetCountries();
 
@@ -46,13 +48,13 @@ namespace DeliverIT.Tests.CountryServiceTests
             {
                 await arrangeContext.Countries.AddRangeAsync(countries);
                 await arrangeContext.SaveChangesAsync();
-            } 
+            }
 
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CountryService(actContext);
 
-                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.GetCountryByNameAsync("Qss"));
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.DeleteAsync(100));
             }
         }
     }

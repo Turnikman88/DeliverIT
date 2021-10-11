@@ -14,5 +14,10 @@ namespace DeliverIT.Services.DTOs
         public string CategoryName { get; set; }
         public double Weight { get; set; }
         public bool DeliverToAddress { get; set; }
+
+        public int Count()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
