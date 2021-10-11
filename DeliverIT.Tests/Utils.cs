@@ -110,63 +110,12 @@ namespace DeliverIT.Tests
                 StreetName = "blv. Romunska Morava 1"
             }
 
-        };
+            };
+        }
 
-            /*var statuses = new List<Status>()
-            {
-                new Status
-                {
-                    Id = 1,
-                    Name = "Preparing"
-                },
-                new Status
-                {
-                    Id = 2,
-                    Name = "On the way"
-                },
-                new Status
-                {
-                    Id = 3,
-                    Name = "Completed"
-                }
-            };
-            var categories = new List<Category>()
-            {
-                new Category
-                {
-                    Id = 1,
-                    Name = "Electronics"
-                },
-                new Category
-                {
-                    Id = 2,
-                    Name = "Shoes"
-                },
-                new Category
-                {
-                    Id = 3,
-                    Name = "Clothing"
-                },
-                new Category
-                {
-                    Id = 4,
-                    Name = "Medical supplies"
-                }
-            };
-            var roles = new List<AppRole>()
-            {
-                new AppRole
-                {
-                    Id = 1,
-                    Name = "Admin",
-                },
-                new AppRole
-                {
-                    Id = 2,
-                    Name = "User",
-                }
-            };
-            var customers = new List<Customer>()
+        public static List<Customer> GetCustomers()
+        {
+            return new List<Customer>()
             {
                 new Customer
                 {
@@ -205,7 +154,77 @@ namespace DeliverIT.Tests
                     AddressId = 4
                 }
             };
-            var employees = new List<Employee>()
+        }
+
+        public static List<Status> GetStatuses()
+        {
+            return new List<Status>()
+            {
+                new Status
+                {
+                    Id = 1,
+                    Name = "Preparing"
+                },
+                new Status
+                {
+                    Id = 2,
+                    Name = "On the way"
+                },
+                new Status
+                {
+                    Id = 3,
+                    Name = "Completed"
+                }
+            };
+        }
+
+        public static List<Category> GetCategories()
+        {
+            return new List<Category>()
+            {
+                new Category
+                {
+                    Id = 1,
+                    Name = "Electronics"
+                },
+                new Category
+                {
+                    Id = 2,
+                    Name = "Shoes"
+                },
+                new Category
+                {
+                    Id = 3,
+                    Name = "Clothing"
+                },
+                new Category
+                {
+                    Id = 4,
+                    Name = "Medical supplies"
+                }
+            };
+        }
+
+        public static List<AppRole> GetAppRoles()
+        {
+            return new List<AppRole>()
+            {
+                new AppRole
+                {
+                    Id = 1,
+                    Name = "Admin",
+                },
+                new AppRole
+                {
+                    Id = 2,
+                    Name = "User",
+                }
+            };
+        }
+
+        public static List<Employee> GetEmployees()
+        {
+            return new List<Employee>()
             {
                 new Employee
                 {
@@ -244,7 +263,14 @@ namespace DeliverIT.Tests
                     AddressId = null
                 }
             };
-            var userRoles = new List<AppUserRole>()
+        }
+
+        public static List<AppUserRole> GetUsersRoles()
+        {
+            var customers = GetCustomers();
+            var employees = GetEmployees();
+
+            return new List<AppUserRole>()
             {
                 new AppUserRole()
                 {
@@ -287,7 +313,11 @@ namespace DeliverIT.Tests
                     AppUserId = employees[3].Id
                 }
             };
-            var warehouses = new List<WareHouse>()
+        }
+
+        public static List<WareHouse> GetWareHouses()
+        {
+            return new List<WareHouse>()
             {
                 new WareHouse
                 {
@@ -300,7 +330,11 @@ namespace DeliverIT.Tests
                     AddressId = 2
                 }
             };
-            var shipments = new List<Shipment>()
+        }
+
+        public static List<Shipment> GetShipments()
+        {
+            return new List<Shipment>()
             {
                 new Shipment
                 {
@@ -321,8 +355,12 @@ namespace DeliverIT.Tests
                     StatusId = 1
                 }
             };
-            var parcels = new List<Parcel>()
-                {
+        }
+
+        public static List<Parcel> GetParcels()
+        {
+            return new List<Parcel>()
+            {
                 new Parcel
                 {
                     Id = 1,
@@ -333,8 +371,7 @@ namespace DeliverIT.Tests
                     Weight = 1234.56,
                     DeliverToAddress = true
                 }
-                };*/
-
+            };
         }
     }
 }
