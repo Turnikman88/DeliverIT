@@ -1,51 +1,54 @@
 ﻿using DeliverIT.Models;
+using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.CityServiceTests
 {
     [TestClass]
-    public class GetAllAsync
+    public class GetCityByName
     {
         [TestMethod]
-        public async Task GetAllCitiesAsyncTest()
+        public async Task GetCityByNameShouldReturnCorrectObject()
         {
-            var options = Utils.GetOptions(nameof(GetAllCitiesAsyncTest));
+            var options = Utils.GetOptions(nameof(GetCityByNameShouldReturnCorrectObject));
 
             var cities = Utils.GetCities();
             var country = Utils.GetCountries();
-            var address = Utils.GetAddresses();
 
-            using (var arrangeContext = new DeliverITDBContext (options))
+            using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Cities.AddRangeAsync(cities);
                 await arrangeContext.Countries.AddRangeAsync(country);
-                await arrangeContext.Addresses.AddRangeAsync(address);
                 await arrangeContext.SaveChangesAsync();
             }
 
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CityService(actContext);
-                var result = await sut.GetAsync();
+                var result = await sut.GetCityByNameAsync("Sofia");
 
-                Assert.AreEqual(cities.Count(), result.Count());
+                Assert.AreEqual(cities[0].Name, result.Name);
+
+                result = await sut.GetCityByNameAsync("Plovdiv");
+                Assert.AreEqual(cities[1].Name, result.Name);
             }
         }
 
         [TestMethod]
-        public async Task Empty_When_GetAllCitiesAsyncTest()
+        [ExpectedException(typeof(AppException))]
+        public async Task GetCityByShouldThrowExceptionWhenInvalidName()
         {
-            var options = Utils.GetOptions(nameof(GetAllCitiesAsyncTest));
+            var options = Utils.GetOptions(nameof(GetCityByShouldThrowExceptionWhenInvalidName));
 
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CityService(actContext);
-                var result = await sut.GetAsync();
-
-                Assert.AreEqual(0, result.Count());
+                var result = await sut.GetCityByNameAsync("TestNameCity");
             }
         }
     }
