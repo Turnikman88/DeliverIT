@@ -42,18 +42,25 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerByNameAsync(string name)
         {
-            return await _db.Customers.Include(x => x.Parcels)
-                .ThenInclude(x => x.Category)
-                .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
-                .Include(x => x.Address)
-                .Where(x => x.FirstName.ToLower() == name.ToLower() || x.LastName.ToLower() == name.ToLower())
-                .Select(x => x.GetDTO())
-                .ToListAsync();
+            return await _db.Customers.Include(x => x.Parcels).ThenInclude(x => x.Category)
+                                       .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                                       .Include(x => x.Address)
+                                       .Where(x => x.FirstName.ToLower() == name.ToLower() || x.LastName.ToLower() == name.ToLower())
+                                       .Select(x => x.GetDTO())
+                                       .ToListAsync();
         }
 
         public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
         {
-            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == false) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
+            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email
+                                                        && x.FirstName == obj.FirstName
+                                                        && x.LastName == obj.LastName
+                                                        && x.IsDeleted == false) != null ?
+                                                        throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
+
+            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email
+                                                        && x.IsDeleted == false) != null ?
+                                                        throw new AppException(Constants.EMAIL_EXISTS) : 0;
 
             CustomerDTO result = null;
             var newCustomer = obj.GetEntity();
@@ -87,7 +94,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
-            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
+            // _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
 
             var model = await _db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
