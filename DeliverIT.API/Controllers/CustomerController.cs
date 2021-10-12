@@ -113,8 +113,11 @@ namespace DeliverIT.API.Controllers
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindByMultipleCriteriaAsync(string name, string param)
         {
-            name = name.ToLower();
-            param = param.ToLower();
+            if (!this.Request.Cookies.ContainsKey(Constants.KEY_EMPLOYEE_ID))
+            {
+                return this.Unauthorized(Constants.NOT_EMPLOYEE);
+            }
+
 
             var result = await _cs.GetCustomersByEmailAsync(name);
 

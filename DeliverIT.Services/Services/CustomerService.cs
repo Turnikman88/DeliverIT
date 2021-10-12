@@ -46,7 +46,7 @@ namespace DeliverIT.Services.Services
                 .ThenInclude(x => x.Category)
                 .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
                 .Include(x => x.Address)
-                .Where(x => x.FirstName.ToLower() == name || x.LastName.ToLower() == name)
+                .Where(x => x.FirstName.ToLower() == name.ToLower() || x.LastName.ToLower() == name.ToLower())
                 .Select(x => x.GetDTO())
                 .ToListAsync();
         }
@@ -100,6 +100,8 @@ namespace DeliverIT.Services.Services
             model.FirstName = obj.FirstName;
             model.LastName = obj.LastName;
             model.AddressId = obj.AddressId;
+            model.Email = obj.Email;
+            model.Password = obj.Password;
 
             await _db.SaveChangesAsync();
 
