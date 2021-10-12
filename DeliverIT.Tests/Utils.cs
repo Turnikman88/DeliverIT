@@ -20,17 +20,17 @@ namespace DeliverIT.Tests
                 Id = 1,
                 Name = "Bulgaria"
             },
-        new Country
+                new Country
             {
                 Id = 2,
                 Name = "Turkey"
             },
-        new Country
+                new Country
             {
                 Id = 3,
                 Name = "Greece"
             },
-        new Country
+                new Country
             {
                 Id = 4,
                 Name = "Romania"
@@ -343,7 +343,7 @@ namespace DeliverIT.Tests
                     ArrivalDate = System.DateTime.Today.AddDays(20),  //dont change it
                     OriginWareHouseId = 1,
                     DestinationWareHouseId = 2,
-                    StatusId = 1 
+                    StatusId = 1
                 },
                 new Shipment
                 {

@@ -52,8 +52,8 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<CustomerDTO> PostAsync(CustomerDTO obj)
-        {                  
-            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
+        {
+            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == false) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
 
             CustomerDTO result = null;
             var newCustomer = obj.GetEntity();

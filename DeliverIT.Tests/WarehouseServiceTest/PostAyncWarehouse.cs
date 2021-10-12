@@ -36,10 +36,10 @@ namespace DeliverIT.Tests.WarehouseServiceTest
                 var testObject = new WareHouseDTO()
                 {
                     Id = 100,
-                    City = "Sofia",
-                    Country = "Bulgaria",
+                    City = "Istanbul",
+                    Country = "Turkey",
                     StreetName = "TestName",
-                    AddressId = 1
+                    AddressId = 3
                 };
 
                 var result = await sut.PostAsync(testObject);

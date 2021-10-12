@@ -69,7 +69,6 @@ namespace DeliverIT.Tests.CustomerServiceTest
                     Email = "TestEmail@Test.test",
                     Password = "deldeldel",
                     AddressId = 1,
-                    IsDeleted = true
                 };
 
                 _ = await arrangeContext.Customers.AddAsync(objectDefaultDeleted);
@@ -78,10 +77,10 @@ namespace DeliverIT.Tests.CustomerServiceTest
 
             var objectToTest = new CustomerDTO()
             {
-                FirstName = "Test",
-                LastName = "TestSUT",
+                FirstName = "NameDeleted",
+                LastName = "Deleted",
                 Email = "TestEmail@Test.test",
-                Password = "testtest",
+                Password = "anotherpasword",
                 AddressId = 1
             };
 
@@ -90,12 +89,15 @@ namespace DeliverIT.Tests.CustomerServiceTest
             {
                 var sut = new CustomerService(actContext);
 
+                var itemSet = actContext.Customers.First(x => x.Email == "TestEmail@Test.test");
+                itemSet.IsDeleted = true;
+                await actContext.SaveChangesAsync();
+
                 var result = await sut.PostAsync(objectToTest);
 
                 Assert.IsNotNull(result);
-                Assert.AreEqual(objectToTest.FirstName, result.FirstName);
-                Assert.AreEqual(objectToTest.LastName, result.LastName);
                 Assert.AreEqual(objectToTest.Email, result.Email);
+                Assert.AreEqual(123, result.Id);
             }
         }
     }
