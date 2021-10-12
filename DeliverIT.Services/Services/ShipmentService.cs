@@ -144,6 +144,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerAddressAsync(string address)
         {
+            var a = await this._db.Shipments.Include(x => x.Status)
+                .Include(x => x.Parcels).Select(x =>  new { }).ToListAsync();
+
             var shipments = await this._db.Shipments.Include(x => x.Status)
                 .Include(x => x.Parcels.Where(y => y.Customer.Address.StreetName.Contains(address))).ToListAsync();
 
