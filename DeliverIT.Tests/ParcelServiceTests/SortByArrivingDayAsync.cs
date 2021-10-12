@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Models;
+using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -10,18 +11,29 @@ using System.Threading.Tasks;
 namespace DeliverIT.Tests.ParcelServiceTests
 {
     [TestClass]
-    public class GetAsync
+    public class SortByArrivingDayAsync
     {
         [TestMethod]
-        public async Task Success_When_GetAllParcelsAsync()
+        public async Task Success_When_SortByArrivingDayAsync()
         {
-            var options = Utils.GetOptions(nameof(Success_When_GetAllParcelsAsync));
+            var options = Utils.GetOptions(nameof(Success_When_SortByArrivingDayAsync));
 
             var parcels = Utils.GetParcels();
+            parcels.Add(new Parcel
+            {
+                Id = 2,
+                CustomerId = 1,
+                ShipmentId = 2,
+                WareHouseId = 1,
+                CategoryId = 1,
+                Weight = 1,
+                DeliverToAddress = true
+            });
             var category = Utils.GetCategories();
-
+            var shipments = Utils.GetShipments();
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Shipments.AddRangeAsync(shipments);
                 await arrangeContext.Categories.AddRangeAsync(category);
                 await arrangeContext.Parcels.AddRangeAsync(parcels);
                 await arrangeContext.SaveChangesAsync();
@@ -30,23 +42,12 @@ namespace DeliverIT.Tests.ParcelServiceTests
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new ParcelService(actContext);
-                var result = await sut.GetAsync();
 
-                Assert.AreEqual(1, result.Count());
-            }
-        }
+                Assert.AreEqual(1, actContext.Parcels.First().Id);
 
-        [TestMethod]
-        public async Task Empty_When_GetAllParcelsAsyncTest()
-        {
-            var options = Utils.GetOptions(nameof(Empty_When_GetAllParcelsAsyncTest));
+                var result = await sut.SortByArrivalDateAsync();
 
-            using (var actContext = new DeliverITDBContext(options))
-            {
-                var sut = new CountryService(actContext);
-                var result = await sut.GetAsync();
-
-                Assert.AreEqual(0, result.Count());
+                Assert.AreEqual(2, result.First().Id);
             }
         }
     }

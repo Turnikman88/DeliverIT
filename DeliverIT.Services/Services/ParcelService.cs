@@ -88,6 +88,10 @@ namespace DeliverIT.Services.Services
             {
                 throw new AppException(Constants.INCORRECT_DATA);
             }
+            if (await IsInvalidParcel(obj.CustomerId, obj.ShipmentId, obj.WareHouseId, obj.CategoryId))
+            {
+                throw new AppException(Constants.INVALID_ID); //ToDo: Add better exception message
+            }
 
             parcel.CustomerId = obj.CustomerId;
             parcel.ShipmentId = obj.ShipmentId;
@@ -172,7 +176,7 @@ namespace DeliverIT.Services.Services
             return await result.Select(x => x.GetDTO()).ToListAsync();
         }
         
-        public async Task<IEnumerable<string>> GetShipmentStatusAsync(int customerId) // ToDo: search by parcel id?
+        public async Task<IEnumerable<string>> GetShipmentStatusAsync(int customerId) 
         {
             return await this._db.Parcels.Where(x => x.CustomerId == customerId)
                 .Select(x => $"Id: {x.Id}, {x.Shipment.Status.Name}").ToListAsync();

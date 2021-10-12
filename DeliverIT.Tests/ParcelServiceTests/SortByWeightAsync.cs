@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Models;
+using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -10,14 +11,23 @@ using System.Threading.Tasks;
 namespace DeliverIT.Tests.ParcelServiceTests
 {
     [TestClass]
-    public class GetAsync
+    public class SortByWeightAsync
     {
         [TestMethod]
-        public async Task Success_When_GetAllParcelsAsync()
+        public async Task Success_When_SortByWeightAsync()
         {
-            var options = Utils.GetOptions(nameof(Success_When_GetAllParcelsAsync));
+            var options = Utils.GetOptions(nameof(Success_When_SortByWeightAsync));
 
             var parcels = Utils.GetParcels();
+            parcels.Add(new Parcel {
+                Id = 2,
+                CustomerId = 1,
+                ShipmentId = 1,
+                WareHouseId = 1,
+                CategoryId = 1,
+                Weight = 1,
+                DeliverToAddress = true
+            });
             var category = Utils.GetCategories();
 
             using (var arrangeContext = new DeliverITDBContext(options))
@@ -30,23 +40,12 @@ namespace DeliverIT.Tests.ParcelServiceTests
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new ParcelService(actContext);
-                var result = await sut.GetAsync();
 
-                Assert.AreEqual(1, result.Count());
-            }
-        }
+                Assert.AreEqual(1234.56, actContext.Parcels.First().Weight);
 
-        [TestMethod]
-        public async Task Empty_When_GetAllParcelsAsyncTest()
-        {
-            var options = Utils.GetOptions(nameof(Empty_When_GetAllParcelsAsyncTest));
+                var result = await sut.SortByWeightAsync();
 
-            using (var actContext = new DeliverITDBContext(options))
-            {
-                var sut = new CountryService(actContext);
-                var result = await sut.GetAsync();
-
-                Assert.AreEqual(0, result.Count());
+                Assert.AreEqual(1, result.First().Weight);
             }
         }
     }

@@ -340,10 +340,10 @@ namespace DeliverIT.Tests
                 {
                     Id = 1,
                     DepartureDate = System.DateTime.Today.AddDays(5),
-                    ArrivalDate = System.DateTime.Today.AddDays(10),
+                    ArrivalDate = System.DateTime.Today.AddDays(20),  //dont change it
                     OriginWareHouseId = 1,
                     DestinationWareHouseId = 2,
-                    StatusId = 1
+                    StatusId = 1 
                 },
                 new Shipment
                 {

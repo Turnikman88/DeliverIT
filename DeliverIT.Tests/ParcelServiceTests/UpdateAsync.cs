@@ -94,5 +94,83 @@ namespace DeliverIT.Tests.ParcelServiceTests
                 await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.UpdateAsync(100, dto));
             }
         }
+
+        [TestMethod]
+        public async Task Throws_When_UpdateParcelWithMissingDataAsync()
+        {
+            var options = Utils.GetOptions(nameof(Throws_When_UpdateParcelWithMissingDataAsync));
+
+            var dto = new ParcelDTO
+            {
+                CustomerId = 1,                
+                WareHouseId = 1,
+                CategoryId = 1,
+                Weight = 555,
+                DeliverToAddress = true
+            };
+
+            var parcels = Utils.GetParcels();
+            var customers = Utils.GetCustomers();
+            var shipments = Utils.GetShipments();
+            var warehouses = Utils.GetWareHouses();
+            var category = Utils.GetCategories();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Customers.AddRangeAsync(customers);
+                await arrangeContext.Shipments.AddRangeAsync(shipments);
+                await arrangeContext.WareHouses.AddRangeAsync(warehouses);
+                await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Parcels.AddRangeAsync(parcels);
+                await arrangeContext.SaveChangesAsync();
+            }
+
+            using (var actContext = new DeliverITDBContext(options))
+            {
+                var sut = new ParcelService(actContext);
+
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.UpdateAsync(1, dto));
+            }
+        }
+
+
+        [TestMethod]
+        public async Task Throws_When_UpdateParcelWithWrongDataAsync()
+        {
+            var options = Utils.GetOptions(nameof(Throws_When_UpdateParcelWithWrongDataAsync));
+
+            var dto = new ParcelDTO
+            {
+                CustomerId = 1,
+                ShipmentId = 100,
+                WareHouseId = 1,
+                CategoryId = 1,
+                Weight = 555,
+                DeliverToAddress = true
+            };
+
+            var parcels = Utils.GetParcels();
+            var customers = Utils.GetCustomers();
+            var shipments = Utils.GetShipments();
+            var warehouses = Utils.GetWareHouses();
+            var category = Utils.GetCategories();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Customers.AddRangeAsync(customers);
+                await arrangeContext.Shipments.AddRangeAsync(shipments);
+                await arrangeContext.WareHouses.AddRangeAsync(warehouses);
+                await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Parcels.AddRangeAsync(parcels);
+                await arrangeContext.SaveChangesAsync();
+            }
+
+            using (var actContext = new DeliverITDBContext(options))
+            {
+                var sut = new ParcelService(actContext);
+
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.UpdateAsync(1, dto));
+            }
+        }
     }
 }
