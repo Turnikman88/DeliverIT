@@ -15,9 +15,9 @@ namespace DeliverIT.Tests.CountryServiceTests
     public class PostAsync
     {
         [TestMethod]
-        public async Task Success_When_PostAsync()
+        public async Task Success_When_PostCountryAsync()
         {
-            var options = Utils.GetOptions(nameof(Success_When_PostAsync));
+            var options = Utils.GetOptions(nameof(Success_When_PostCountryAsync));
 
             var dto = new CountryDTO { Name = "Test" };
 
@@ -31,9 +31,9 @@ namespace DeliverIT.Tests.CountryServiceTests
             }
         }
         [TestMethod]
-        public async Task DeletedCity_GetsItsId()
+        public async Task DeletedCountry_GetsItsId()
         {
-            var options = Utils.GetOptions(nameof(DeletedCity_GetsItsId));
+            var options = Utils.GetOptions(nameof(DeletedCountry_GetsItsId));
 
             var dto = new CountryDTO { Name = "Bulgaria" };
 
@@ -59,9 +59,9 @@ namespace DeliverIT.Tests.CountryServiceTests
         }
 
         [TestMethod]
-        public async Task Throws_When_PostInvalidName()
+        public async Task Throws_When_PostInvalidCountryName()
         {
-            var options = Utils.GetOptions(nameof(Throws_When_PostInvalidName));
+            var options = Utils.GetOptions(nameof(Throws_When_PostInvalidCountryName));
 
             var dto = new CountryDTO { Name = null };
 
@@ -73,9 +73,9 @@ namespace DeliverIT.Tests.CountryServiceTests
             }
         }
         [TestMethod]
-        public async Task Throws_When_PostExistingName()
+        public async Task Throws_When_PostExistingCountryName()
         {
-            var options = Utils.GetOptions(nameof(Throws_When_PostExistingName));
+            var options = Utils.GetOptions(nameof(Throws_When_PostExistingCountryName));
 
             var countries = Utils.GetCountries();
 

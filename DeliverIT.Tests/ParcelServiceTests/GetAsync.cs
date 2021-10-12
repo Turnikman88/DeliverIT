@@ -1,39 +1,44 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliverIT.Tests.CountryServiceTests
+namespace DeliverIT.Tests.ParcelServiceTests
 {
     [TestClass]
-    public class GetAllAsync
+    public class GetAsync
     {
         [TestMethod]
-        public async Task GetAllCountriesAsyncTest()
+        public async Task Success_When_GetAllParcelsAsync()
         {
-            var options = Utils.GetOptions(nameof(GetAllCountriesAsyncTest));
+            var options = Utils.GetOptions(nameof(Success_When_GetAllParcelsAsync));
 
-            var countries = Utils.GetCountries();
+            var parcels = Utils.GetParcels();
+            var category = Utils.GetCategories();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
-                await arrangeContext.Countries.AddRangeAsync(countries);
+                await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Parcels.AddRangeAsync(parcels);
                 await arrangeContext.SaveChangesAsync();
             }
 
             using (var actContext = new DeliverITDBContext(options))
             {
-                var sut = new CountryService(actContext);
+                var sut = new ParcelService(actContext);
                 var result = await sut.GetAsync();
 
-                Assert.AreEqual(countries.Count(), result.Count());
+                Assert.AreEqual(1, result.Count());
             }
         }
         [TestMethod]
-        public async Task Empty_When_GetAllCountiesAsyncTest()
+        public async Task Empty_When_GetAllParcelsAsyncTest()
         {
-            var options = Utils.GetOptions(nameof(Empty_When_GetAllCountiesAsyncTest));
+            var options = Utils.GetOptions(nameof(Empty_When_GetAllParcelsAsyncTest));
 
             using (var actContext = new DeliverITDBContext(options))
             {

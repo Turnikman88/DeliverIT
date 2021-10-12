@@ -21,7 +21,7 @@
         public const string CUSTOMER_NOT_FOUND = "Customer not found";
         public const string WAREHOUSE_NOT_FOUND = "Warehouse not found";
                
-        public const string INVALID_ID = "Invalid ID";
+        public const string INVALID_ID = "Invalid Id";
         public const string CUSTOMER_EXISTS = "Customer with this email already exists!";
         public const string CITY_EXISTS = "City with this name already exists!";
         public const string COUNTRY_EXISTS = "Country with this name already exists!";

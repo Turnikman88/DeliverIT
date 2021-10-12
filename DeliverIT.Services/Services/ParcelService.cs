@@ -44,7 +44,7 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<ParcelDTO> PostAsync(ParcelDTO obj)
-        {
+        {            
             ParcelDTO result = null;
             var newParcel = obj.GetEntity();
             var deleteParcel = await this._db.Parcels.IgnoreQueryFilters().Include(x => x.Category)
@@ -57,6 +57,11 @@ namespace DeliverIT.Services.Services
                 && x.IsDeleted == true);
             if (deleteParcel == null)
             {
+                if (await IsInvalidParcel(obj.CustomerId, obj.ShipmentId, obj.WareHouseId, obj.CategoryId))
+                {
+                    throw new AppException(Constants.INVALID_ID); //ToDo: Add better exception message
+                }
+
                 await this._db.Parcels.AddAsync(newParcel);
                 await this._db.SaveChangesAsync();
                 newParcel = await this._db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == newParcel.Id);
@@ -175,7 +180,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<ParcelDTO> ChangeDeliverLocationAsync(int id)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id);
+            var parcel = await _db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id)
+                ?? throw new AppException(Constants.PARCEL_NOT_FOUND); 
 
             if (parcel.Shipment.StatusId == 3)
             {
@@ -190,6 +196,14 @@ namespace DeliverIT.Services.Services
             await _db.SaveChangesAsync();
 
             return parcelDTO;
+        }
+        private async Task<bool> IsInvalidParcel(int customerId, int shipmentId, int? warehouseId, int categoryId)
+        {
+            var customers = await _db.Customers.AnyAsync(x => x.Id == customerId);
+            var shipments = await _db.Shipments.AnyAsync(x => x.Id == shipmentId);
+            var warehouses = await _db.WareHouses.AnyAsync(x => x.Id == warehouseId);
+            var categories = await _db.Categories.AnyAsync(x => x.Id == categoryId);
+            return !(customers && shipments && warehouses && categories);
         }
     }
 }
