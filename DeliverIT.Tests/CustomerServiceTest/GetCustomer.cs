@@ -41,20 +41,12 @@ namespace DeliverIT.Tests.CustomerServiceTest
             var options = Utils.GetOptions(nameof(GetCustomerByName));
 
             var address = Utils.GetAddresses();
-            var parcels = Utils.GetParcels();
-            var shipment = Utils.GetShipments();
-            var category = Utils.GetCategories();
-            var statuses = Utils.GetStatuses();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Addresses.AddRangeAsync(address);
-                await arrangeContext.Parcels.AddRangeAsync(parcels);
-                await arrangeContext.Shipments.AddRangeAsync(shipment);
-                await arrangeContext.Categories.AddRangeAsync(category);
-                await arrangeContext.Statuses.AddRangeAsync(statuses);
 
-                var dto = new Customer()
+                var pbjectToTest = new Customer()
                 {
                     Id = 100,
                     FirstName = "Test",
@@ -64,7 +56,7 @@ namespace DeliverIT.Tests.CustomerServiceTest
                     AddressId = 1
                 };
 
-                await arrangeContext.Customers.AddAsync(dto);
+                await arrangeContext.Customers.AddAsync(pbjectToTest);
                 await arrangeContext.SaveChangesAsync();
             }
 
@@ -75,7 +67,6 @@ namespace DeliverIT.Tests.CustomerServiceTest
 
                 Assert.AreEqual(1, result.Count());
                 Assert.AreEqual("Test", result.First().FirstName);
-                Assert.AreEqual("TestSUT", result.First().LastName);
             }
         }
 
