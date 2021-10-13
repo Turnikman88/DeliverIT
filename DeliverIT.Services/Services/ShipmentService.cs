@@ -102,6 +102,7 @@ namespace DeliverIT.Services.Services
 
             return shipment.GetDTO();
         }
+
         public async Task<IEnumerable<ShipmentDTO>> FilterByDestinationWareHouseAsync(int id)
         {
             return await this._db.Shipments.Include(x => x.Status).Include(x => x.Parcels)
@@ -124,8 +125,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerNameAsync(string name)
         {
+            var lower = name.ToLower();
             var shipments = await this._db.Shipments.Include(x => x.Status)
-                .Include(x => x.Parcels.Where(y => y.Customer.FirstName.Contains(name) || y.Customer.LastName.Contains(name))).ToListAsync();
+                .Include(x => x.Parcels.Where(y => y.Customer.FirstName.ToLower().Contains(lower) || y.Customer.LastName.Contains(lower))).ToListAsync();
 
             var result = shipments.Where(x => x.Parcels.Count > 0).Select(x => x.GetDTO()).ToList();
 
@@ -133,7 +135,7 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerEmailAsync(string email)
-        {
+        {            
             var shipments = await this._db.Shipments.Include(x => x.Status)
                 .Include(x => x.Parcels.Where(y => y.Customer.Email.Contains(email))).ToListAsync();
 
@@ -143,10 +145,7 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerAddressAsync(string address)
-        {
-            var a = await this._db.Shipments.Include(x => x.Status)
-                .Include(x => x.Parcels).Select(x =>  new { }).ToListAsync();
-
+        {            
             var shipments = await this._db.Shipments.Include(x => x.Status)
                 .Include(x => x.Parcels.Where(y => y.Customer.Address.StreetName.Contains(address))).ToListAsync();
 
