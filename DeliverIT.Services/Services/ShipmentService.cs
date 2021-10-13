@@ -55,6 +55,12 @@ namespace DeliverIT.Services.Services
 
             if (deleteShipment == null)
             {
+                if (await IsInvalidShipment(obj.ArrivalDate, obj.DepartureDate,
+                obj.OriginWareHouseId, obj.DestinationWareHouseId, obj.StatusId))
+                {
+                    throw new AppException(Constants.INCORRECT_DATA); //ToDo: Add better exception message
+                }
+            
                 await _db.Shipments.AddAsync(newShipment);
                 await _db.SaveChangesAsync();
                 newShipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels)
@@ -85,8 +91,14 @@ namespace DeliverIT.Services.Services
                 throw new AppException(Constants.INCORRECT_DATA);
             }
 
-            shipment.ArrivalDate = obj.ArrivalDate;
-            shipment.DepartureDate = obj.DepartureDate;
+            if (await IsInvalidShipment(obj.ArrivalDate, obj.DepartureDate,
+                obj.OriginWareHouseId, obj.DestinationWareHouseId, obj.StatusId))
+            {
+                throw new AppException(Constants.INCORRECT_DATA); //ToDo: Add better exception message
+            }
+
+            shipment.ArrivalDate = DateTime.Parse(obj.ArrivalDate).Date;
+            shipment.DepartureDate = DateTime.Parse(obj.DepartureDate).Date;
             shipment.DestinationWareHouseId = obj.DestinationWareHouseId;
             shipment.StatusId = obj.StatusId;
 
@@ -158,6 +170,17 @@ namespace DeliverIT.Services.Services
         {
             return await this._db.Shipments.Include(x => x.Status)
                 .Include(x => x.Parcels).Where(x => x.StatusId == id).Select(x => x.GetDTO()).ToListAsync();            
+        }
+
+        private async Task<bool> IsInvalidShipment(string аrrivalDate, string departureDate,
+            int originWarehouseId, int destWarehouseId, int statusId)
+        {
+            bool isValidArrivalDate = DateTime.TryParse(аrrivalDate, out var a);
+            bool isValidDepartureDate = DateTime.TryParse(departureDate, out var b);
+            bool isValidOriginW = await _db.WareHouses.AnyAsync(x => x.Id == originWarehouseId);
+            bool isValidDestW = await _db.WareHouses.AnyAsync(x => x.Id == destWarehouseId);
+            bool isValidStatus = await _db.Statuses.AnyAsync(x => x.Id == statusId);
+            return !(isValidArrivalDate && isValidDepartureDate && isValidOriginW && isValidDestW && isValidStatus);
         }
     }
 }

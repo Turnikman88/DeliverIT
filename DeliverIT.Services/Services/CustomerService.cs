@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
@@ -73,6 +74,11 @@ namespace DeliverIT.Services.Services
                                                      .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
             if (deletedCustomer == null)
             {
+                if (await IsInvalidCustomer(obj.AddressId, obj.FirstName, obj.LastName, obj.Email, obj.Password))
+                {
+                    throw new AppException(Constants.INCORRECT_DATA);
+                }
+
                 await _db.Customers.AddAsync(newCustomer);
                 await this._db.SaveChangesAsync();
 
@@ -95,14 +101,15 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
-            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
+            _ = await _db.Customers.Where(x => x.Id != id).FirstOrDefaultAsync(x => x.Email == obj.Email)
+                != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
 
             var model = await _db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
 
-            if (obj.FirstName == null || obj.LastName == null || obj.AddressId <= 0)
+            if(await IsInvalidCustomer(obj.AddressId, obj.FirstName, obj.LastName, obj.Email, obj.Password))
             {
-                throw new AppException(Constants.CUSTOMER_NOT_FOUND);
+                throw new AppException(Constants.INCORRECT_DATA);
             }
 
             model.FirstName = obj.FirstName;
@@ -132,6 +139,14 @@ namespace DeliverIT.Services.Services
         {
             return CustomerDTOMapperExtension.GetDTO(await _db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id))
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
+        }
+
+        private async Task<bool> IsInvalidCustomer(int addressId, string fName, string lName, string email, string pass)
+        {
+            var address = await _db.Addresses.AnyAsync(x => x.Id == addressId);
+            var validEmail = Regex.IsMatch(email, @"[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+");
+            var validPass = pass.Length >= 8 ? true : false;
+            return !(address && !string.IsNullOrEmpty(fName) && !string.IsNullOrEmpty(lName) && validEmail && validPass);
         }
     }
 }

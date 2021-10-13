@@ -22,8 +22,8 @@ namespace DeliverIT.Services.DTOMappers
             return new ShipmentDTO
             {
                 Id = shipment.Id,
-                ArrivalDate = shipment.ArrivalDate,
-                DepartureDate = shipment.DepartureDate,
+                ArrivalDate = shipment.ArrivalDate.ToShortDateString(),
+                DepartureDate = shipment.DepartureDate.Date.ToShortDateString(),
                 OriginWareHouseId = shipment.OriginWareHouseId,
                 DestinationWareHouseId = shipment.DestinationWareHouseId,
                 StatusId = shipment.StatusId,
@@ -34,7 +34,7 @@ namespace DeliverIT.Services.DTOMappers
 
         public static Shipment GetEntity(this ShipmentDTO shipment)
         {
-            if (shipment is null || shipment.ArrivalDate == null || shipment.DepartureDate == null
+            if (shipment is null || !DateTime.TryParse(shipment.ArrivalDate, out var a) || !DateTime.TryParse(shipment.DepartureDate, out var b)
                 || shipment.OriginWareHouseId <= 0 || shipment.DestinationWareHouseId <= 0
                 || shipment.StatusId <= 0)
             {
@@ -44,8 +44,9 @@ namespace DeliverIT.Services.DTOMappers
             return new Shipment
             {
                 Id = shipment.Id,
-                ArrivalDate = shipment.ArrivalDate,
-                DepartureDate = shipment.DepartureDate,
+
+                ArrivalDate = DateTime.Parse(shipment.ArrivalDate),
+                DepartureDate = DateTime.Parse(shipment.DepartureDate),
                 OriginWareHouseId = shipment.OriginWareHouseId,
                 DestinationWareHouseId = shipment.DestinationWareHouseId,
                 StatusId = shipment.StatusId

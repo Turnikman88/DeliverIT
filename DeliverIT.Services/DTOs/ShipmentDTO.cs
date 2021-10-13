@@ -7,8 +7,8 @@ namespace DeliverIT.Services.DTOs
     public class ShipmentDTO
     {
         public int Id { get; set; }
-        public DateTime DepartureDate { get; set; }
-        public DateTime ArrivalDate { get; set; }
+        public string DepartureDate { get; set; }
+        public string ArrivalDate { get; set; }
         public int OriginWareHouseId { get; set; }
         public int DestinationWareHouseId { get; set; }
         public int StatusId { get; set; }

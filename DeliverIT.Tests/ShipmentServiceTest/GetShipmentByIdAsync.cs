@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Models;
+using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -10,12 +11,12 @@ using System.Threading.Tasks;
 namespace DeliverIT.Tests.ShipmentServiceTest
 {
     [TestClass]
-    public class FilterByOriginWareHouseAsync
+    public class GetShipmentByIdAsync
     {
         [TestMethod]
-        public async Task Success_When_FilterByOriginWareHouseAsync()
+        public async Task Success_When_GetShipmentByIdAsync()
         {
-            var options = Utils.GetOptions(nameof(Success_When_FilterByOriginWareHouseAsync));
+            var options = Utils.GetOptions(nameof(Success_When_GetShipmentByIdAsync));
 
             var shipments = Utils.GetShipments();
 
@@ -33,20 +34,17 @@ namespace DeliverIT.Tests.ShipmentServiceTest
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new ShipmentService(actContext);
-                var result = await sut.FilterByOriginWareHouseAsync(1);
+                var result = await sut.GetShipmentByIdAsync(1);
 
-                Assert.AreEqual(2, result.Count());
-
-                result = await sut.FilterByOriginWareHouseAsync(100);
-
-                Assert.AreEqual(0, result.Count());
+                Assert.IsNotNull(result);
+                Assert.AreEqual(1, result.Id);
             }
         }
 
         [TestMethod]
-        public async Task Success_When_FilterByDestinationWareHouseAsync()
+        public async Task Throws_When_GetShipmentByWrongIdAsync()
         {
-            var options = Utils.GetOptions(nameof(Success_When_FilterByDestinationWareHouseAsync));
+            var options = Utils.GetOptions(nameof(Throws_When_GetShipmentByWrongIdAsync));
 
             var shipments = Utils.GetShipments();
 
@@ -64,13 +62,8 @@ namespace DeliverIT.Tests.ShipmentServiceTest
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new ShipmentService(actContext);
-                var result = await sut.FilterByDestinationWareHouseAsync(2);
 
-                Assert.AreEqual(2, result.Count());
-
-                result = await sut.FilterByDestinationWareHouseAsync(100);
-
-                Assert.AreEqual(0, result.Count());
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.GetShipmentByIdAsync(100));
             }
         }
     }

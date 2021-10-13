@@ -55,6 +55,7 @@ namespace DeliverIT.Services.Services
                 && x.Weight == newParcel.Weight 
                 && x.DeliverToAddress == newParcel.DeliverToAddress
                 && x.IsDeleted == true);
+
             if (deleteParcel == null)
             {
                 if (await IsInvalidParcel(obj.CustomerId, obj.ShipmentId, obj.WareHouseId, obj.CategoryId))
@@ -74,6 +75,7 @@ namespace DeliverIT.Services.Services
                 await this._db.SaveChangesAsync();
                 result = deleteParcel.GetDTO();
             }
+
             return result;
         }
 
