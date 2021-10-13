@@ -1,12 +1,10 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
-using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -17,8 +15,8 @@ namespace DeliverIT.API.Controllers
     public class HomeController : ControllerBase
     {
         private readonly ICustomerService _cs;
-        private readonly IAppAuthenticationService _auth;
-        public HomeController(ICustomerService cs, IAppAuthenticationService auth)
+        private readonly IFindUserService _auth;
+        public HomeController(ICustomerService cs, IFindUserService auth)
         {
             this._cs = cs;
             this._auth = auth;

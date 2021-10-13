@@ -37,8 +37,8 @@ namespace DeliverIT.Services.Services
         public async Task<IEnumerable<CustomerDTO>> GetAsync()
         {
             return await _db.Customers.Include(x => x.Address)
-                .Select(x => x.GetDTO())
-                .ToListAsync();
+                                      .Select(x => x.GetDTO())
+                                      .ToListAsync();
         }
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomerByNameAsync(string name)
@@ -67,19 +67,19 @@ namespace DeliverIT.Services.Services
             var newCustomer = obj.GetEntity();
 
             var deletedCustomer = await _db.Customers.Include(x => x.Parcels)
-                .ThenInclude(x => x.Category)
-                .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
-                .Include(x => x.Address).IgnoreQueryFilters()
-                .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
+                                                     .ThenInclude(x => x.Category)
+                                                     .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                                                     .Include(x => x.Address).IgnoreQueryFilters()
+                                                     .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
             if (deletedCustomer == null)
             {
                 await _db.Customers.AddAsync(newCustomer);
                 await this._db.SaveChangesAsync();
 
                 newCustomer = await this._db.Customers.Include(x => x.Parcels)
-                .ThenInclude(x => x.Category)
-                .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
-                .Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
+                                                      .ThenInclude(x => x.Category)
+                                                      .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                                                      .Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
                 result = newCustomer.GetDTO();
             }
             else
@@ -95,7 +95,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
-            // _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
+            _ = await _db.Customers.FirstOrDefaultAsync(x => x.Email == obj.Email) != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
 
             var model = await _db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
@@ -123,7 +123,9 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<CustomerDTO>> GetCustomersByEmailAsync(string part)
         {
-            return await _db.Customers.Where(x => x.Email.Contains(part)).Include(c => c.Address).Select(x => x.GetDTO()).ToListAsync();
+            return await _db.Customers.Where(x => x.Email.Contains(part))
+                                      .Include(c => c.Address)
+                                      .Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<CustomerDTO> GetCustomerByIDAsync(int id)

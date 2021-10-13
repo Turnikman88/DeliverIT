@@ -4,10 +4,6 @@ using DeliverIT.Services.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeliverIT.API.Extensions
 {
@@ -24,7 +20,7 @@ namespace DeliverIT.API.Extensions
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IParcelService, ParcelService>();
-            services.AddScoped<IAppAuthenticationService, AuthenticationService>();
+            services.AddScoped<IFindUserService, FindUserService>();
 
             return services;
         }
