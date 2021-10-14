@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace DeliverIT.Services.Helpers
 {
-    public class AppException : Exception
+    public class AppException : ApplicationException
     {
         public AppException() : base() { }
 

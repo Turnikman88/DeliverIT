@@ -1,8 +1,9 @@
-﻿using DeliverIT.Services.Contracts;
+﻿using DeliverIT.API.Attributes;
+using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -25,18 +26,10 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        [Authorize(Roles = Constants.ROLE_USER)]
-        public async Task<ActionResult<ParcelDTO>> ListCustomerIncomingParcelsAsync()
+        [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
+        public async Task<ActionResult<ParcelDTO>> ListCustomerIncomingParcelsAsync([BindRequired] int customerId)
         {
-            var role = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
-            var userId = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-
-            if (role == Constants.ROLE_USER)
-            {
-                return this.Ok(await _ps.ListCustomerIncomingParcelsAsync(int.Parse(userId))); 
-            }
-
-            return this.Unauthorized(Constants.NOT_LOGGED);
+            return this.Ok(await _ps.ListCustomerIncomingParcelsAsync(customerId)); 
         }
 
         [HttpGet("{id}")]
@@ -94,58 +87,34 @@ namespace DeliverIT.API.Controllers
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync(int customerId)
         {
-            var role = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
-            var userId = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-
-            if (role == Constants.ROLE_EMPLOYEE)
-            { 
-                return this.Ok(await _ps.FilterByCustomerIdAsync(customerId));                
-            }
-            else if (role == Constants.ROLE_USER)
-            {
-                if (customerId == int.Parse(userId))
-                {
-                    return this.Ok(await _ps.FilterByCustomerIdAsync(customerId));
-                }
-
-                return this.Unauthorized(Constants.WRONG_ID);
-            }
-
-            return this.Unauthorized(Constants.NOT_LOGGED);
+            return this.Ok(await _ps.FilterByCustomerIdAsync(customerId));                
         }
 
-        [HttpGet("filter/statuses/{customerId}")]
+        [HttpGet("filter/customer")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        [Authorize(Roles = Constants.ROLE_USER)]
-        public async Task<ActionResult<IEnumerable<string>>> GetShipmentStatusAsync(int customerId)
+        [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
+        public async Task<ActionResult<IEnumerable<ParcelDTO>>> UserFilterByCustomerIdAsync([BindRequired] int customerId)
         {
-            var userId = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-
-            if (customerId == int.Parse(userId))
-            {
-                return this.Ok(await _ps.GetShipmentStatusAsync(customerId));
-            }
-
-            return this.Unauthorized(Constants.NOT_LOGGED);
+            return this.Ok(await _ps.FilterByCustomerIdAsync(customerId));
+        }
+        [HttpGet("filter/statuses")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
+        public async Task<ActionResult<IEnumerable<string>>> GetShipmentStatusAsync([BindRequired] int customerId)
+        {
+            return this.Ok(await _ps.GetShipmentStatusAsync(customerId));
         }
 
-        [HttpPut("deliveraddress/{customerId}")]
+        [HttpPut("deliveraddress")]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
         [ProducesResponseType(401)]
-        [Authorize(Roles = Constants.ROLE_USER)]
-        public async Task<ActionResult<IEnumerable<string
-            >>> ChangeDeliverLocationAsync(int customerId)
-        {
-            var userId = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-
-            if (customerId == int.Parse(userId))
-            {
-                return this.Ok(await _ps.ChangeDeliverLocationAsync(customerId));
-            }
-
-            return this.Unauthorized(Constants.NOT_LOGGED);
+        [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
+        public async Task<ActionResult<IEnumerable<string>>> ChangeDeliverLocationAsync([BindRequired] int customerId)
+        {            
+            return this.Ok(await _ps.ChangeDeliverLocationAsync(customerId));
         }
 
         [HttpGet("filter")]

@@ -1,6 +1,7 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +19,15 @@ namespace DeliverIT.Services.Services
 
         public async Task<UserDTO> FindUs(string authorization)
         {
+            if (!authorization.Contains(" "))
+            {
+                throw new AppException(Constants.WRONG_CREDENTIALS);
+            }
             var splitted = authorization.Split();
             var email = splitted[0];
             var password = splitted[1];
 
             return await _db.AppUserRoles
-                            .IgnoreQueryFilters()
                             .Include(x => x.AppUser)
                             .Include(x => x.AppRole)
                             .Where(x => x.AppUser.Email == email && x.AppUser.Password == password)

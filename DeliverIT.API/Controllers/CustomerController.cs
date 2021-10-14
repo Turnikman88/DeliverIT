@@ -1,8 +1,9 @@
-﻿using DeliverIT.Services.Contracts;
+﻿using DeliverIT.API.Attributes;
+using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -83,27 +84,20 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
-        [Authorize(Roles = Constants.ROLE_USER)]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]        
         public async Task<ActionResult<CustomerDTO>> DeleteCustomerAsync(int id) 
         {
-            var role = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
-            var userId = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            return this.Ok(await this._cs.DeleteAsync(id));                      
+        }
 
-            if (role == Constants.ROLE_EMPLOYEE)
-            {
-                return this.Ok(await this._cs.DeleteAsync(id));
-            }
-            else if (role == Constants.ROLE_USER)
-            {
-                if (id == int.Parse(userId))
-                {
-                    return this.Ok(await this._cs.DeleteAsync(id));
-                }
-                return this.Unauthorized(Constants.NOT_LOGGED);
-            }
-
-            return this.Unauthorized(Constants.NOT_LOGGED);
+        [HttpDelete("deleteprofile")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
+        public async Task<ActionResult<CustomerDTO>> DeleteCustomerProfileAsync([BindRequired] int customerId)
+        {
+            return this.Ok(await this._cs.DeleteAsync(customerId));
         }
 
         [HttpGet("multi/{name}/orderby/{param}")]

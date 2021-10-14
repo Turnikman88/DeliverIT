@@ -2,11 +2,14 @@
 {
     public static class Constants
     {
+        public const string HEADER_AUTH_KEY = "Authorization";
+
         public const string ROLE_EMPLOYEE = "Admin";
         public const string ROLE_USER = "User";
 
-        public const string NOT_EMPLOYEE = "You are not an employee!";
         public const string NOT_LOGGED = "You are not logged!";
+        public const string NOT_AUTHORIZED = "You are not authorized!";
+        public const string WRONG_CREDENTIALS = "Wrong credentials!";
 
         public const string LOGGED = "You logged successfully!";
         public const string ACCOUNT_NOT_FOUND = "Account not found!";

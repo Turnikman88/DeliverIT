@@ -1,7 +1,7 @@
-﻿using DeliverIT.Services.Contracts;
+﻿using DeliverIT.API.Attributes;
+using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

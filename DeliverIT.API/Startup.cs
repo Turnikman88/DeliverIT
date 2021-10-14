@@ -32,21 +32,7 @@ namespace DeliverIT.API
 
             services.AddApplicationServices(Configuration);
 
-            services.AddSwaggerGen();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(o =>
-            {
-                o.Events.OnRedirectToLogin = context =>
-                 {
-                     context.Response.Headers["Location"] = context.RedirectUri;
-                     context.Response.StatusCode = 401;
-                     return Task.CompletedTask;
-                 };
-                o.Cookie.Name = "auth_cookie";
-                o.SlidingExpiration = true;
-                o.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-            });
+            services.AddSwaggerGen();                        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,14 +47,7 @@ namespace DeliverIT.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
-            var cookiePolicyOptions = new CookiePolicyOptions
-            {
-                MinimumSameSitePolicy = SameSiteMode.Strict
-            };
-
-            app.UseCookiePolicy(cookiePolicyOptions);
+            }         
 
             app.UseHttpsRedirection();
 
@@ -77,7 +56,7 @@ namespace DeliverIT.API
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
