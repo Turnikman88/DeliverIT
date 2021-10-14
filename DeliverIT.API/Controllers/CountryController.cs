@@ -1,4 +1,5 @@
-﻿using DeliverIT.Services.Contracts;
+﻿using DeliverIT.API.Attributes;
+using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,8 @@ namespace DeliverIT.API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(401)]
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        //[Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [JoroAuth]
         public async Task<ActionResult<IEnumerable<CountryDTO>>> GetCountriesAsync()
         {
             return this.Ok(await _cs.GetAsync());
