@@ -5,8 +5,6 @@ using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -29,7 +27,7 @@ namespace DeliverIT.API.Controllers
         [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
         public async Task<ActionResult<ParcelDTO>> ListCustomerIncomingParcelsAsync([BindRequired] int customerId)
         {
-            return this.Ok(await _ps.ListCustomerIncomingParcelsAsync(customerId)); 
+            return this.Ok(await _ps.ListCustomerIncomingParcelsAsync(customerId));
         }
 
         [HttpGet("{id}")]
@@ -47,7 +45,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> GetParcelsAsync()
-        {           
+        {
             return this.Ok(await _ps.GetAsync());
         }
 
@@ -87,7 +85,7 @@ namespace DeliverIT.API.Controllers
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> FilterByCustomerIdAsync(int customerId)
         {
-            return this.Ok(await _ps.FilterByCustomerIdAsync(customerId));                
+            return this.Ok(await _ps.FilterByCustomerIdAsync(customerId));
         }
 
         [HttpGet("filter/customer")]
@@ -113,7 +111,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_USER, QueryId = "customerId")]
         public async Task<ActionResult<IEnumerable<string>>> ChangeDeliverLocationAsync([BindRequired] int customerId)
-        {            
+        {
             return this.Ok(await _ps.ChangeDeliverLocationAsync(customerId));
         }
 
@@ -123,7 +121,7 @@ namespace DeliverIT.API.Controllers
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<ParcelDTO>>> MultiFilterAsync(int? id, int? customerId,
             int? shipmentId, int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
-        {            
+        {
             return this.Ok(await _ps.MultiFilterAsync(id, customerId, shipmentId, warehouseId, categoryId, categoryName, minWeight, maxWeight));
         }
 

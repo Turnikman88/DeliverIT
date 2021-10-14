@@ -24,7 +24,7 @@ namespace DeliverIT.Services.Services
         public async Task<ShipmentDTO> DeleteAsync(int id)
         {
             var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id)
-                ??throw new AppException(Constants.SHIPMENT_NOT_FOUND);
+                ?? throw new AppException(Constants.SHIPMENT_NOT_FOUND);
 
             var shipmentDTO = shipment.GetDTO();
 
@@ -60,7 +60,7 @@ namespace DeliverIT.Services.Services
                 {
                     throw new AppException(Constants.INCORRECT_DATA); //ToDo: Add better exception message
                 }
-            
+
                 await _db.Shipments.AddAsync(newShipment);
                 await _db.SaveChangesAsync();
                 newShipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels)
@@ -110,7 +110,7 @@ namespace DeliverIT.Services.Services
         public async Task<ShipmentDTO> GetShipmentByIdAsync(int id)
         {
             var shipment = await _db.Shipments.Include(x => x.Status).Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id)
-                ?? throw new AppException(Constants.SHIPMENT_NOT_FOUND); 
+                ?? throw new AppException(Constants.SHIPMENT_NOT_FOUND);
 
             return shipment.GetDTO();
         }
@@ -131,7 +131,7 @@ namespace DeliverIT.Services.Services
         {
             var shipments = await this._db.Shipments.Include(x => x.Status).Include(x => x.Parcels.Where(y => y.CustomerId == id)).ToListAsync();
             var result = shipments.Where(x => x.Parcels.Count > 0).Select(x => x.GetDTO()).ToList();
-               
+
             return result;
         }
 
@@ -147,7 +147,7 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerEmailAsync(string email)
-        {            
+        {
             var shipments = await this._db.Shipments.Include(x => x.Status)
                 .Include(x => x.Parcels.Where(y => y.Customer.Email.Contains(email))).ToListAsync();
 
@@ -157,7 +157,7 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<IEnumerable<ShipmentDTO>> FilterByCustomerAddressAsync(string address)
-        {            
+        {
             var shipments = await this._db.Shipments.Include(x => x.Status)
                 .Include(x => x.Parcels.Where(y => y.Customer.Address.StreetName.Contains(address))).ToListAsync();
 
@@ -169,7 +169,7 @@ namespace DeliverIT.Services.Services
         public async Task<IEnumerable<ShipmentDTO>> FilterByStatusIdAsync(int id)
         {
             return await this._db.Shipments.Include(x => x.Status)
-                .Include(x => x.Parcels).Where(x => x.StatusId == id).Select(x => x.GetDTO()).ToListAsync();            
+                .Include(x => x.Parcels).Where(x => x.StatusId == id).Select(x => x.GetDTO()).ToListAsync();
         }
 
         private async Task<bool> IsInvalidShipment(string аrrivalDate, string departureDate,

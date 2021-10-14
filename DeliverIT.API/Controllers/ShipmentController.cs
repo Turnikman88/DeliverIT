@@ -3,9 +3,7 @@ using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -27,7 +25,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<ShipmentDTO>> GetShipmentByIdAsync(int id)
-        {            
+        {
             return this.Ok(await _ss.GetShipmentByIdAsync(id));
         }
         [HttpGet]

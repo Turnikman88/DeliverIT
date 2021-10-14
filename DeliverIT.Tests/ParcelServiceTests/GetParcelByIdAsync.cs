@@ -2,9 +2,6 @@
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.ParcelServiceTests
@@ -31,7 +28,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
             {
                 var sut = new ParcelService(actContext);
                 var result = await sut.GetParcelByIdAsync(1);
-                                
+
                 Assert.AreEqual(1, result.Id);
             }
         }

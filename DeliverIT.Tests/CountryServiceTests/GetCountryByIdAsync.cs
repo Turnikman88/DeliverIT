@@ -2,10 +2,7 @@
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.CountryServiceTests
@@ -51,7 +48,7 @@ namespace DeliverIT.Tests.CountryServiceTests
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CountryService(actContext);
-                await Assert.ThrowsExceptionAsync<AppException> (async () => await sut.GetCountryByIdAsync(100));
+                await Assert.ThrowsExceptionAsync<AppException>(async () => await sut.GetCountryByIdAsync(100));
 
             }
         }

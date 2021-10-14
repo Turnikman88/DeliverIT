@@ -1,5 +1,4 @@
-﻿using DeliverIT.Models.DatabaseModels;
-using DeliverIT.Services.DTOs;
+﻿using DeliverIT.Services.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

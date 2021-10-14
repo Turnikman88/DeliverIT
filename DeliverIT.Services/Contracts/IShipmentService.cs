@@ -1,8 +1,5 @@
-﻿using DeliverIT.Models.DatabaseModels;
-using DeliverIT.Services.DTOs;
-using System;
+﻿using DeliverIT.Services.DTOs;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Contracts

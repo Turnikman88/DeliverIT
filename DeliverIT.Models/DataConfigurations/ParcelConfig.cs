@@ -26,7 +26,7 @@ namespace DeliverIT.Models.DataConfigurations
 
             builder.HasOne(d => d.WareHouse)
                 .WithMany(p => p.Parcels)
-                .HasForeignKey(d => d.WareHouseId)                
+                .HasForeignKey(d => d.WareHouseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(d => d.Shipment)

@@ -2,10 +2,7 @@
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.CountryServiceTests
@@ -46,7 +43,7 @@ namespace DeliverIT.Tests.CountryServiceTests
             {
                 await arrangeContext.Countries.AddRangeAsync(countries);
                 await arrangeContext.SaveChangesAsync();
-            } 
+            }
 
             using (var actContext = new DeliverITDBContext(options))
             {

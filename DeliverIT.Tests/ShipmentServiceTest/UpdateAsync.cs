@@ -1,13 +1,10 @@
 ﻿using DeliverIT.Models;
-using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.ShipmentServiceTest
@@ -29,7 +26,7 @@ namespace DeliverIT.Tests.ShipmentServiceTest
             var warehouses = Utils.GetWareHouses();
 
             var dto = new ShipmentDTO
-            {                
+            {
                 DepartureDate = DateTime.Today.AddDays(5).ToString(),
                 ArrivalDate = DateTime.Today.AddDays(10).ToString(),
                 OriginWareHouseId = 1,

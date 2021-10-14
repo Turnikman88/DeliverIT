@@ -18,7 +18,7 @@ namespace DeliverIT.Tests.CityServiceTests
             var country = Utils.GetCountries();
             var address = Utils.GetAddresses();
 
-            using (var arrangeContext = new DeliverITDBContext (options))
+            using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Cities.AddRangeAsync(cities);
                 await arrangeContext.Countries.AddRangeAsync(country);

@@ -25,7 +25,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitiesAsync()
-        {         
+        {
             return this.Ok(await _cs.GetAsync());
         }
 
@@ -35,7 +35,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<City>> GetCityByIdAsync(int id)
-        {            
+        {
             return this.Ok(await _cs.GetCityByIdAsync(id));
         }
 

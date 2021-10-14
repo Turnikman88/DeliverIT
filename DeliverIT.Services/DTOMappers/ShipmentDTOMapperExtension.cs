@@ -2,9 +2,7 @@
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DeliverIT.Services.DTOMappers
 {
@@ -30,7 +28,7 @@ namespace DeliverIT.Services.DTOMappers
                 Status = shipment.Status.Name,
                 Parcels = shipment.Parcels.Select(x => $"Id: {x.Id}").ToList()
             };
-        }        
+        }
 
         public static Shipment GetEntity(this ShipmentDTO shipment)
         {

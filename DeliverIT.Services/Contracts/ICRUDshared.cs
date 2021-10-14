@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Contracts
 {
-    
+
     public interface ICRUDshared<T> where T : class
     {
         Task<IEnumerable<T>> GetAsync();

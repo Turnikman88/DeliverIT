@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
@@ -28,7 +27,7 @@ namespace DeliverIT.Services.Services
         public async Task<ParcelDTO> DeleteAsync(int id)
         {
             var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
-                ?? throw new AppException(Constants.PARCEL_NOT_FOUND); 
+                ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
 
             var parcelDTO = parcel.GetDTO();
 
@@ -44,7 +43,7 @@ namespace DeliverIT.Services.Services
         }
 
         public async Task<ParcelDTO> PostAsync(ParcelDTO obj)
-        {            
+        {
             ParcelDTO result = null;
             var newParcel = obj.GetEntity();
             var deleteParcel = await this._db.Parcels.IgnoreQueryFilters().Include(x => x.Category)
@@ -52,7 +51,7 @@ namespace DeliverIT.Services.Services
                 && x.ShipmentId == newParcel.ShipmentId
                 && x.WareHouseId == newParcel.WareHouseId
                 && x.CategoryId == newParcel.CategoryId
-                && x.Weight == newParcel.Weight 
+                && x.Weight == newParcel.Weight
                 && x.DeliverToAddress == newParcel.DeliverToAddress
                 && x.IsDeleted == true);
 
@@ -173,12 +172,12 @@ namespace DeliverIT.Services.Services
             if (maxWeight.HasValue)
             {
                 result = result.Where(x => x.Weight <= maxWeight);
-            }          
-            
+            }
+
             return await result.Select(x => x.GetDTO()).ToListAsync();
         }
-        
-        public async Task<IEnumerable<string>> GetShipmentStatusAsync(int customerId) 
+
+        public async Task<IEnumerable<string>> GetShipmentStatusAsync(int customerId)
         {
             return await this._db.Parcels.Where(x => x.CustomerId == customerId)
                 .Select(x => $"Id: {x.Id}, {x.Shipment.Status.Name}").ToListAsync();
@@ -187,7 +186,7 @@ namespace DeliverIT.Services.Services
         public async Task<ParcelDTO> ChangeDeliverLocationAsync(int id)
         {
             var parcel = await _db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id)
-                ?? throw new AppException(Constants.PARCEL_NOT_FOUND); 
+                ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
 
             if (parcel.Shipment.StatusId == 3)
             {

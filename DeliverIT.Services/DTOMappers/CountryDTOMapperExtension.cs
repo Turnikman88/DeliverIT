@@ -17,7 +17,7 @@ namespace DeliverIT.Services.DTOMappers
             {
                 Id = country.Id,
                 Name = country.Name,
-                Cities = country.Cities.Select(c=>c.Name).ToList()
+                Cities = country.Cities.Select(c => c.Name).ToList()
             };
         }
 

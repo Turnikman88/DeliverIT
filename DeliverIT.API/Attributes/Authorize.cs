@@ -1,22 +1,16 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.Helpers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Attributes
 {
     public class Authorize : ActionFilterAttribute, IAuthorizationFilter
-    {        
+    {
         public string Roles { get; set; }
         public string QueryId { get; set; }
         public void OnAuthorization(AuthorizationFilterContext context)
-        {            
+        {
             if (context.HttpContext.Request.Headers.ContainsKey(Constants.HEADER_AUTH_KEY))
             {
                 var credentials = context.HttpContext.Request.Headers[Constants.HEADER_AUTH_KEY].ToString();

@@ -1,11 +1,7 @@
 ﻿using DeliverIT.Models;
-using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.ParcelServiceTests
@@ -19,7 +15,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
             var options = Utils.GetOptions(nameof(Success_When_GetShipmentStatusAsync));
 
             var parcels = Utils.GetParcels();
-           
+
             var statuses = Utils.GetStatuses();
             var customers = Utils.GetCustomers();
             var shipments = Utils.GetShipments();

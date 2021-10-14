@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DeliverIT.Services.DTOs
 {
@@ -9,7 +7,7 @@ namespace DeliverIT.Services.DTOs
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int ShipmentId { get; set; }
-        public int? WareHouseId { get; set; } 
+        public int? WareHouseId { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public double Weight { get; set; }

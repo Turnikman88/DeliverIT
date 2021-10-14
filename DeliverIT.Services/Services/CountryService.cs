@@ -18,11 +18,11 @@ namespace DeliverIT.Services.Services
         {
             this._db = db;
         }
-        
+
         public async Task<CountryDTO> GetCountryByIdAsync(int id)
         {
             return CountryDTOMapperExtension.GetDTO(await _db.Countries
-                .Where(x => x.Id == id).Include(c=>c.Cities).FirstOrDefaultAsync()) ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
+                .Where(x => x.Id == id).Include(c => c.Cities).FirstOrDefaultAsync()) ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
         }
 
         public async Task<CountryDTO> GetCountryByNameAsync(string name)
@@ -43,7 +43,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CountryDTO> PostAsync(CountryDTO obj)
         {
-            _ = await _db.Countries.FirstOrDefaultAsync(x => x.Name == obj.Name) != null 
+            _ = await _db.Countries.FirstOrDefaultAsync(x => x.Name == obj.Name) != null
                 ? throw new AppException(Constants.COUNTRY_EXISTS) : 0;
 
             var newCountry = obj.GetEntity();
@@ -62,7 +62,7 @@ namespace DeliverIT.Services.Services
                 await _db.SaveChangesAsync();
                 obj.Id = deletedCountry.Id;
             }
-            
+
             return obj;
         }
 
@@ -75,7 +75,7 @@ namespace DeliverIT.Services.Services
                 throw new AppException(Constants.INCORRECT_DATA);
             }
 
-            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id) 
+            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
 
             model.Name = obj.Name;
@@ -86,7 +86,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CountryDTO> DeleteAsync(int id)
         {
-            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id) 
+            var model = await this._db.Countries.Include(c => c.Cities).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.COUNTRY_NOT_FOUND);
 
             model.DeletedOn = System.DateTime.Now;

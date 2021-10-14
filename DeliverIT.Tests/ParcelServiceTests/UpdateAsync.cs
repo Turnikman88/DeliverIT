@@ -3,10 +3,7 @@ using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.ParcelServiceTests
@@ -102,7 +99,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
 
             var dto = new ParcelDTO
             {
-                CustomerId = 1,                
+                CustomerId = 1,
                 WareHouseId = 1,
                 CategoryId = 1,
                 Weight = 555,

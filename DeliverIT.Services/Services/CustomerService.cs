@@ -107,7 +107,7 @@ namespace DeliverIT.Services.Services
             var model = await _db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
 
-            if(await IsInvalidCustomer(obj.AddressId, obj.FirstName, obj.LastName, obj.Email, obj.Password))
+            if (await IsInvalidCustomer(obj.AddressId, obj.FirstName, obj.LastName, obj.Email, obj.Password))
             {
                 throw new AppException(Constants.INCORRECT_DATA);
             }

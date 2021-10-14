@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DeliverIT.API.Controllers
@@ -44,7 +43,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByOneWordAsync(string parameter)
-        {            
+        {
             var result = await _cs.GetCustomersByEmailAsync(parameter);
 
             if (result is null)
@@ -84,10 +83,10 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]        
-        public async Task<ActionResult<CustomerDTO>> DeleteCustomerAsync(int id) 
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        public async Task<ActionResult<CustomerDTO>> DeleteCustomerAsync(int id)
         {
-            return this.Ok(await this._cs.DeleteAsync(id));                      
+            return this.Ok(await this._cs.DeleteAsync(id));
         }
 
         [HttpDelete("deleteprofile")]

@@ -1,6 +1,4 @@
-﻿using DeliverIT.Models.DatabaseModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DeliverIT.Services.DTOs
 {

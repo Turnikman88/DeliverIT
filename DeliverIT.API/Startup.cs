@@ -1,18 +1,10 @@
 using DeliverIT.API.Extensions;
 using DeliverIT.API.Middleware;
-using DeliverIT.Models;
-using DeliverIT.Services.Contracts;
-using DeliverIT.Services.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading.Tasks;
 
 namespace DeliverIT.API
 {
@@ -32,7 +24,7 @@ namespace DeliverIT.API
 
             services.AddApplicationServices(Configuration);
 
-            services.AddSwaggerGen();                        
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +39,7 @@ namespace DeliverIT.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }         
+            }
 
             app.UseHttpsRedirection();
 

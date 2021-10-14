@@ -3,10 +3,7 @@ using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.ParcelServiceTests
@@ -75,7 +72,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Categories.AddRangeAsync(category);
-                await arrangeContext.Parcels.AddRangeAsync(parcels);           
+                await arrangeContext.Parcels.AddRangeAsync(parcels);
                 await arrangeContext.SaveChangesAsync();
             }
 
@@ -109,7 +106,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
                 Weight = 55,
                 DeliverToAddress = true
             };
-                        
+
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new ParcelService(actContext);

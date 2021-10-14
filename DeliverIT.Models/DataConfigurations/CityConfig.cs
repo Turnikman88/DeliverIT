@@ -11,7 +11,7 @@ namespace DeliverIT.Models.DataConfigurations
         {
             builder.HasIndex(e => e.CountryId, "IX_Cities_CountryId");
             builder.HasIndex(x => new { x.Name, x.CountryId }).IsUnique();
-            
+
             builder.Property(x => x.Name).IsRequired();
 
             builder.HasOne(d => d.Country)

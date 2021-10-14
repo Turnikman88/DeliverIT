@@ -44,7 +44,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> UpdateCountryAsync(int id, CountryDTO obj)
-        {           
+        {
             return this.Ok(await this._cs.UpdateAsync(id, obj));
         }
 
@@ -74,7 +74,7 @@ namespace DeliverIT.API.Controllers
         [ProducesResponseType(401)]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<CountryDTO>> GetCountryByNameAsync(string name)
-        {            
+        {
             return this.Ok(await _cs.GetCountryByNameAsync(name));
         }
 

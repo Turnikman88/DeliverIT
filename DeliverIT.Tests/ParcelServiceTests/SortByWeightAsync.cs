@@ -2,10 +2,7 @@
 using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Tests.ParcelServiceTests
@@ -19,7 +16,8 @@ namespace DeliverIT.Tests.ParcelServiceTests
             var options = Utils.GetOptions(nameof(Success_When_SortByWeightAsync));
 
             var parcels = Utils.GetParcels();
-            parcels.Add(new Parcel {
+            parcels.Add(new Parcel
+            {
                 Id = 2,
                 CustomerId = 1,
                 ShipmentId = 1,
