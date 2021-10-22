@@ -21,6 +21,7 @@ namespace DeliverIT.API.Extensions
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IParcelService, ParcelService>();
             services.AddScoped<IFindUserService, FindUserService>();
+            services.AddScoped<IAddressService, AddressService>();
 
             return services;
         }

@@ -30,6 +30,18 @@
         <input asp-for="Address" class="form-input" />
         <span asp-validation-for="Address" class="form-error"></span>
     </div>
+    <div>
+        <label asp-for="City" class="form-label"></label>
+        <br />
+        <input asp-for="City" class="form-input" />
+        <span asp-validation-for="City" class="form-error"></span>
+    </div>
+    <div>
+        <label asp-for="Country" class="form-label"></label>
+        <br />
+        <input asp-for="Country" class="form-input" />
+        <span asp-validation-for="Country" class="form-error"></span>
+    </div>
     @*<div>
             <label class="form-label">Brewery</label>
             <br />
@@ -37,6 +49,6 @@
             <span asp-validation-for="BreweryId"></span>
         </div>*@
     <div>
-        <input type="submit" value="Register" class="btn-primary" />       
+        <input type="submit" value="Register" class="btn-primary" />
     </div>
 </form>
