@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211007185155_initial")]
+    [Migration("20211024140859_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace DeliverIT.Models.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DeliverIT.Models.DatabaseModels.Address", b =>
@@ -481,8 +481,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalDate = new DateTime(2021, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
@@ -491,8 +491,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalDate = new DateTime(2021, 10, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,

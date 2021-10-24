@@ -1,6 +1,7 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Web.Models;
 using DeliverIT.Web.Models.Mappers;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,14 +33,9 @@ namespace DeliverIT.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LogIn()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Login(UserViewModel user)
         {
-            return await Index();
+            return View();
         }
 
         public async Task<IActionResult> LogOut()
@@ -65,7 +61,7 @@ namespace DeliverIT.Web.Controllers
             model.AddressId = await GetAddressID(model);
             var toCustomer = model.GetDTO();
             await this._cs.PostAsync(toCustomer);
-            return await Login(model);
+            return this.Redirect(nameof(Login));
         }
 
         private async Task<int> GetAddressID(UserViewModel model)
@@ -75,7 +71,9 @@ namespace DeliverIT.Web.Controllers
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error?.Message;
+            var statuscode = HttpContext.Response.StatusCode;
+            return View(new ErrorViewModel {StatusCode = statuscode, Message = exception, ImageLink = $"https://http.cat/{statuscode}" });
         }
     }
 }

@@ -6,7 +6,9 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
-
+.form-error {
+    color: #dc3545;
+}
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;

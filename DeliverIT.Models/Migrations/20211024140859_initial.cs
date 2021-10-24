@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DeliverIT.Models.Migrations
 {
@@ -400,8 +400,8 @@ namespace DeliverIT.Models.Migrations
                 columns: new[] { "Id", "ArrivalDate", "DeletedOn", "DepartureDate", "DestinationWareHouseId", "IsDeleted", "OriginWareHouseId", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 10, 17, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 12, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
-                    { 2, new DateTime(2021, 10, 17, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 12, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
+                    { 1, new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
+                    { 2, new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
                 });
 
             migrationBuilder.InsertData(
