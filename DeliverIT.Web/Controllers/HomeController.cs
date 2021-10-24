@@ -37,11 +37,17 @@ namespace DeliverIT.Web.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Login(UserViewModel user)
+        {
+            return await Index();
+        }
+
         public async Task<IActionResult> LogOut()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             var model = new UserViewModel();
@@ -59,7 +65,7 @@ namespace DeliverIT.Web.Controllers
             model.AddressId = await GetAddressID(model);
             var toCustomer = model.GetDTO();
             await this._cs.PostAsync(toCustomer);
-            return View(model);
+            return await Login(model);
         }
 
         private async Task<int> GetAddressID(UserViewModel model)

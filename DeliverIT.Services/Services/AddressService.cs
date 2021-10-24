@@ -23,16 +23,16 @@ namespace DeliverIT.Services.Services
         {
             var validAddress = await this._db.Addresses
                                          .Include(x=>x.City).ThenInclude(x=>x.Country)
-                                         .FirstOrDefaultAsync(x => x.StreetName.Equals(address, StringComparison.InvariantCultureIgnoreCase) 
-                                         && x.City.Name.Equals(city, StringComparison.InvariantCultureIgnoreCase) 
-                                         && x.City.Country.Name.Equals(country, StringComparison.InvariantCultureIgnoreCase));
+                                         .FirstOrDefaultAsync(x => x.StreetName == address 
+                                         && x.City.Name == city 
+                                         && x.City.Country.Name == country);
 
             if(validAddress is null)
             {
                 Country countryobj = await this._db.Countries
-                                                .FirstOrDefaultAsync(x => x.Name.Equals(country, StringComparison.InvariantCultureIgnoreCase));
+                                                .FirstOrDefaultAsync(x => x.Name == country);
                 City cityobj = await this._db.Cities
-                                                .FirstOrDefaultAsync(x => x.Name.Equals(city, StringComparison.InvariantCultureIgnoreCase));
+                                                .FirstOrDefaultAsync(x => x.Name == city);
                 Address addressobj = null;
 
                 if (countryobj is null)
