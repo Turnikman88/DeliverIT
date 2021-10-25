@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211024140859_initial")]
+    [Migration("20211025185121_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -311,23 +311,72 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 3,
+                            CountryId = 1,
+                            IsDeleted = false,
+                            Name = "Varna"
+                        },
+                        new
+                        {
+                            Id = 4,
                             CountryId = 2,
                             IsDeleted = false,
                             Name = "Istanbul"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
                             CountryId = 3,
                             IsDeleted = false,
-                            Name = "Athenes"
+                            Name = "Athens"
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 6,
+                            CountryId = 3,
+                            IsDeleted = false,
+                            Name = "Thessaloniki"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CountryId = 3,
+                            IsDeleted = false,
+                            Name = "Patras"
+                        },
+                        new
+                        {
+                            Id = 8,
                             CountryId = 4,
                             IsDeleted = false,
                             Name = "Yash"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CountryId = 2,
+                            IsDeleted = false,
+                            Name = "Odrin"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CountryId = 2,
+                            IsDeleted = false,
+                            Name = "Ankara"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CountryId = 4,
+                            IsDeleted = false,
+                            Name = "Bucharest"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CountryId = 4,
+                            IsDeleted = false,
+                            Name = "Craiova"
                         });
                 });
 
@@ -481,8 +530,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalDate = new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
@@ -491,8 +540,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalDate = new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,

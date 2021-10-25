@@ -337,9 +337,16 @@ namespace DeliverIT.Models.Migrations
                 {
                     { 1, 1, null, false, "Sofia" },
                     { 2, 1, null, false, "Plovdiv" },
-                    { 3, 2, null, false, "Istanbul" },
-                    { 4, 3, null, false, "Athenes" },
-                    { 5, 4, null, false, "Yash" }
+                    { 3, 1, null, false, "Varna" },
+                    { 4, 2, null, false, "Istanbul" },
+                    { 9, 2, null, false, "Odrin" },
+                    { 10, 2, null, false, "Ankara" },
+                    { 5, 3, null, false, "Athens" },
+                    { 6, 3, null, false, "Thessaloniki" },
+                    { 7, 3, null, false, "Patras" },
+                    { 8, 4, null, false, "Yash" },
+                    { 11, 4, null, false, "Bucharest" },
+                    { 12, 4, null, false, "Craiova" }
                 });
 
             migrationBuilder.InsertData(
@@ -400,8 +407,8 @@ namespace DeliverIT.Models.Migrations
                 columns: new[] { "Id", "ArrivalDate", "DeletedOn", "DepartureDate", "DestinationWareHouseId", "IsDeleted", "OriginWareHouseId", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
-                    { 2, new DateTime(2021, 11, 3, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 29, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
+                    { 1, new DateTime(2021, 11, 4, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
+                    { 2, new DateTime(2021, 11, 4, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
                 });
 
             migrationBuilder.InsertData(

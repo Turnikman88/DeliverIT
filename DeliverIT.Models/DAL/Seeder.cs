@@ -51,19 +51,61 @@ namespace DeliverIT.Models.DAL
                 new City
                 {
                     Id = 3,
+                    Name = "Varna",
+                    CountryId = 1
+                },
+                new City
+                {
+                    Id = 4,
                     Name = "Istanbul",
                     CountryId = 2
                 },
                 new City
                 {
-                    Id = 4,
-                    Name = "Athenes",
+                    Id = 5,
+                    Name = "Athens",
                     CountryId = 3
                 },
                 new City
                 {
-                    Id = 5,
+                    Id = 6,
+                    Name = "Thessaloniki",
+                    CountryId = 3
+                },
+                new City
+                {
+                    Id = 7,
+                    Name = "Patras",
+                    CountryId = 3
+                },
+                new City
+                {
+                    Id = 8,
                     Name = "Yash",
+                    CountryId = 4
+                },
+                new City
+                {
+                    Id = 9,
+                    Name = "Odrin",
+                    CountryId = 2
+                },
+                new City
+                {
+                    Id = 10,
+                    Name = "Ankara",
+                    CountryId = 2
+                },
+                new City
+                {
+                    Id = 11,
+                    Name = "Bucharest",
+                    CountryId = 4
+                },
+                new City
+                {
+                    Id = 12,
+                    Name = "Craiova",
                     CountryId = 4
                 }
             };
