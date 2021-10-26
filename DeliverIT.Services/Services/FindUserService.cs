@@ -17,6 +17,16 @@ namespace DeliverIT.Services.Services
             this._db = db;
         }
 
+        public async Task<bool> IsExisting(string email)
+        {
+            if (!email.Contains("@"))
+            {
+                throw new AppException(Constants.WRONG_CREDENTIALS);
+            }
+
+            return await _db.Customers.AnyAsync(x => x.Email == email);
+        }
+
         public async Task<UserDTO> FindUs(string authorization)
         {
             if (!authorization.Contains(" "))

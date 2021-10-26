@@ -21,8 +21,15 @@ namespace DeliverIT.Web.Models
         public string Email { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         [MinLength(8, ErrorMessage = "Password lenght must be {1} characters or longer")]
         public string Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
+        [MinLength(8, ErrorMessage = "Password lenght must be {1} characters or longer")]
+        public string ConfirmPassword { get; set; }
 
         [Required]
         [MinLength(5, ErrorMessage = "Address name cannot be that short")]

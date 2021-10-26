@@ -1,4 +1,5 @@
 ﻿@model UserViewModel
+
 <form asp-action="Register">
     <div>
         <label asp-for="FirstName" class="form-label"></label>
@@ -23,6 +24,12 @@
         <br />
         <input asp-for="Password" class="form-input" />
         <span asp-validation-for="Password" class="form-error"></span>
+    </div>
+    <div>
+        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <br />
+        <input asp-for="ConfirmPassword" class="form-input" />
+        <span asp-validation-for="ConfirmPassword" class="form-error"></span>
     </div>
     <div>
         <label asp-for="Address" class="form-label"></label>
@@ -52,6 +59,6 @@
         <input type="submit" value="Register" class="btn-primary" />
     </div>
 </form>
-@section Scripts{ 
-<partial name="_ValidationScriptsPartial" />
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
 }

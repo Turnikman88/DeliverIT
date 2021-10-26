@@ -1,0 +1,22 @@
+﻿@model LoginViewModel
+
+<h2>Login</h2>
+
+<form asp-action="Login">
+    <div>
+        <label asp-for="Email" class="form-label"></label>
+        <br />
+        <input asp-for="Email" class="form-input" />
+        <span asp-validation-for="Email" class="form-error"></span>
+    </div>
+    <div>
+        <label asp-for="Password" class="form-label"></label>
+        <br />
+        <input asp-for="Password" type="password" class="form-input" />
+        <span asp-validation-for="Password" class="form-error"></span>
+    </div>
+    <div>
+        <input type="submit" value="Login" class="btn-primary" />
+        | <a asp-action="Register" class="nav">Register</a>
+    </div>
+</form>

@@ -43,32 +43,6 @@ namespace DeliverIT.Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            var model = new UserViewModel();
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(UserViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
-            }
-
-            model.AddressId = await GetAddressID(model);
-            var toCustomer = model.GetDTO();
-            await this._cs.PostAsync(toCustomer);
-            return this.Redirect(nameof(Login));
-        }
-
-        private async Task<int> GetAddressID(UserViewModel model)
-        {
-            return await _ads.AddressToID(model.Address, model.City, model.Country);
-        }
-
         public IActionResult Error()
         {
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error?.Message;
