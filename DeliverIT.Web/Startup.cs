@@ -26,6 +26,16 @@ namespace DeliverIT.Web
         {
             services.AddControllersWithViews();
             services.AddApplicationServices(Configuration);
+
+            //services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+/*                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;*/
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -48,6 +58,7 @@ namespace DeliverIT.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

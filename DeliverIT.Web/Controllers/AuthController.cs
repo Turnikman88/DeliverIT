@@ -38,8 +38,9 @@ namespace DeliverIT.Web.Controllers
             {
                 return this.View(loginViewModel);
             }
+            var credentials = $"{loginViewModel.Email} {loginViewModel.Password}";
 
-            var user = await this._auth.FindUs($"{loginViewModel.Email} {loginViewModel.Password}");
+            var user = await this._auth.FindUs(credentials);
             if (user is null)
             {
                 this.ModelState.AddModelError("Username", "Invalid input data");
@@ -47,7 +48,7 @@ namespace DeliverIT.Web.Controllers
             }
             else
             {
-                this.HttpContext.Session.SetString("CurrentUser", user.Email);
+                this.HttpContext.Session.SetString("CurrentUser", credentials);
                 return this.RedirectToAction("index", "home");
             }
         }

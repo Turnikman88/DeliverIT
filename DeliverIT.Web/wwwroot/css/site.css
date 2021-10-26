@@ -8,12 +8,15 @@ a.navbar-brand {
 }
 .form-error {
     color: #dc3545;
+    background-color: violet;
 }
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
 }
-
+.main-body{
+    margin-bottom: 200px;
+}
 .btn-primary {
     margin: 12px 6px 12px 0px;
     color: #fff;
