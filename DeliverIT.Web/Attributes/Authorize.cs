@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +15,10 @@ namespace DeliverIT.Web.Attributes
         {
             if (context.HttpContext.Session.Keys.Contains("CurrentUser"))
             {
-                var credentials = context.HttpContext.Items["CurrentUser"].ToString();
+                var credentials = context.HttpContext.Session.GetString("CurrentUser");
                 var authService = context.HttpContext.RequestServices.GetService(typeof(IFindUserService)) as IFindUserService;
                 var user = Task.Run(async () => await authService.FindUs(credentials)).GetAwaiter().GetResult();
-                if (user == null || Roles != user.Role)
+                if (user == null || Roles != user.Role && Roles != null)
                 {
                     throw new UnauthorizedAppException(Constants.NOT_AUTHORIZED);
                 }

@@ -27,14 +27,13 @@ namespace DeliverIT.Web
             services.AddControllersWithViews();
             services.AddApplicationServices(Configuration);
 
-            //services.AddDistributedMemoryCache();
+            services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
             {
-                
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-/*                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;*/
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
         }
 
@@ -56,6 +55,8 @@ namespace DeliverIT.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

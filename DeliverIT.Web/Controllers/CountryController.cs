@@ -1,7 +1,10 @@
 ﻿using DeliverIT.Services.Contracts;
+using DeliverIT.Services.Helpers;
+using DeliverIT.Web.Attributes;
 using DeliverIT.Web.Models;
 using DeliverIT.Web.Models.Mappers;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,14 +23,15 @@ namespace DeliverIT.Web.Controllers
             this._cs = cs;
         }
 
-
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Index()
         {
             if (!this.HttpContext.Session.Keys.Contains("CurrentUser"))
             {
                 return this.RedirectToAction("Login", "Auth");
             }
-            var credentials = HttpContext.Items["CurrentUser"].ToString();
+            
+         //   var credentials = HttpContext.Items["CurrentUser"].ToString();
 
             return View();
         }

@@ -64,6 +64,7 @@ namespace DeliverIT.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            var test = HttpContext.Session.Keys;
             var model = new UserViewModel();
             return View(model);
         }
