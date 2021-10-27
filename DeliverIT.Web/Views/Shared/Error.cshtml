@@ -3,9 +3,21 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="">
+    <div class="render-body">
 
-<h1>@Model.StatusCode</h1>
-<h1>@Model.Message</h1>
-<img src="@Model.ImageLink" alt="Alternate Text" />
+        <div class="container">
+            <div class="row">
+                <div class="header-text caption">
+                    <h1 class="text-danger">Error.</h1>
+                    <h2 class="text-danger">An error occurred while processing your request.</h2>
+
+                    <h1>@Model.StatusCode</h1>
+                    <h1>@Model.Message</h1>
+                    <img src="@Model.ImageLink" alt="Alternate Text" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
