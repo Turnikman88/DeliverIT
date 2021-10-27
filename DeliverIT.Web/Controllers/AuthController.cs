@@ -1,10 +1,10 @@
-﻿using DeliverIT.Web.Models;
+﻿using DeliverIT.Services.Contracts;
+using DeliverIT.Services.Helpers;
+using DeliverIT.Web.Models;
+using DeliverIT.Web.Models.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using DeliverIT.Services.Contracts;
 using System.Threading.Tasks;
-using DeliverIT.Web.Models.Mappers;
-using System.Linq;
 
 namespace DeliverIT.Web.Controllers
 {
@@ -48,7 +48,8 @@ namespace DeliverIT.Web.Controllers
             }
             else
             {
-                this.HttpContext.Session.SetString("CurrentUser", credentials);
+                this.HttpContext.Session.SetString(Constants.SESSION_AUTH_KEY, credentials);
+                this.HttpContext.Session.SetString(Constants.SESSION_ROLE_KEY, user.Role);
                 return this.RedirectToAction("index", "home");
             }
         }
@@ -56,7 +57,7 @@ namespace DeliverIT.Web.Controllers
         //GET: /auth/logout
         public IActionResult Logout()
         {
-            this.HttpContext.Session.Remove("CurrentUser");
+            this.HttpContext.Session.Remove(Constants.SESSION_AUTH_KEY);
 
             return this.RedirectToAction("index", "home");
         }

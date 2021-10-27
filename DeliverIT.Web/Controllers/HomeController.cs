@@ -1,14 +1,9 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Models;
-using DeliverIT.Web.Models.Mappers;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -69,9 +64,9 @@ namespace DeliverIT.Web.Controllers
                         break;
                 }
             }
-            
+
             var statuscode = HttpContext.Response.StatusCode;
-            return View(new ErrorViewModel {StatusCode = statuscode, Message = exception?.Message, ImageLink = $"https://http.cat/{statuscode}" });
+            return View(new ErrorViewModel { StatusCode = statuscode, Message = exception?.Message, ImageLink = $"https://http.cat/{statuscode}" });
         }
     }
 }

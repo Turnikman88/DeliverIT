@@ -2,6 +2,9 @@
 {
     public static class Constants
     {
+        public const string SESSION_ROLE_KEY = "CurrentRole";
+        public const string SESSION_AUTH_KEY = "CurrentUser";
+
         public const string HEADER_AUTH_KEY = "Authorization";
 
         public const string ROLE_EMPLOYEE = "Admin";

@@ -1,5 +1,3 @@
-using System;
-
 namespace DeliverIT.Web.Models
 {
     public class ErrorViewModel

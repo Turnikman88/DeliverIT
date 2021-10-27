@@ -1,9 +1,5 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeliverIT.Web.Models.Mappers
 {
@@ -13,13 +9,13 @@ namespace DeliverIT.Web.Models.Mappers
         {
             return new UserViewModel
             {
-                 FirstName = customer.FirstName,
-                 LastName = customer.LastName,
-                 Email = customer.Email,
-                 Password = customer.Password,
-                 Address = customer.Address.StreetName,
-                 City = customer.Address.City.Name,
-                 Country = customer.Address.City.Country.Name
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Email = customer.Email,
+                Password = customer.Password,
+                Address = customer.Address.StreetName,
+                City = customer.Address.City.Name,
+                Country = customer.Address.City.Country.Name
 
             };
         }

@@ -13,9 +13,9 @@ namespace DeliverIT.Web.Attributes
         public string QueryId { get; set; }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (context.HttpContext.Session.Keys.Contains("CurrentUser"))
+            if (context.HttpContext.Session.Keys.Contains(Constants.SESSION_AUTH_KEY))
             {
-                var credentials = context.HttpContext.Session.GetString("CurrentUser");
+                var credentials = context.HttpContext.Session.GetString(Constants.SESSION_AUTH_KEY);
                 var authService = context.HttpContext.RequestServices.GetService(typeof(IFindUserService)) as IFindUserService;
                 var user = Task.Run(async () => await authService.FindUs(credentials)).GetAwaiter().GetResult();
                 if (user == null || Roles != user.Role && Roles != null)

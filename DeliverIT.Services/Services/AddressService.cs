@@ -2,10 +2,6 @@
 using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
@@ -22,12 +18,12 @@ namespace DeliverIT.Services.Services
         public async Task<int> AddressToID(string address, string city, string country)
         {
             var validAddress = await this._db.Addresses
-                                         .Include(x=>x.City).ThenInclude(x=>x.Country)
-                                         .FirstOrDefaultAsync(x => x.StreetName == address 
-                                         && x.City.Name == city 
+                                         .Include(x => x.City).ThenInclude(x => x.Country)
+                                         .FirstOrDefaultAsync(x => x.StreetName == address
+                                         && x.City.Name == city
                                          && x.City.Country.Name == country);
 
-            if(validAddress is null)
+            if (validAddress is null)
             {
                 Country countryobj = await this._db.Countries
                                                 .FirstOrDefaultAsync(x => x.Name == country);
@@ -37,9 +33,9 @@ namespace DeliverIT.Services.Services
 
                 if (countryobj is null)
                 {
-                    countryobj = new Country 
-                    { 
-                        Name = country 
+                    countryobj = new Country
+                    {
+                        Name = country
                     };
 
                     await this._db.Countries.AddAsync(countryobj);
@@ -48,10 +44,10 @@ namespace DeliverIT.Services.Services
 
                 if (cityobj is null)
                 {
-                    cityobj = new City 
-                    { 
-                        Name = city, 
-                        CountryId = countryobj.Id 
+                    cityobj = new City
+                    {
+                        Name = city,
+                        CountryId = countryobj.Id
                     };
 
                     await this._db.Cities.AddAsync(cityobj);
