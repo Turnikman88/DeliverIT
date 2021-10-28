@@ -16,10 +16,9 @@ namespace DeliverIT.Web.Controllers
         private ICustomerService _cs;
         private IAddressService _ads;
         private IHostingEnvironment _Environment;
-        public HomeController(ICustomerService cs, IAddressService ads, IHostingEnvironment Environment)
         private IWareHouseService _whs;
 
-        public HomeController(ICustomerService cs, IAddressService ads, IWareHouseService whs)
+        public HomeController(ICustomerService cs, IAddressService ads, IWareHouseService whs, IHostingEnvironment Environment)
         {
             this._cs = cs;
             this._whs = whs;
