@@ -1,8 +1,22 @@
 ﻿
 
 /* CSS */
+.map-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+}
 
-    .test-btn {
+.map-responsive iframe {
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+
+.test-btn {
     display: inline-block;
     background-color: transparent;
     border: 2px solid #fff;
@@ -13,29 +27,33 @@
     letter-spacing: 0.5px;
     transition: all 0.5s;
 }
+
 .functional-buttons a:hover {
     color: #fff;
     background-color: #F453FF;
     border: 2px solid #F453FF;
     cursor: pointer;
 }
+
 .background-header .test-btn {
     display: inline-block;
     background-color: transparent;
     border: 2px solid #F453FF;
     text-transform: uppercase;
     font-size: 13px;
-    color: #F453FF!important;
+    color: #F453FF !important;
     padding: 6px 20px;
     letter-spacing: 0.5px;
     transition: all 0.5s;
 }
+
 .background-header .functional-buttons a:hover {
-    color: #fff!important;
+    color: #fff !important;
     background-color: #F453FF;
     border: 2px solid #F453FF;
     cursor: pointer;
 }
+
 .button-64 {
     align-items: center;
     background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
@@ -60,23 +78,23 @@
     cursor: pointer;
 }
 
-.button-64:active,
-.button-64:hover {
-    outline: 0;
-}
+    .button-64:active,
+    .button-64:hover {
+        outline: 0;
+    }
 
-.button-64 span {
-    background-color: rgb(5, 6, 45);
-    padding: 16px 24px;
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    transition: 300ms;
-}
+    .button-64 span {
+        background-color: rgb(5, 6, 45);
+        padding: 16px 24px;
+        border-radius: 6px;
+        width: 100%;
+        height: 100%;
+        transition: 300ms;
+    }
 
-.button-64:hover span {
-    background: none;
-}
+    .button-64:hover span {
+        background: none;
+    }
 
 @media (min-width: 768px) {
     .button-64 {

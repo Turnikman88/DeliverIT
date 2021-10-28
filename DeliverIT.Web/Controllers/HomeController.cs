@@ -4,6 +4,7 @@ using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -13,16 +14,31 @@ namespace DeliverIT.Web.Controllers
     {
         private ICustomerService _cs;
         private IAddressService _ads;
+        private IWareHouseService _whs;
 
-        public HomeController(ICustomerService cs, IAddressService ads)
+        public HomeController(ICustomerService cs, IAddressService ads, IWareHouseService whs)
         {
-            this._cs = cs;
             this._ads = ads;
+            this._cs = cs;
+            this._whs = whs;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            var indexview = new IndexViewModel();
+            indexview.UserCount = await _cs.UserCountAsync();
+            var addresses = _whs.GetAddressesObject();
+            foreach (var item in addresses)
+            {
+                indexview.WarehouseLocations.Add(
+                    new Maps { 
+                        Country = item.City.Country.Name,
+                        City = item.City.Name,
+                        Address = item.StreetName 
+                    });
+            }
+            
+            return View(indexview);
         }
 
         public async Task<IActionResult> About()

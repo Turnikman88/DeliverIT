@@ -3,6 +3,7 @@ using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
+using DeliverIT.Models.DatabaseModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,8 +68,20 @@ namespace DeliverIT.Services.Services
                 .Include(w => w.Address)
                     .ThenInclude(a => a.City)
                         .ThenInclude(c => c.Country)
-                .Select(x => $"Id: {x.Id}, Country: {x.Address.City.Country.Name}, City: {x.Address.City.Name}, Address: {x.Address.StreetName}")
+                //.Select(x => $"Id: {x.Id}, Country: {x.Address.City.Country.Name}, City: {x.Address.City.Name}, Address: {x.Address.StreetName}")
+                .Select(x => $"{x.Id}, {x.Address.City.Country.Name}, {x.Address.City.Name}, {x.Address.StreetName}")
                 .ToListAsync();
+        }
+
+        public IQueryable<Address> GetAddressesObject()
+        {
+            var address = _db.WareHouses
+                .Include(x => x.Parcels)
+                .Include(w => w.Address)
+                    .ThenInclude(a => a.City)
+                        .ThenInclude(c => c.Country)
+                        .Select(x => x.Address);
+            return address;
         }
 
         public async Task<WareHouseDTO> GetWareHouseByIdAsync(int id)
