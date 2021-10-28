@@ -16,6 +16,7 @@
     <title>Host Cloud - Free HTML5 Bootstrap Template</title>
 
     <!-- Bootstrap core CSS -->
+   
     <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
@@ -23,6 +24,8 @@
     <link rel="stylesheet" href="~/css/templatemo-host-cloud.css">
     <link rel="stylesheet" href="~/css/owl.css">
     <link rel="stylesheet" href="~/css/site.css">
+
+
     <!--
 
 
@@ -41,12 +44,12 @@
     <!-- Header -->
     <header class="">
         <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" href="index.html"><h2>Host <em>Cloud</em></h2></a>
+            <div class="container-fluid">
+                <a class="navbar-brand mr-auto" asp-controller="Home" asp-action="Index"><h2>Host <em>Cloud</em></h2></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="collapse navbar-collapse ml-auto" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">
@@ -65,6 +68,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <div class="functional-buttons">
                     <ul>
                         @if (!(bool)this.ViewData[Constants.SESSION_AUTH_KEY])
