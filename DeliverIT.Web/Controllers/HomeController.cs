@@ -2,6 +2,7 @@
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -13,11 +14,12 @@ namespace DeliverIT.Web.Controllers
     {
         private ICustomerService _cs;
         private IAddressService _ads;
-
-        public HomeController(ICustomerService cs, IAddressService ads)
+        private IHostingEnvironment _Environment;
+        public HomeController(ICustomerService cs, IAddressService ads, IHostingEnvironment Environment)
         {
             this._cs = cs;
             this._ads = ads;
+            this._Environment = Environment;
         }
 
         public async Task<IActionResult> Index()
@@ -43,7 +45,7 @@ namespace DeliverIT.Web.Controllers
         public IActionResult Error()
         {
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-            var imageLink = "images/";
+            var imageLink = "https://localhost:5001/images/";
 
             if (exception != null)
             {
@@ -72,11 +74,11 @@ namespace DeliverIT.Web.Controllers
             }
             else
             {
-                imageLink += "404.png";
+                imageLink += "404.png";                
             }
 
             var statuscode = HttpContext.Response.StatusCode;
-            return View(new ErrorViewModel { StatusCode = statuscode, Message = exception?.Message, ImageLink = imageLink });
+            return View(new ErrorViewModel { StatusCode = statuscode, Message = exception?.Message ?? "Wrong Address!", ImageLink = imageLink });
         }
     }
 }
