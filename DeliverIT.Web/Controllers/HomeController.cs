@@ -43,6 +43,8 @@ namespace DeliverIT.Web.Controllers
         public IActionResult Error()
         {
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
+            var imageLink = "images/";
+
             if (exception != null)
             {
                 switch (exception)
@@ -50,23 +52,31 @@ namespace DeliverIT.Web.Controllers
                     case AppException e:
                         // custom application error
                         HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        imageLink += "400.png";
                         break;
                     case UnauthorizedAppException e:
                         HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        imageLink += "401.png";
                         break;
                     case KeyNotFoundException e:
                         // not found error
                         HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        imageLink += "404.png";
                         break;
                     default:
                         // unhandled error
+                        imageLink += "500.png";
                         HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
             }
+            else
+            {
+                imageLink += "404.png";
+            }
 
             var statuscode = HttpContext.Response.StatusCode;
-            return View(new ErrorViewModel { StatusCode = statuscode, Message = exception?.Message, ImageLink = $"https://http.cat/{statuscode}" });
+            return View(new ErrorViewModel { StatusCode = statuscode, Message = exception?.Message, ImageLink = imageLink });
         }
     }
 }
