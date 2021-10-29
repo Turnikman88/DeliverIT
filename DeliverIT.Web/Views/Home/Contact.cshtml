@@ -73,14 +73,19 @@
 
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.523191023296!2d73.1520519145274!3d-0.6968991354632055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x24b599bc41b83293%3A0x401e1205d7adee5f!2zQjAzMCwgQWRkdSBDaXR5LCDQnNCw0LvQtNC40LLQuA!5e0!3m2!1sbg!2sbg!4v1635522792510!5m2!1sbg!2sbg" width="100%" height="520px" frameborder="0" style="border:0" allowfullscreen></iframe>
 </div>
-@if (Model.isSent)
-{
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@section Scripts{
     <script>
-        function JSalert() {
-
-            swal("Congrats!", ", Your email was sent!", "success");
-        }
-        JSalert();
+        navActiveChange("nav-contact");
     </script>
+    @if (Model.isSent)
+    {
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            function JSalert() {
+
+                swal("Congrats!", ", Your email was sent!", "success");
+            }
+            JSalert();
+        </script>
+    }
 }

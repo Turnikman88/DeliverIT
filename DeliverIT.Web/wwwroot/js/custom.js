@@ -93,7 +93,9 @@ $(window).scroll(function () {
     }
 });
 
-function navActiveChange() {
-    var element = document.getElementById("nav-home");
-    element.classList.remove("active");
+function navActiveChange(elId) {
+    var el = document.getElementsByClassName("active")[0];
+    el.classList.remove("active");
+    var nel = document.getElementById(elId);
+    nel.classList.add("active");
 }
