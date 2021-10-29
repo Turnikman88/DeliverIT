@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Diagnostics;
@@ -12,15 +13,15 @@ namespace DeliverIT.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private ICustomerService _cs;
-        private IAddressService _ads;
+        private ICustomerService _cs;        
         private IWareHouseService _whs;
+        private IMailService _ms;
 
-        public HomeController(ICustomerService cs, IAddressService ads, IWareHouseService whs)
+        public HomeController(ICustomerService cs, IWareHouseService whs, IMailService ms)
         {
             this._cs = cs;
             this._whs = whs;
-            this._ads = ads;
+            this._ms = ms;
         }
 
         public async Task<IActionResult> Index()
@@ -46,13 +47,20 @@ namespace DeliverIT.Web.Controllers
             return View();
         }
         public IActionResult Contact()
-        {
-            return View();
+        {            
+            return View(new MailDTO());
         }
         [HttpPost]
-        public IActionResult Contact(EmailViewModel model)
-        {            
-            return View();
+        public async Task<IActionResult> Contact(MailDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+            await _ms.SendEmailAsync(model);
+
+            model.isSent = true;
+            return this.View();
         }
         public IActionResult Error()
         {

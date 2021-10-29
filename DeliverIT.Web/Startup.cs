@@ -1,4 +1,5 @@
 using DeliverIT.API.Extensions;
+using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,7 @@ namespace DeliverIT.Web
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
-            });
+            });            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

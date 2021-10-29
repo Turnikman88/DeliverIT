@@ -1,6 +1,12 @@
 ﻿
 
 /* CSS */
+
+.form-error {
+    display: block;
+    margin-left: 20px;
+    color: #c82333;
+}   
 .map-responsive {
     overflow: hidden;
     padding-bottom: 56.25%;

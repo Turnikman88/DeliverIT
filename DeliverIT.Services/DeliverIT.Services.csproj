@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.15.0" />
+    <PackageReference Include="MimeKit" Version="2.15.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DeliverIT.Models\DeliverIT.Models.csproj" />
   </ItemGroup>
 

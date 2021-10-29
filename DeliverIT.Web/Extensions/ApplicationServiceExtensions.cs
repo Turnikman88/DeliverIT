@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.Helpers;
 using DeliverIT.Services.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,8 @@ namespace DeliverIT.API.Extensions
             services.AddScoped<IParcelService, ParcelService>();
             services.AddScoped<IFindUserService, FindUserService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddSingleton<IMailSettings, MailSettings>();
+            services.AddTransient<IMailService, MailService>();
 
             return services;
         }
