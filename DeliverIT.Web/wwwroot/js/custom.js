@@ -92,3 +92,8 @@ $(window).scroll(function () {
         $("header").removeClass("background-header");
     }
 });
+
+function navActiveChange() {
+    var element = document.getElementById("nav-home");
+    element.classList.remove("active");
+}

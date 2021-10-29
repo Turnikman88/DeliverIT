@@ -60,7 +60,7 @@ namespace DeliverIT.Web.Controllers
             await _ms.SendEmailAsync(model);
 
             model.isSent = true;
-            return this.View();
+            return this.View(model);
         }
         public IActionResult Error()
         {
