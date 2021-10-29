@@ -113,15 +113,15 @@ a.gradient-button:hover {
 	margin-left: 5px;
 }
 #preloader {
-  overflow: hidden;
-  background: linear-gradient(145deg, rgba(114,2,187,1) 0%, rgba(50,100,245,1) 100%);
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  position: fixed;
-  z-index: 9999999;
-  color: #fff;
+	overflow: hidden;
+	background: linear-gradient(145deg, #6dbbd0 0%, #555abd 100%);
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	position: fixed;
+	z-index: 9999999;
+	color: #fff;
 }
 
 #preloader .jumper {
