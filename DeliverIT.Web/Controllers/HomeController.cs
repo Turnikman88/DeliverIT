@@ -62,7 +62,7 @@ namespace DeliverIT.Web.Controllers
         public IActionResult Error()
         {
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-            var imageLink = "https://localhost:5001/images/";
+            var imageLink = $"{Constants.DOMAIN_NAME}/images/";
 
             if (exception != null)
             {

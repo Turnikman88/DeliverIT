@@ -36,6 +36,17 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            if (!await _auth.IsExistingAsync(loginViewModel.Email))
+            {
+                this.ModelState.AddModelError("Email", "User with this email address doesn't exists.");
+                return this.View(loginViewModel);
+            }
+
+            if (!await _auth.IsPasswordValidAsync(loginViewModel.Email, loginViewModel.Password))
+            {
+                this.ModelState.AddModelError("Password", "Wrong Password!");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(loginViewModel);
@@ -74,13 +85,13 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel model)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
-            }
             if (await _auth.IsExistingAsync(model.Email))
             {
                 this.ModelState.AddModelError("Email", "User with this email address already exists.");
+            }
+                       
+            if (!this.ModelState.IsValid)
+            {
                 return this.View(model);
             }
 

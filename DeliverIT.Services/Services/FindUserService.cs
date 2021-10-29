@@ -26,9 +26,17 @@ namespace DeliverIT.Services.Services
                 throw new AppException(Constants.WRONG_CREDENTIALS);
             }
 
-            return await _db.Customers.AnyAsync(x => x.Email == email);
+            return await _db.Customers.AnyAsync(x => x.Email == email) || await _db.Employees.AnyAsync(x => x.Email == email);
         }
-
+        public async Task<bool> IsPasswordValidAsync(string email, string password)
+        {
+            var userPassword = await _db.AppUserRoles
+                .Include(x => x.AppUser)
+                .Where(x => x.AppUser.Email == email)
+                .Select(x => x.AppUser.Password)
+                .FirstOrDefaultAsync();
+            return userPassword == password;
+        }
         public async Task<UserDTO> FindUserAsync(string authorization)
         {
             if (!authorization.Contains(" "))
