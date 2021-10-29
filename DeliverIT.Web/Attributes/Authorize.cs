@@ -17,7 +17,7 @@ namespace DeliverIT.Web.Attributes
             {
                 var credentials = context.HttpContext.Session.GetString(Constants.SESSION_AUTH_KEY);
                 var authService = context.HttpContext.RequestServices.GetService(typeof(IFindUserService)) as IFindUserService;
-                var user = Task.Run(async () => await authService.FindUs(credentials)).GetAwaiter().GetResult();
+                var user = Task.Run(async () => await authService.FindUserAsync(credentials)).GetAwaiter().GetResult();
                 if (user == null || Roles != user.Role && Roles != null)
                 {
                     throw new UnauthorizedAppException(Constants.NOT_AUTHORIZED);

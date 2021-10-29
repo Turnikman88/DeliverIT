@@ -63,7 +63,7 @@ namespace DeliverIT.Tests.CustomerServiceTest
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new CustomerService(actContext);
-                var result = await sut.GetCustomerByNameAsync("Test");
+                var result = await sut.GetCustomersByNameAsync("Test");
 
                 Assert.AreEqual(1, result.Count());
                 Assert.AreEqual("Test", result.First().FirstName);

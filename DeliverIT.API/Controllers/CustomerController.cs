@@ -48,7 +48,7 @@ namespace DeliverIT.API.Controllers
 
             if (result is null)
             {
-                result = await _cs.GetCustomerByNameAsync(parameter);
+                result = await _cs.GetCustomersByNameAsync(parameter);
 
                 if (result is null)
                 {
@@ -66,7 +66,7 @@ namespace DeliverIT.API.Controllers
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> FindCustomerByNameAsync(string name)
         {
-            return this.Ok(await _cs.GetCustomerByNameAsync(name));
+            return this.Ok(await _cs.GetCustomersByNameAsync(name));
         }
 
         [HttpGet("email/{email}")]
@@ -111,7 +111,7 @@ namespace DeliverIT.API.Controllers
 
             if (result is null || result.Count() == 0)
             {
-                result = await _cs.GetCustomerByNameAsync(name);
+                result = await _cs.GetCustomersByNameAsync(name);
                 if (result == null)
                 {
                     return BadRequest();

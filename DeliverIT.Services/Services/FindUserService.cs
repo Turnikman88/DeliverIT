@@ -1,5 +1,7 @@
 ﻿using DeliverIT.Models;
+using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +19,7 @@ namespace DeliverIT.Services.Services
             this._db = db;
         }
 
-        public async Task<bool> IsExisting(string email)
+        public async Task<bool> IsExistingAsync(string email)
         {
             if (!email.Contains("@"))
             {
@@ -27,7 +29,7 @@ namespace DeliverIT.Services.Services
             return await _db.Customers.AnyAsync(x => x.Email == email);
         }
 
-        public async Task<UserDTO> FindUs(string authorization)
+        public async Task<UserDTO> FindUserAsync(string authorization)
         {
             if (!authorization.Contains(" "))
             {
@@ -48,6 +50,20 @@ namespace DeliverIT.Services.Services
                                 Email = x.AppUser.Email,
                                 Role = x.AppRole.Name
                             }).FirstOrDefaultAsync();
+        }
+
+        public async Task<EmployeeDTO> FindEmployee(string authorization)
+        {
+            if (!authorization.Contains(" "))
+            {
+                throw new AppException(Constants.WRONG_CREDENTIALS);
+            }
+            var splitted = authorization.Split();
+            var email = splitted[0];
+            var password = splitted[1];
+
+            var employee = await _db.Employees.Where(x => x.Email == email && x.Password == password).FirstAsync();
+            return employee.GetDTO();
         }
     }
 }

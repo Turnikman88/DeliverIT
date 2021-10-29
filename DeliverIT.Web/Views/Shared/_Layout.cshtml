@@ -78,10 +78,11 @@
                         }
                         else
                         {
-                            <li><a href="#">Settings</a></li>
-                            @if (this.ViewData[Constants.SESSION_AUTH_KEY].ToString() == Constants.ROLE_EMPLOYEE)
+                            <li><a asp-controller="Auth" asp-action="Settings">Settings</a></li>
+
+                            @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
                             {
-                                <li><a class="button-64">Admin Panel</a></li>
+                                <li><a href="#" class="button-64">Admin Panel</a></li>
                             }
                             else
                             {

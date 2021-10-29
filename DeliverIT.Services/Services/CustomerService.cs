@@ -42,7 +42,7 @@ namespace DeliverIT.Services.Services
                                       .ToListAsync();
         }
 
-        public async Task<IEnumerable<CustomerDTO>> GetCustomerByNameAsync(string name)
+        public async Task<IEnumerable<CustomerDTO>> GetCustomersByNameAsync(string name)
         {
             return await _db.Customers.Include(x => x.Parcels).ThenInclude(x => x.Category)
                                        .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
@@ -132,6 +132,8 @@ namespace DeliverIT.Services.Services
         {
             return await _db.Customers.Where(x => x.Email.Contains(part))
                                       .Include(c => c.Address)
+                                      .ThenInclude(c=> c.City)
+                                      .ThenInclude(c=>c.Country)
                                       .Select(x => x.GetDTO()).ToListAsync();
         }
 

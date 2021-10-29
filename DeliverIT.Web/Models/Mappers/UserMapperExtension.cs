@@ -5,7 +5,7 @@ namespace DeliverIT.Web.Models.Mappers
 {
     public static class UserMapperExtension
     {
-        public static UserViewModel GetModel(this Customer customer)
+        public static UserViewModel GetModel(this CustomerDTO customer) 
         {
             return new UserViewModel
             {
@@ -13,10 +13,23 @@ namespace DeliverIT.Web.Models.Mappers
                 LastName = customer.LastName,
                 Email = customer.Email,
                 Password = customer.Password,
-                Address = customer.Address.StreetName,
-                City = customer.Address.City.Name,
-                Country = customer.Address.City.Country.Name
+                Address = customer.Address,
+                City = customer.City, 
+                Country = customer.Country
+            };
+        }
 
+        public static UserViewModel GetModel(this EmployeeDTO employee)
+        {
+            return new UserViewModel
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Email = employee.Email,
+                Password = employee.Password,
+                Address = employee.Address,
+                City = employee.City,
+                Country = employee.Country
             };
         }
 

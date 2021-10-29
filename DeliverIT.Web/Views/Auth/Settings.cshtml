@@ -1,0 +1,66 @@
+﻿@model UserViewModel
+@this.ViewData[Constants.SESSION_AUTH_KEY] = this.Context.Session.Keys.Contains(Constants.SESSION_AUTH_KEY);
+@section Styles{
+    <link rel="stylesheet" href="~/css/form.css">
+}
+<div class="render-body">
+    <div class="container">
+        <div class="row">
+            <div class="col flex-sm-wrap-reverse ">
+                <img src="~/images/register.png" alt="DeliverIT Register image" style="width:100%; height: auto; min-width: 400px;" />
+            </div>
+            <div class="col">
+                <form asp-action="Settings">
+                    <div>
+                        <br />
+                        <input asp-for="FirstName" placeholder="First Name" class="fadeIn second" value="@Model.FirstName" />
+                        <span asp-validation-for="FirstName" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <input asp-for="LastName" placeholder="Last Name" class="fadeIn second" value="@Model.LastName"/>
+                        <span asp-validation-for="LastName" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <input asp-for="Email" placeholder="Email" class="fadeIn second" value="@Model.Email" readonly />
+                        <span asp-validation-for="Email" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <input asp-for="Password" placeholder="Password" class="fadeIn second" value="@Model.Password" />
+                        <span asp-validation-for="Password" class="form-error"></span>
+                    </div>
+
+                    <div>
+                        <br />
+                        <input asp-for="ConfirmPassword" placeholder="Confirm Password" class="fadeIn second" value="@Model.ConfirmPassword"/>
+                        <span asp-validation-for="ConfirmPassword" class="form-error"></span>
+                    </div>
+
+                    <div>
+                        <br />
+                        <input asp-for="Address" placeholder="Street Name" class="fadeIn second" value="@Model.Address" />
+                        <span asp-validation-for="Address" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <input asp-for="City" placeholder="City Name" class="fadeIn second" value="@Model.City" />
+                        <span asp-validation-for="City" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <input asp-for="Country" placeholder="Country Name" class="fadeIn second" value="@Model.Country" />
+                        <span asp-validation-for="Country" class="form-error"></span>
+                    </div>
+                    <div style="text-align: center">
+                        <input type="submit" value="Update Profile" class="fadeIn fourth" style="margin-right: 85px;" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
