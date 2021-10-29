@@ -1,6 +1,6 @@
 ﻿@{
     this.ViewData[Constants.SESSION_AUTH_KEY] = this.Context.Session.Keys.Contains(Constants.SESSION_AUTH_KEY);
-    this.ViewData[Constants.SESSION_ROLE_KEY] = this.Context.Session.Get(Constants.SESSION_ROLE_KEY);
+    this.ViewData[Constants.SESSION_ROLE_KEY] = this.Context.Session.GetString(Constants.SESSION_ROLE_KEY);
 }
 <!DOCTYPE html>
 
@@ -79,7 +79,7 @@
 
                             @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
                             {
-                                <li><a href="#" class="button-64">Admin Panel</a></li>
+                                <li><a href="#" class="test-btn">Admin Panel</a></li>
                             }
                             else
                             {

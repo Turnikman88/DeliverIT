@@ -14,6 +14,5 @@ namespace DeliverIT.Services.DTOs
         public string City { get; set; }
         public string Country { get; set; }
         public List<string> Parcels { get; set; } = new List<string>(); //TODO: ParcelDTO
-
     }
 }
