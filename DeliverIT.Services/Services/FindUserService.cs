@@ -21,10 +21,6 @@ namespace DeliverIT.Services.Services
 
         public async Task<bool> IsExistingAsync(string email)
         {
-            if (!email.Contains("@"))
-            {
-                throw new AppException(Constants.WRONG_CREDENTIALS);
-            }
 
             return await _db.Customers.AnyAsync(x => x.Email == email) || await _db.Employees.AnyAsync(x => x.Email == email);
         }

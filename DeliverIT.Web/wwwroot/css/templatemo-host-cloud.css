@@ -830,7 +830,8 @@ footer .sub-footer a {
 
 /* Contact Us Page Style */
 .contact-us {
-	margin-top: 140px;
+	padding: 170px 0px 0px 0px;
+	margin-bottom: 140px;
 }
 .contact-us .contact-form {
 	margin-right: 30px;
@@ -926,9 +927,8 @@ footer .sub-footer a {
 	margin-right: 15px;
 	font-size: 24px;
 }
-#map {
-	margin-top: 140px;
-	margin-bottom: -147px;
+#map {	
+	margin-bottom: -10px;
 }
 
 /* Responsive Style */

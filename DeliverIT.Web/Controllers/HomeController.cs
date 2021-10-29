@@ -8,22 +8,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
 namespace DeliverIT.Web.Controllers
 {
     public class HomeController : Controller
     {
         private ICustomerService _cs;
         private IAddressService _ads;
-        private IHostingEnvironment _Environment;
         private IWareHouseService _whs;
 
-        public HomeController(ICustomerService cs, IAddressService ads, IWareHouseService whs, IHostingEnvironment Environment)
+        public HomeController(ICustomerService cs, IAddressService ads, IWareHouseService whs)
         {
             this._cs = cs;
             this._whs = whs;
             this._ads = ads;
-            this._Environment = Environment;
         }
 
         public async Task<IActionResult> Index()
@@ -44,21 +41,19 @@ namespace DeliverIT.Web.Controllers
             return View(indexview);
         }
 
-        public async Task<IActionResult> About()
+        public IActionResult About()
         {
             return View();
         }
-
-        public async Task<IActionResult> Login(UserViewModel user)
+        public IActionResult Contact()
         {
             return View();
         }
-
-        public async Task<IActionResult> LogOut()
-        {
+        [HttpPost]
+        public IActionResult Contact(EmailViewModel model)
+        {            
             return View();
         }
-
         public IActionResult Error()
         {
             var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
