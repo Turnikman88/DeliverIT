@@ -63,6 +63,25 @@
                         <li id="nav-contact" class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a>
                         </li>
+                        @if ((bool)this.ViewData[Constants.SESSION_AUTH_KEY] 
+                            && this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
+                        {
+
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                            Controller
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a asp-controller="Country" asp-action="Index" class="custom-dropdown-item">Country</a>
+                            <a asp-controller="City" asp-action="Index"  class="custom-dropdown-item">City</a>
+                            <a asp-controller="Warehouse" asp-action="Index"  class="custom-dropdown-item">Warehouse</a>
+                            <a asp-controller="Shipment" asp-action="Index"  class="custom-dropdown-item">Shipment</a>
+                            <a asp-controller="Parcel" asp-action="Index"  class="custom-dropdown-item">Parcel</a>
+                            <a asp-controller="Customer" asp-action="Index"  class="custom-dropdown-item">Customer</a>
+                        </div>
+                    </li>
+
+                        }
                     </ul>
                 </div>
 
@@ -77,14 +96,11 @@
                         {
                             <li><a asp-controller="Auth" asp-action="Settings">Settings</a></li>
 
-                            @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
+                            @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_USER)
                             {
-                                <li><a href="#" class="test-btn">Admin Panel</a></li>
+                                <li><a href="#" class="test-btn">Parcels</a></li>
                             }
-                            else
-                            {
-                                <li><a class="test-btn">Parcels</a></li>
-                            }
+
                             <li><a asp-controller="Auth" asp-action="Logout">Log Out</a></li>
                         }
 
@@ -104,7 +120,7 @@
                         <div class="footer-heading">
                             <h2>About Us</h2>
                         </div>
-                        <p>Host Cloud is provided by TemplateMo for free of charge. Anyone can download and use this CSS Bootstrap template for commercial purposes.</p>
+                        <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
                     </div>
                 </div>
 
@@ -114,11 +130,9 @@
                             <h2>Hosting Plans</h2>
                         </div>
                         <ul class="footer-list">
-                            <li><a href="#">Basic Cloud 5X</a></li>
-                            <li><a href="#">Cloud VPS 10X</a></li>
-                            <li><a href="#">Advanced Cloud</a></li>
-                            <li><a href="#">Custom Designs</a></li>
-                            <li><a href="#">Special Solutions</a></li>
+                            <li><a href="#">Amazing Company 5X</a></li>
+                            <li><a href="#">Best Delivery S 10X</a></li>
+                            <li><a href="#">Advanced Cargo</a></li>
                         </ul>
                     </div>
                 </div>
@@ -130,11 +144,9 @@
                             <h2>Useful Links</h2>
                         </div>
                         <ul class="footer-list">
-                            <li><a href="#">Cloud Hosting Platform</a></li>
+                            <li><a href="#">Parcel Tracking Platform</a></li>
                             <li><a href="#">Light Speed Zone</a></li>
                             <li><a href="#">Content Delivery Network</a></li>
-                            <li><a href="#">Customer Support</a></li>
-                            <li><a href="#">Latest News</a></li>
                         </ul>
                     </div>
                 </div>
@@ -148,7 +160,6 @@
                             <li>Phone: <a href="#">010-020-0560</a></li>
                             <li>Email: <a href="#">mail@company.com</a></li>
                             <li>Support: <a href="#">support@company.com</a></li>
-                            <li>Website: <a href="#">www.company.com</a></li>
                         </ul>
                     </div>
                 </div>

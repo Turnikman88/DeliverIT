@@ -1,6 +1,29 @@
 ﻿
 
 /* CSS */
+.custom-dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+    .custom-dropdown-item:hover, .custom-dropdown-item:focus {
+        color: #16181b;
+        text-decoration: none;
+        background-color: #f8f9fa;
+    }
+
+    .custom-dropdown-item.active, .custom-dropdown-item:active {
+        color: #fff;
+        text-decoration: none;
+        background-color: #00bcd4;
+    }
 
 .form-error {
     display: block;

@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Web.Controllers
 {
-    public class CountryController : Controller
+    public class ShipmentController : Controller
     {
-        private readonly ICountryService _cs;
-        public CountryController(ICountryService cs)
+        private readonly IWareHouseService _ss;
+        public ShipmentController(IWareHouseService ss)
         {
-            this._cs = cs;
+            this._ss = ss;
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Index()
-        {           
+        {
             return View();
         }
     }

@@ -491,7 +491,8 @@ header {
 
 /* Services Style */
 .services-section {
-	margin-top: 140px;
+	padding: 170px 0px 0px 0px;
+	margin-bottom: 140px;
 }
 .services-section .section-heading h2 {
 	color: #1e1e1e;
