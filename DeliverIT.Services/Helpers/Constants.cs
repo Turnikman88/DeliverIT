@@ -4,6 +4,7 @@
     {
         public const string DOMAIN_NAME = "https://localhost:5002";
         public const string SESSION_ROLE_KEY = "CurrentRole";
+        public const string SESSION_ID_KEY = "CurrentId";
         public const string SESSION_AUTH_KEY = "CurrentUser";
 
         public const string HEADER_AUTH_KEY = "Authorization";

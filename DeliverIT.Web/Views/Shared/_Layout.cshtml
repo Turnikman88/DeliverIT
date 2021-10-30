@@ -98,7 +98,7 @@
 
                             @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_USER)
                             {
-                                <li><a href="#" class="test-btn">Parcels</a></li>
+                                <li><a asp-controller="Parcel" asp-action="CustomerParcels" class="test-btn">Parcels</a></li>
                             }
 
                             <li><a asp-controller="Auth" asp-action="Logout">Log Out</a></li>

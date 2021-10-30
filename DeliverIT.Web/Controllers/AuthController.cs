@@ -63,6 +63,7 @@ namespace DeliverIT.Web.Controllers
             {
                 this.HttpContext.Session.SetString(Constants.SESSION_AUTH_KEY, credentials);
                 this.HttpContext.Session.SetString(Constants.SESSION_ROLE_KEY, user.Role);
+                this.HttpContext.Session.SetString(Constants.SESSION_ID_KEY, user.Id);
                 return this.RedirectToAction("index", "home");
             }
         }

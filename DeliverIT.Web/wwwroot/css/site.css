@@ -1,7 +1,26 @@
 ﻿
 
 /* CSS */
-.btn-get-custom {
+th {
+    text-align: inherit;
+}
+
+.table-custom {
+    border-collapse: collapse !important;
+    border-radius: 15px;
+    background-color: transparent;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    -o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+.table-custom td, .table-custom th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+    .btn-get-custom {
     color: #fff;
     background-color: #00bcd4;
     border-color: #00bcd4;
