@@ -39,7 +39,7 @@ namespace DeliverIT.Web.Models
         [MinLength(5, ErrorMessage = "Country name cannot be that short")]
         public string Country { get; set; }
 
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
     }
 }

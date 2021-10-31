@@ -15,13 +15,15 @@ namespace DeliverIT.Web.Controllers
         private readonly IFindUserService _auth;
         private readonly IAddressService _ads;
         private readonly ICustomerService _cs;
+        private readonly IEmployeeService _es;
 
 
-        public AuthController(IFindUserService auth, IAddressService ads, ICustomerService cs)
+        public AuthController(IFindUserService auth, IAddressService ads, ICustomerService cs, IEmployeeService es)
         {
             this._ads = ads;
             this._auth = auth;
             this._cs = cs;
+            this._es = es;
         }
 
         //GET: /auth/login
@@ -97,7 +99,7 @@ namespace DeliverIT.Web.Controllers
             }
 
             model.AddressId = await GetAddressID(model);
-            var toCustomer = model.GetDTO();
+            var toCustomer = model.GetCustomerDTO();
             await this._cs.PostAsync(toCustomer);
             return this.Redirect(nameof(Login));
         }
@@ -130,18 +132,24 @@ namespace DeliverIT.Web.Controllers
             var userRole = this.HttpContext.Session.GetString(Constants.SESSION_ROLE_KEY);
             if (userRole == Constants.ROLE_EMPLOYEE)
             {
-                return default; //todo: logic
+                
+                if(!string.IsNullOrWhiteSpace(model.Address) && !string.IsNullOrEmpty(model.Address))
+                {
+                    model.AddressId = await GetAddressID(model);
+                }
+                var toEmployee = model.GetEmployeeDTO();
+                var getEmployeeByEmail = await this._es.GetEmployeeByEmail(model.Email);
+                await this._es.UpdateAsync(getEmployeeByEmail.Id, toEmployee);
             }
             else
             {
                 model.AddressId = await GetAddressID(model);
-                var toCustomer = model.GetDTO();
+                var toCustomer = model.GetCustomerDTO();
                 var email = await this._cs.GetCustomersByEmailAsync(model.Email);
                 await this._cs.UpdateAsync(email.First().Id, toCustomer);
             }
                
-            return this.RedirectToAction("Home", "Index");
-
+            return this.RedirectToAction("Index", "Home");
         }
 
         private async Task<int> GetAddressID(UserViewModel model)

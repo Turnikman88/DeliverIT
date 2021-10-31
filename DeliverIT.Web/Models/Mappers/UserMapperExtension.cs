@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 
 namespace DeliverIT.Web.Models.Mappers
 {
@@ -33,7 +34,7 @@ namespace DeliverIT.Web.Models.Mappers
             };
         }
 
-        public static CustomerDTO GetDTO(this UserViewModel user)
+        public static CustomerDTO GetCustomerDTO(this UserViewModel user)
         {
             return new CustomerDTO
             {
@@ -41,7 +42,21 @@ namespace DeliverIT.Web.Models.Mappers
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = user.Password,
-                AddressId = user.AddressId
+                AddressId = user.AddressId ?? throw new AppException()
+            };
+        }
+
+        public static EmployeeDTO GetEmployeeDTO(this UserViewModel user)
+        {
+            return new EmployeeDTO
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Password = user.Password,
+                AddressId = user.AddressId ?? null,
+                City = user.City ?? null,
+                Country = user.Country ?? null,
             };
         }
     }

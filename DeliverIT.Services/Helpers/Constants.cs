@@ -27,10 +27,12 @@
         public const string SHIPMENT_ALREADY_ARRIVED = "Shipment already arrived!";
         public const string CITY_NOT_FOUND = "City not found";
         public const string CUSTOMER_NOT_FOUND = "Customer not found";
+        public const string EMPLOYEE_NOT_FOUND = "Employee not found";
         public const string WAREHOUSE_NOT_FOUND = "Warehouse not found";
 
         public const string INVALID_ID = "Invalid Id";
         public const string CUSTOMER_EXISTS = "Customer with this email already exists!";
+        public const string EMPLOYEE_EXISTS = "Employee with this email already exists!";
         public const string EMAIL_EXISTS = "This email address is already taken";
         public const string CITY_EXISTS = "City with this name already exists!";
         public const string COUNTRY_EXISTS = "Country with this name already exists!";

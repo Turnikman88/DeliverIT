@@ -16,6 +16,7 @@ namespace DeliverIT.API.Extensions
 
             services.AddScoped<IWareHouseService, WareHouseService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IShipmentService, ShipmentService>();
