@@ -27,9 +27,17 @@ namespace DeliverIT.Web.Controllers
         public async Task<IActionResult> CustomerParcels()
         {
             var id = int.Parse(this.HttpContext.Session.GetString(Constants.SESSION_ID_KEY));
-            var parcels = await _ps.FilterByCustomerIdAsync(id);
+            var parcels = await _ps.GetSortedParcelsByCustomerIdAsync(id);
 
             return View(parcels);
+        }
+
+        [Authorize(Roles = Constants.ROLE_USER)]
+        public async Task<IActionResult> ChangeDeliveryLocation(int id)
+        {
+            await _ps.ChangeDeliverLocationAsync(id);
+
+            return this.RedirectToAction(nameof(CustomerParcels));
         }
     }
 }

@@ -136,6 +136,12 @@ namespace DeliverIT.Services.Services
             return await this._db.Parcels.Include(x => x.Category).Where(x => x.CustomerId == id).Select(x => x.GetDTO()).ToListAsync();
         }
 
+        public async Task<IEnumerable<ParcelDTO>> GetSortedParcelsByCustomerIdAsync(int id)
+        {
+            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment).Where(x => x.CustomerId == id)
+                .OrderBy(x => x.Shipment.Status).Select(x => x.GetDTO()).ToListAsync();
+        }
+
         public async Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
             int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {

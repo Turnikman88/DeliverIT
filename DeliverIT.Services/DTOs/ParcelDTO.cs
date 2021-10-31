@@ -13,9 +13,5 @@ namespace DeliverIT.Services.DTOs
         public double Weight { get; set; }
         public bool DeliverToAddress { get; set; }
 
-        public int Count()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

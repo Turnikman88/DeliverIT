@@ -8,7 +8,7 @@
             <div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
                 <table class="table-custom">
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Parcel Id</th>
                         <th scope="col">Category Name</th>
                         <th scope="col">Shipment Id</th>
                         <th scope="col">Warehouse Id</th>
@@ -23,7 +23,8 @@
                             <td scope="col">@item.ShipmentId</td>
                             <td scope="col">@item.WareHouseId</td>
                             <td scope="col">@item.Weight</td>
-                            <td scope="col">@item.DeliverToAddress</td>
+                            <td scope="col"><a asp-route-id="@item.Id" asp-controller="Parcel" asp-action="ChangeDeliveryLocation" >
+                                @(item.DeliverToAddress == true ? "Yes" : "No")</a></td>
                         </tr>
                     }
                 </table>
