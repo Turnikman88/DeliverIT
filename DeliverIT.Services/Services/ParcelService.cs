@@ -21,12 +21,20 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<ParcelDTO>> ListCustomerIncomingParcelsAsync(int id)
         {
-            return await this._db.Parcels.Include(x => x.Category).Where(x => x.CustomerId == id && x.Shipment.StatusId == 2).Select(x => x.GetDTO()).ToListAsync();
+            return await this._db.Parcels
+                .Include(x => x.Category)
+                .Include(x => x.Shipment.Status)
+                .Where(x => x.CustomerId == id && x.Shipment.StatusId == 2)
+                .Select(x => x.GetDTO())
+                .ToListAsync();
         }
 
         public async Task<ParcelDTO> DeleteAsync(int id)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+            var parcel = await _db.Parcels
+                .Include(x => x.Category)
+                .Include(x => x.Shipment.Status)
+                .FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
 
             var parcelDTO = parcel.GetDTO();
@@ -39,14 +47,19 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<ParcelDTO>> GetAsync()
         {
-            return await this._db.Parcels.Include(x => x.Category).Select(x => x.GetDTO()).ToListAsync();
+            return await this._db.Parcels
+                .Include(x => x.Category)
+                .Include(x => x.Shipment.Status)
+                .Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<ParcelDTO> PostAsync(ParcelDTO obj)
         {
             ParcelDTO result = null;
             var newParcel = obj.GetEntity();
-            var deleteParcel = await this._db.Parcels.IgnoreQueryFilters().Include(x => x.Category)
+            var deleteParcel = await this._db.Parcels.IgnoreQueryFilters()
+                .Include(x => x.Category)
+                .Include(x => x.Shipment.Status)
                 .FirstOrDefaultAsync(x => x.CustomerId == newParcel.CustomerId
                 && x.ShipmentId == newParcel.ShipmentId
                 && x.WareHouseId == newParcel.WareHouseId
@@ -64,7 +77,10 @@ namespace DeliverIT.Services.Services
 
                 await this._db.Parcels.AddAsync(newParcel);
                 await this._db.SaveChangesAsync();
-                newParcel = await this._db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == newParcel.Id);
+                newParcel = await this._db.Parcels
+                    .Include(x => x.Category)
+                    .Include(x => x.Shipment.Status)
+                    .FirstOrDefaultAsync(x => x.Id == newParcel.Id);
                 result = newParcel.GetDTO();
             }
             else
@@ -80,7 +96,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<ParcelDTO> UpdateAsync(int id, ParcelDTO obj)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+            var parcel = await _db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
 
             if (obj is null || obj.CustomerId <= 0 || obj.ShipmentId <= 0
@@ -108,7 +124,7 @@ namespace DeliverIT.Services.Services
         }
         public async Task<ParcelDTO> GetParcelByIdAsync(int id)
         {
-            var parcel = await _db.Parcels.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id)
+            var parcel = await _db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.PARCEL_NOT_FOUND);
 
             return parcel.GetDTO();
@@ -116,36 +132,38 @@ namespace DeliverIT.Services.Services
 
         public async Task<IEnumerable<ParcelDTO>> SortByWeightAsync()
         {
-            return await this._db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight)
+            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).OrderBy(x => x.Weight)
                 .Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<IEnumerable<ParcelDTO>> SortByArrivalDateAsync()
         {
-            return await this._db.Parcels.Include(x => x.Category).OrderBy(x => x.Shipment.ArrivalDate)
+            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).OrderBy(x => x.Shipment.ArrivalDate)
                 .Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<IEnumerable<ParcelDTO>> SortByWeightAndArrivalDateAsync()
         {
-            return await this._db.Parcels.Include(x => x.Category).OrderBy(x => x.Weight).ThenBy(x => x.Shipment.ArrivalDate)
+            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status)
+                .OrderBy(x => x.Weight).ThenBy(x => x.Shipment.ArrivalDate)
                 .Select(x => x.GetDTO()).ToListAsync();
         }
         public async Task<IEnumerable<ParcelDTO>> FilterByCustomerIdAsync(int id)
         {
-            return await this._db.Parcels.Include(x => x.Category).Where(x => x.CustomerId == id).Select(x => x.GetDTO()).ToListAsync();
+            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status)
+                .Where(x => x.CustomerId == id).Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<IEnumerable<ParcelDTO>> GetSortedParcelsByCustomerIdAsync(int id)
         {
-            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment).Where(x => x.CustomerId == id)
+            return await this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).Where(x => x.CustomerId == id)
                 .OrderBy(x => x.Shipment.Status).Select(x => x.GetDTO()).ToListAsync();
         }
 
         public async Task<IEnumerable<ParcelDTO>> MultiFilterAsync(int? id, int? customerId, int? shipmentId,
             int? warehouseId, int? categoryId, string categoryName, double? minWeight, double? maxWeight)
         {
-            var result = this._db.Parcels.Include(x => x.Category).AsQueryable();
+            var result = this._db.Parcels.Include(x => x.Category).Include(x => x.Shipment.Status).AsQueryable();
 
             if (id.HasValue)
             {

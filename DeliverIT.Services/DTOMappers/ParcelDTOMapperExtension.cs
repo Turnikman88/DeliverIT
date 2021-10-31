@@ -24,7 +24,8 @@ namespace DeliverIT.Services.DTOMappers
                 CategoryId = parcel.CategoryId,
                 CategoryName = parcel.Category.Name,
                 Weight = parcel.Weight,
-                DeliverToAddress = parcel.DeliverToAddress
+                DeliverToAddress = parcel.DeliverToAddress,
+                ShipmentStatus = parcel.Shipment.Status.Name
             };
         }
         public static Parcel GetEntity(this ParcelDTO parcel)

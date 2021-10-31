@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeliverIT.Models.DatabaseModels;
+using System;
 
 namespace DeliverIT.Services.DTOs
 {
@@ -12,6 +13,6 @@ namespace DeliverIT.Services.DTOs
         public string CategoryName { get; set; }
         public double Weight { get; set; }
         public bool DeliverToAddress { get; set; }
-
+        public string ShipmentStatus { get; set; }
     }
 }

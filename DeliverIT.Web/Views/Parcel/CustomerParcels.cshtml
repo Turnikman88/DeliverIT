@@ -10,7 +10,7 @@
                     <tr>
                         <th scope="col">Parcel Id</th>
                         <th scope="col">Category Name</th>
-                        <th scope="col">Shipment Id</th>
+                        <th scope="col">Shipment Status</th>
                         <th scope="col">Warehouse Id</th>
                         <th scope="col">Weight</th>
                         <th scope="col">Deliver to Address</th>
@@ -20,7 +20,7 @@
                         <tr>
                             <th scope="col">@item.Id</th>
                             <td scope="col">@item.CategoryName</td>
-                            <td scope="col">@item.ShipmentId</td>
+                            <td scope="col">@item.ShipmentStatus</td>
                             <td scope="col">@item.WareHouseId</td>
                             <td scope="col">@item.Weight</td>
                             <td scope="col"><a asp-route-id="@item.Id" asp-controller="Parcel" asp-action="ChangeDeliveryLocation" >

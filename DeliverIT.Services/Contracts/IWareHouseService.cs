@@ -11,5 +11,6 @@ namespace DeliverIT.Services.Contracts
         Task<WareHouseDTO> GetWareHouseByIdAsync(int id);
         Task<IEnumerable<string>> GetAddressesAsync();
         IQueryable<Address> GetAddressesObject();
+        Task<int> GetCountAsync();
     }
 }

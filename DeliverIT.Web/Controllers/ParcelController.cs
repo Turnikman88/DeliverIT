@@ -28,7 +28,6 @@ namespace DeliverIT.Web.Controllers
         {
             var id = int.Parse(this.HttpContext.Session.GetString(Constants.SESSION_ID_KEY));
             var parcels = await _ps.GetSortedParcelsByCustomerIdAsync(id);
-
             return View(parcels);
         }
 

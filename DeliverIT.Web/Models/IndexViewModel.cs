@@ -10,6 +10,7 @@ namespace DeliverIT.Web.Models
         public List<Maps> WarehouseLocations { get; set; } = new List<Maps>();
 
         public int UserCount { get; set; }
+        public int WarehouseCount { get; set; }
     }
 
     public class Maps

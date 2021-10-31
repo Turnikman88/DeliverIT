@@ -19,6 +19,8 @@ namespace DeliverIT.Services.Services
             this._db = db;
         }
 
+
+
         public async Task<WareHouseDTO> DeleteAsync(int id)
         {
             CheckId(id);
@@ -167,5 +169,9 @@ namespace DeliverIT.Services.Services
             }
         }
 
+        public async Task<int> GetCountAsync()
+        {
+            return await _db.WareHouses.CountAsync();
+        }
     }
 }
