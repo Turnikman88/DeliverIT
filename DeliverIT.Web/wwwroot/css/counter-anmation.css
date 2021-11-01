@@ -17,9 +17,8 @@
     }
 
 .counter-up {
-    background: rgb(114,2,187);
-    background: linear-gradient(145deg, #6dbbd0 0%, #555abd 100%);
-    min-height: 60vh;
+background-image: url("../images/banner-bg.jpg");
+    min-height: 100vh;
     padding: 0 50px;
     position: relative;
     display: flex;

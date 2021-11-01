@@ -83,13 +83,20 @@ $(window).on('load', function () {
 
 $(window).scroll(function () {
     var scroll = $(window).scrollTop();
-    //var box = $('.header-text').height();
     var header = $('header').height();
 
     if (scroll >= header) {
         $("header").addClass("background-header");
     } else {
         $("header").removeClass("background-header");
+    }
+});
+
+$(window).on('load', function () {
+    if (window.location.pathname == "/" || window.location.pathname.toLowerCase() == "/home/index") {
+        $("header").addClass("main-header");
+    } else {
+        $("header").removeClass("main-header");
     }
 });
 

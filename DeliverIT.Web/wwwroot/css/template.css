@@ -207,6 +207,11 @@ header {
 	-o-transition: all .5s ease 0s;
 	transition: all .5s ease 0s;
 }
+.main-header {
+	background-color: transparent !important;
+	background-image: none !important;
+	border-bottom: 0px;
+}
 .background-header {
 	background-color: #fff!important;
 	background-image: none!important;
