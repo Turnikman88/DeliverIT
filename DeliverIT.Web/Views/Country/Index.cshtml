@@ -1,1 +1,27 @@
-﻿
+﻿@model IEnumerable<CountryDTO>
+<div class="render-body" style="padding-left: 100px; padding-right: 100px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col flex-sm-wrap-reverse align-content-center" style="margin-right: 80px;">
+                <img src="@Constants.DOMAIN_NAME/images/customer-parcels.png" alt="DeliverIT login image" style="width:100%; height: auto; min-width: 400px;" />
+            </div>
+            <div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
+                <table class="table-custom">
+                    <tr>
+                        <th scope="col">Country Id</th>
+                        <th scope="col">Country Name</th>
+                        <th scope="col"><button onclick="showInPopup('@Url.Action("Create", "Country")', 'test title')">Add new</button></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="col">@item.Id</th>
+                            <td scope="col">@item.Name</td>
+                            <td scope="col"><button asp-route-id="@item.Id" asp-controller="Country" asp-action="Delete">Delete</button></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

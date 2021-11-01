@@ -196,7 +196,7 @@ a.gradient-button:hover {
 /* Header Style */
 header {
 	position: fixed;
-	z-index: 99999;
+	z-index: 1000;
 	width: 100%;
 	background-color: #6dbbd0;
 	background-image: linear-gradient(135deg, #6dbbd0 0%, #555abd 100%);

@@ -106,3 +106,15 @@ function navActiveChange(elId) {
     var nel = document.getElementById(elId);
     nel.classList.add("active");
 }
+
+showInPopup = (url, title) => {
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (res) {
+            $("#form-model .modal-body").html(res);
+            $("#form-model .modal-title").html(title);
+            $("#form-model").modal('show');
+        }
+    })
+}
