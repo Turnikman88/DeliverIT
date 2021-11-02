@@ -51,7 +51,34 @@ namespace DeliverIT.Web.Controllers
             await _cs.PostAsync(new CountryDTO { Name = model.Name});
             
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) }); 
-        }   
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        public IActionResult Update()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        public async Task<IActionResult> Update(int id, CountryViewModel model)
+        {
+            if (await _cs.CountryExists(model.Name))
+            {
+                this.ModelState.AddModelError("Name", "Country with this name already exists!");
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Update", model, false) });
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Update", model, false) });
+            }
+
+
+            await _cs.UpdateAsync(id, new CountryDTO { Name = model.Name });
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) });
+        }
 
         [HttpPost]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]

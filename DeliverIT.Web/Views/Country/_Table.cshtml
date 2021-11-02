@@ -4,15 +4,16 @@
         <tr>
             <th scope="col">Country Id</th>
             <th scope="col">Country Name</th>
-            <th scope="col"><button onclick="showInPopup('@Url.Action("Create", "Country")', 'test title')">Add new</button></th>
+            <th scope="col"><button onclick="showInPopup('@Url.Action("Create", "Country")', 'Create')">Add New</button></th>
         </tr>
         @foreach (var item in Model)
         {
-            <tr>
-                <th scope="col">@item.Id</th>
-                <td scope="col">@item.Name</td>
-                <td scope="col"><button asp-route-id="@item.Id" asp-controller="Country" asp-action="Delete">Delete</button></td>
-            </tr>
+    <tr>
+        <td scope="col">@item.Id</td>
+        <td scope="col">@item.Name</td>
+        <td scope="col"><button onclick="showInPopup('@Url.Action("Update", "Country", new { id = item.Id})', 'Update')">Update</button></td>
+        <td scope="col"><button asp-route-id="@item.Id" asp-controller="Country" asp-action="Delete">Delete</button></td>
+    </tr>
         }
     </table>
 </div>
