@@ -2,6 +2,7 @@
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Attributes;
+using DeliverIT.Web.Extensions;
 using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,18 +27,31 @@ namespace DeliverIT.Web.Controllers
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
-        public async Task<IActionResult> Create(CountryDTO model)
+        public async Task<IActionResult> Create(CountryViewModel model)
         {
-            await _cs.PostAsync(model);
-            return RedirectToAction(nameof(Index));
-        }
+            if (await _cs.CountryExists(model.Name))
+            {
+                this.ModelState.AddModelError("Name", "Country with this name already exists!");
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
+            }
+
+
+            await _cs.PostAsync(new CountryDTO { Name = model.Name});
+            
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) }); 
+        }   
 
         [HttpPost]
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]

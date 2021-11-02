@@ -18,7 +18,6 @@ namespace DeliverIT.Services.Services
         {
             this._db = db;
         }
-
         public async Task<CountryDTO> GetCountryByIdAsync(int id)
         {
             return CountryDTOMapperExtension.GetDTO(await _db.Countries
@@ -94,6 +93,10 @@ namespace DeliverIT.Services.Services
             await _db.SaveChangesAsync();
 
             return CountryDTOMapperExtension.GetDTO(model);
+        }
+        public async Task<bool> CountryExists(string name)
+        {
+            return await _db.Countries.AnyAsync(x => x.Name == name);
         }
     }
 }

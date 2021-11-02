@@ -15,21 +15,13 @@
 
     <title>DeliverIT</title>
 
-    <!-- Bootstrap core CSS -->
-
     <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Additional CSS Files -->
     <link rel="stylesheet" href="~/css/fontawesome.css">
     <link rel="stylesheet" href="~/css/template.css">
     <link rel="stylesheet" href="~/css/owl.css">
     <link rel="stylesheet" href="~/css/site.css">
     @RenderSection("Styles", required: false)
-
-    <!--
-
-
-    -->
 </head>
 <body>
     <!-- ***** Preloader Start ***** -->
@@ -41,7 +33,7 @@
         </div>
     </div>
     <!-- ***** Preloader End ***** -->
-    <!-- Header -->
+
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
@@ -110,10 +102,9 @@
         </nav>
     </header>
     @RenderBody()
-    <!-- Testimonials Ends Here -->
-    <!-- Footer Starts Here -->
 
-    <div class="modal" tabindex="-1" id="form-model">
+
+    <div class="modal" id="form-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -125,7 +116,6 @@
             </div>
         </div>
     </div>
-
 
     <footer>
         <div class="container">

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DeliverIT.API.Extensions
+namespace DeliverIT.Web.Extensions
 {
     public static class ApplicationServiceExtensions
     {
