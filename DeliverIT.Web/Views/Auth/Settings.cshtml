@@ -41,8 +41,7 @@
                         <input asp-for="ConfirmPassword" placeholder="Confirm Password" class="fadeIn second" value="@Model.ConfirmPassword" />
                         <span asp-validation-for="ConfirmPassword" class="form-error"></span>
                     </div>
-                    @if (!(bool)this.ViewData[Constants.SESSION_AUTH_KEY]
-                  && this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
+                    @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() != Constants.ROLE_EMPLOYEE)
                     {
                         <div>
                             <br />
@@ -55,14 +54,44 @@
                             <input asp-for="City" placeholder="City Name" class="fadeIn second" value="@Model.City" />
 
                             <span asp-validation-for="City" class="form-error"></span>
+
                         </div>
                         <div>
                             <br />
                             <input asp-for="Country" placeholder="Country Name" class="fadeIn second" value="@Model.Country" />
 
                             <span asp-validation-for="Country" class="form-error"></span>
+
                         </div>
                     }
+
+                    @*else
+                        {
+                            <button onclick="myFunction()">Click Me</button>
+
+                            <div id="myDIV">
+                                <div>
+                                    <br />
+                                    <input asp-for="Address" placeholder="Street Name" class="fadeIn second" value="@Model.Address" />
+
+                                    <span asp-validation-for="Address" class="form-error"></span>
+                                </div>
+                                <div>
+                                    <br />
+                                    <input asp-for="City" placeholder="City Name" class="fadeIn second" value="@Model.City" />
+
+                                    <span asp-validation-for="City" class="form-error"></span>
+
+                                </div>
+                                <div>
+                                    <br />
+                                    <input asp-for="Country" placeholder="Country Name" class="fadeIn second" value="@Model.Country" />
+
+                                    <span asp-validation-for="Country" class="form-error"></span>
+
+                                </div>
+                            </div>
+                        }*@
                     <div style="text-align: center">
                         <input type="submit" value="Update Profile" class="fadeIn fourth" style="margin-right: 85px;" />
                     </div>
@@ -73,4 +102,15 @@
 </div>
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    @*<script>
+            function myFunction() {
+                var x = document.getElementById("myDIV");
+                if (x.style.display === "block") {
+                    x.style.display = "none";
+                } else {
+                    x.style.display = "block";
+                }
+            }
+        </script>*@
+
 }

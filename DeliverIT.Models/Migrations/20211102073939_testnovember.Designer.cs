@@ -4,14 +4,16 @@ using DeliverIT.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    partial class DeliverITDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211102073939_testnovember")]
+    partial class testnovember
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,6 +92,12 @@ namespace DeliverIT.Models.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -101,11 +109,13 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             Name = "User"
                         });
                 });
@@ -165,12 +175,6 @@ namespace DeliverIT.Models.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.HasKey("AppRoleId", "AppUserId");
 
                     b.HasIndex("AppUserId");
@@ -181,50 +185,42 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 1,
-                            IsDeleted = false
+                            AppUserId = 1
                         },
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 2,
-                            IsDeleted = false
+                            AppUserId = 2
                         },
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 3,
-                            IsDeleted = false
+                            AppUserId = 3
                         },
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 4,
-                            IsDeleted = false
+                            AppUserId = 4
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 5,
-                            IsDeleted = false
+                            AppUserId = 5
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 6,
-                            IsDeleted = false
+                            AppUserId = 6
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 7,
-                            IsDeleted = false
+                            AppUserId = 7
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 8,
-                            IsDeleted = false
+                            AppUserId = 8
                         });
                 });
 

@@ -129,15 +129,10 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Settings(UserViewModel model)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
-            }
-
             var userRole = this.HttpContext.Session.GetString(Constants.SESSION_ROLE_KEY);
+
             if (userRole == Constants.ROLE_EMPLOYEE)
             {
-                
                 if(!string.IsNullOrWhiteSpace(model.Address) && !string.IsNullOrEmpty(model.Address))
                 {
                     model.AddressId = await GetAddressID(model);
@@ -148,6 +143,11 @@ namespace DeliverIT.Web.Controllers
             }
             else
             {
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View();
+                }
+
                 model.AddressId = await GetAddressID(model);
                 var toCustomer = model.GetCustomerDTO();
                 var email = await this._cs.GetCustomersByEmailAsync(model.Email);
