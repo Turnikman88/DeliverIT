@@ -1,0 +1,27 @@
+﻿<div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
+    <table class="table-custom">
+        <tr>
+            <th scope="col">Parcel Id</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Shipment Status</th>
+            <th scope="col">Warehouse Id</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Deliver to Address</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="col">@item.Id</th>
+                <td scope="col">@item.CategoryName</td>
+                <td scope="col">@item.ShipmentStatus</td>
+                <td scope="col">@item.WareHouseId</td>
+                <td scope="col">@item.Weight</td>
+                <td scope="col">
+                    <a href="#" onclick="changeAddressAjax('@Url.Action("ChangeDeliveryLocation", "Parcel", new { id = item.Id})')">
+                        @(item.DeliverToAddress == true ? "Yes" : "No")
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

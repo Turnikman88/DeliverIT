@@ -1,6 +1,7 @@
 ﻿using DeliverIT.Services.Contracts;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Attributes;
+using DeliverIT.Web.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -34,9 +35,12 @@ namespace DeliverIT.Web.Controllers
         [Authorize(Roles = Constants.ROLE_USER)]
         public async Task<IActionResult> ChangeDeliveryLocation(int id)
         {
+            var userId = int.Parse(this.HttpContext.Session.GetString(Constants.SESSION_ID_KEY));
+
             await _ps.ChangeDeliverLocationAsync(id);
 
-            return this.RedirectToAction(nameof(CustomerParcels));
+            return Json(new { isValid = true, 
+                html = await Helper.RenderViewAsync(this, "_Table", await _ps.GetSortedParcelsByCustomerIdAsync(userId), true) });
         }
     }
 }

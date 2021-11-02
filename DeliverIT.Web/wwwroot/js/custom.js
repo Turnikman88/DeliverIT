@@ -149,3 +149,13 @@ jQueryAjaxPost = form => {
         console.log(ex)
     }
 }
+
+changeAddressAjax = (url) => {
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function (res) {
+            $('#view-all').html(res.html)
+        }
+    })
+}
