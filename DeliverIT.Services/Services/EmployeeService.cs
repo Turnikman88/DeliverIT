@@ -86,7 +86,7 @@ namespace DeliverIT.Services.Services
         {
             var employee = await _db.Employees.Where(x => x.Email.Contains(email))
                                       .Include(x => x.Address).FirstOrDefaultAsync();
-            return  employee.GetDTO();
+            return employee.GetDTO();
         }
 
         public async Task<EmployeeDTO> UpdateAsync(int id, EmployeeDTO obj)
@@ -115,10 +115,20 @@ namespace DeliverIT.Services.Services
 
         private async Task<bool> IsInvalidEmployee(int? addressId, string fName, string lName, string email, string pass)
         {
-            var address = await _db.Addresses.AnyAsync(x => x.Id == addressId);
-            var validEmail = Regex.IsMatch(email, @"[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+");
-            var validPass = pass.Length >= 8 ? true : false;
-            return !(address && !string.IsNullOrEmpty(fName) && !string.IsNullOrEmpty(lName) && validEmail && validPass);
+            //TODO: Fix
+            if (addressId != null)
+            {
+                var address = await _db.Addresses.AnyAsync(x => x.Id == addressId);
+                var validEmail = Regex.IsMatch(email, @"[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+");
+                var validPass = pass.Length >= 8 ? true : false;
+                return !(address && !string.IsNullOrEmpty(fName) && !string.IsNullOrEmpty(lName) && validEmail && validPass);
+            }
+            else
+            {
+                var validEmail = Regex.IsMatch(email, @"[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+");
+                var validPass = pass.Length >= 8 ? true : false;
+                return !(!string.IsNullOrEmpty(fName) && !string.IsNullOrEmpty(lName) && validEmail && validPass);
+            }
         }
     }
 }

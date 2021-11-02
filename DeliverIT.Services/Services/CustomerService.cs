@@ -95,7 +95,13 @@ namespace DeliverIT.Services.Services
                 await this._db.SaveChangesAsync();
                 result = deletedCustomer.GetDTO();
             }
-
+            this._db.AppUserRoles.Add(
+                new Models.DatabaseModels.AppUserRole
+                {
+                    AppRoleId = 2,
+                    AppUserId = result.Id
+                });
+            await this._db.SaveChangesAsync();
             return result;
         }
 
