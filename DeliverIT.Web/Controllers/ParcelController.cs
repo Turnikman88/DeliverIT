@@ -39,8 +39,7 @@ namespace DeliverIT.Web.Controllers
 
             await _ps.ChangeDeliverLocationAsync(id);
 
-            return Json(new { isValid = true, 
-                html = await Helper.RenderViewAsync(this, "_Table", await _ps.GetSortedParcelsByCustomerIdAsync(userId), true) });
+            return Json(new {html = await Helper.RenderViewAsync(this, "_Table", await _ps.GetSortedParcelsByCustomerIdAsync(userId), true) });
         }
     }
 }

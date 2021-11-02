@@ -134,7 +134,7 @@ jQueryAjaxPost = form => {
                     $('#form-modal .modal-title').html('');
                     $('#form-modal .show').remove();
                     $('#form-modal').css('display', 'none');
-                    $('.modal-backdrop').remove();
+                    $('.modal-backdrop').remove();                      
                 }
                 else
                     $('#form-modal .modal-body').html(res.html);
@@ -150,7 +150,7 @@ jQueryAjaxPost = form => {
     }
 }
 
-changeAddressAjax = (url) => {
+ExecuteEmptyAjax = (url) => {
     $.ajax({
         type: "POST",
         url: url,

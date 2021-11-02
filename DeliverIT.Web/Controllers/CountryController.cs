@@ -85,7 +85,8 @@ namespace DeliverIT.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _cs.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+
+            return Json(new { html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) });
         }
     }
 }
