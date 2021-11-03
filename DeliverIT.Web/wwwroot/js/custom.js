@@ -156,6 +156,9 @@ ExecuteEmptyAjax = (url) => {
         url: url,
         success: function (res) {
             $('#view-all').html(res.html)
+        },
+        error: function (res2) {
+            
         }
     })
 }
