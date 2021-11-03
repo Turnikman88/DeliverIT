@@ -62,8 +62,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
-            //_ = CityExists(obj.Name, obj.CountryId)
-            //    != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
+            _ = await CityExists(obj.Name, obj.CountryId)
+                == true ? throw new AppException(Constants.CITY_EXISTS) : 0;
 
             CityDTO result = null;
 
@@ -90,8 +90,8 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> UpdateAsync(int id, CityDTO obj)
         {
-            _ = CityExists(obj.Name, obj.CountryId)
-                != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
+            _ = await CityExists(obj.Name, obj.CountryId)
+                == true ? throw new AppException(Constants.CITY_EXISTS) : 0;
             CheckId(id);
 
             var city = await this._db.Cities
@@ -106,6 +106,7 @@ namespace DeliverIT.Services.Services
             }
 
             city.Name = obj.Name;
+            city.CountryId = obj.CountryId;
             await _db.SaveChangesAsync();
 
             return city.GetDTO();

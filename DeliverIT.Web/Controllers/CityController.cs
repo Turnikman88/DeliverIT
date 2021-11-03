@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Attributes;
 using DeliverIT.Web.Extensions;
@@ -60,7 +61,7 @@ namespace DeliverIT.Web.Controllers
                 return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
             }
 
-            await _cityservice.PostAsync(new Services.DTOs.CityDTO 
+            await _cityservice.PostAsync(new CityDTO 
             { 
                 CountryId = country.Id,
                 CountryName = country.Name,
@@ -70,5 +71,53 @@ namespace DeliverIT.Web.Controllers
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cityservice.GetAsync(), true) });
         }
 
+        public async Task<IActionResult> Update(string name)
+        {
+            var countries = await this._countryservice.GetAsync();
+
+            var model = new CityViewModel() { Name = name };
+
+            foreach (var country in countries)
+            {
+                model.Countries.Add(new SelectListItem() { Text = country.Name, Value = country.Id.ToString() });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, CityViewModel model)
+        {
+            var country = await _countryservice.GetCountryByIdAsync(model.CountryId);
+
+            if (await _cityservice.CityExists(model.Name, country.Id))
+            {
+                this.ModelState.AddModelError("Name", "This city already exists!");
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Update", model, false) });
+            }
+
+
+            await _cityservice.UpdateAsync(id, new CityDTO
+            {
+                CountryId = country.Id,
+                CountryName = country.Name,
+                Name = model.Name
+            });
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cityservice.GetAsync(), true) });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _cityservice.DeleteAsync(id);
+
+            return Json(new { html = await Helper.RenderViewAsync(this, "_Table", await _cityservice.GetAsync(), true) });
+        }
     }
 }
