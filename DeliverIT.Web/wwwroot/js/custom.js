@@ -134,7 +134,7 @@ jQueryAjaxPost = form => {
                     $('#form-modal .modal-title').html('');
                     $('#form-modal .show').remove();
                     $('#form-modal').css('display', 'none');
-                    $('.modal-backdrop').remove();                      
+                    $('.modal-backdrop').remove();
                 }
                 else
                     $('#form-modal .modal-body').html(res.html);
@@ -158,7 +158,34 @@ ExecuteEmptyAjax = (url) => {
             $('#view-all').html(res.html)
         },
         error: function (res2) {
-            
+
         }
     })
+}
+
+
+SearchBarAjax = form => {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    $('#view-all').html(res.html)
+                }
+                else
+                    alert("error accrued");
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+        //to prevent default form submit event
+        return false;
+    } catch (ex) {
+        console.log(ex)
+    }
 }

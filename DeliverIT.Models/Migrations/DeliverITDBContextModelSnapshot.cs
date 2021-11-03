@@ -542,8 +542,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalDate = new DateTime(2021, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 11, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 11, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
@@ -552,8 +552,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalDate = new DateTime(2021, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 11, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 11, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,

@@ -1,19 +1,23 @@
-﻿@model IEnumerable<CountryDTO>
+﻿@model CountryViewModel
 <div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
     <table class="table-custom">
         <tr>
             <th scope="col">Country Id</th>
             <th scope="col">Country Name</th>
-            <th scope="col"><button class="btn btn-outline-success"  onclick="showInPopup('@Url.Action("Create", "Country")', 'Create')">Add New</button></th>
+            <th scope="col"><button class="btn btn-outline-success" onclick="showInPopup('@Url.Action("Create", "Country")', 'Create')">Add New</button></th>
         </tr>
-        @foreach (var item in Model)
+        @if (Model.Countries.Count() == 0)
         {
-    <tr>
-        <td scope="col">@item.Id</td>
-        <td scope="col">@item.Name</td>
-        <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "Country", new { id = item.Id})', 'Update')">Update</button></td>
-        <td scope="col"><button class="btn btn-outline-danger btn-sm" onclick="ExecuteEmptyAjax('@Url.Action("Delete", "Country", new { id = item.Id})', 'Delete')">Delete</button></td>
-    </tr>
+            <th scope="col">No Countries were found!</th>
+        }
+        @foreach (var item in Model.Countries)
+        {
+            <tr>
+                <td scope="col">@item.Id</td>
+                <td scope="col">@item.Name</td>
+                <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "Country", new { id = item.Id})', 'Update')">Update</button></td>
+                <td scope="col"><button class="btn btn-outline-danger btn-sm" onclick="ExecuteEmptyAjax('@Url.Action("Delete", "Country", new { id = item.Id})')">Delete</button></td>
+            </tr>
         }
     </table>
 </div>

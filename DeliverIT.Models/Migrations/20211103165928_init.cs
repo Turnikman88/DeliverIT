@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DeliverIT.Models.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -169,7 +169,9 @@ namespace DeliverIT.Models.Migrations
                 columns: table => new
                 {
                     AppRoleId = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<int>(type: "int", nullable: false)
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -322,12 +324,12 @@ namespace DeliverIT.Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
-                columns: new[] { "AppRoleId", "AppUserId" },
+                columns: new[] { "AppRoleId", "AppUserId", "DeletedOn", "IsDeleted" },
                 values: new object[,]
                 {
-                    { 1, 6 },
-                    { 1, 7 },
-                    { 1, 8 }
+                    { 1, 6, null, false },
+                    { 1, 7, null, false },
+                    { 1, 8, null, false }
                 });
 
             migrationBuilder.InsertData(
@@ -392,14 +394,14 @@ namespace DeliverIT.Models.Migrations
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
-                columns: new[] { "AppRoleId", "AppUserId" },
+                columns: new[] { "AppRoleId", "AppUserId", "DeletedOn", "IsDeleted" },
                 values: new object[,]
                 {
-                    { 2, 1 },
-                    { 1, 5 },
-                    { 2, 2 },
-                    { 2, 3 },
-                    { 2, 4 }
+                    { 2, 1, null, false },
+                    { 1, 5, null, false },
+                    { 2, 2, null, false },
+                    { 2, 3, null, false },
+                    { 2, 4, null, false }
                 });
 
             migrationBuilder.InsertData(
@@ -407,8 +409,8 @@ namespace DeliverIT.Models.Migrations
                 columns: new[] { "Id", "ArrivalDate", "DeletedOn", "DepartureDate", "DestinationWareHouseId", "IsDeleted", "OriginWareHouseId", "StatusId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 11, 4, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
-                    { 2, new DateTime(2021, 11, 4, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
+                    { 1, new DateTime(2021, 11, 13, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 11, 8, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 },
+                    { 2, new DateTime(2021, 11, 13, 0, 0, 0, 0, DateTimeKind.Local), null, new DateTime(2021, 11, 8, 0, 0, 0, 0, DateTimeKind.Local), 2, false, 1, 1 }
                 });
 
             migrationBuilder.InsertData(

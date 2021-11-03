@@ -30,6 +30,7 @@ namespace DeliverIT.Web.Controllers
             indexview.UserCount = await _cs.UserCountAsync();
             indexview.WarehouseCount = await _whs.GetCountAsync();
             var addresses = _whs.GetAddressesObject();
+
             foreach (var item in addresses)
             {
                 indexview.WarehouseLocations.Add(

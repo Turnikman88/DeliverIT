@@ -78,7 +78,6 @@ namespace DeliverIT.Services.Services
         public IQueryable<Address> GetAddressesObject()
         {
             var address = _db.WareHouses
-                .Include(x => x.Parcels)
                 .Include(w => w.Address)
                     .ThenInclude(a => a.City)
                         .ThenInclude(c => c.Country)

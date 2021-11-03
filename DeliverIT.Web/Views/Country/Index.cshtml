@@ -1,13 +1,22 @@
-﻿@model IEnumerable<CountryDTO>
+﻿@model CountryViewModel
 <div class="render-body" style="padding-left: 100px; padding-right: 100px;">
     <div class="container-fluid">
         <div class="row">
             <div class="col flex-sm-wrap-reverse align-content-center" style="margin-right: 80px;">
                 <img src="@Constants.DOMAIN_NAME/images/country-service.png" alt="DeliverIT login image" style="width:100%; height: auto; min-width: 400px;" />
             </div>
-            
-            <div id="view-all">
-                @await Html.PartialAsync("_Table", Model)
+            <div class="col">
+                <form asp-action="FilterByName"
+                      onsubmit="return SearchBarAjax(this);" style="padding-left: 15px;">
+                    <select>
+                        <option value="FilterByName">Name</option>
+                    </select>
+                    <input asp-for="FilterTag" class="" type="text"  />
+                    <button class="btn btn-outline-primary btn-sm" type="submit">Search</button>
+                </form>
+                <div id="view-all">
+                    @await Html.PartialAsync("_Table", Model)
+                </div>
             </div>
         </div>
     </div>

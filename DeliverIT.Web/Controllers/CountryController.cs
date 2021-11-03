@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Web.Controllers
 {
+    [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+
     public class CountryController : Controller
     {
         private readonly ICountryService _cs;
@@ -19,21 +21,31 @@ namespace DeliverIT.Web.Controllers
             this._cs = cs;
         }
 
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Index()
         {
             var countries = await _cs.GetAsync();
-            return View(countries);
+            return View(new CountryViewModel { Countries = countries });
         }
 
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
+        public async Task<IActionResult> FilterByName(CountryViewModel model)
+        {
+            var countries = new CountryViewModel { Countries = await _cs.GetCountriesByPartNameAsync(model.FilterTag) };
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterBy(CountryViewModel model)
+        {
+            var countries = new CountryViewModel { Countries = await _cs.GetCountriesByPartNameAsync(model.FilterTag) };
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
+        }
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Create(CountryViewModel model)
         {
             if (await _cs.CountryExists(model.Name))
@@ -53,14 +65,12 @@ namespace DeliverIT.Web.Controllers
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) }); 
         }
 
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public IActionResult Update()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Update(int id, CountryViewModel model)
         {
             if (await _cs.CountryExists(model.Name))
@@ -81,7 +91,6 @@ namespace DeliverIT.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Delete(int id)
         {
             await _cs.DeleteAsync(id);

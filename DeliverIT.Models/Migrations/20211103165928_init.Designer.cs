@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverIT.Models.Migrations
 {
     [DbContext(typeof(DeliverITDBContext))]
-    [Migration("20211102073939_testnovember")]
-    partial class testnovember
+    [Migration("20211103165928_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,12 +92,6 @@ namespace DeliverIT.Models.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -109,13 +103,11 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            IsDeleted = false,
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            IsDeleted = false,
                             Name = "User"
                         });
                 });
@@ -175,6 +167,12 @@ namespace DeliverIT.Models.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("AppRoleId", "AppUserId");
 
                     b.HasIndex("AppUserId");
@@ -185,42 +183,50 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 1
+                            AppUserId = 1,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 2
+                            AppUserId = 2,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 3
+                            AppUserId = 3,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 2,
-                            AppUserId = 4
+                            AppUserId = 4,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 5
+                            AppUserId = 5,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 6
+                            AppUserId = 6,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 7
+                            AppUserId = 7,
+                            IsDeleted = false
                         },
                         new
                         {
                             AppRoleId = 1,
-                            AppUserId = 8
+                            AppUserId = 8,
+                            IsDeleted = false
                         });
                 });
 
@@ -538,8 +544,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 1,
-                            ArrivalDate = new DateTime(2021, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 11, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 11, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
@@ -548,8 +554,8 @@ namespace DeliverIT.Models.Migrations
                         new
                         {
                             Id = 2,
-                            ArrivalDate = new DateTime(2021, 11, 12, 0, 0, 0, 0, DateTimeKind.Local),
-                            DepartureDate = new DateTime(2021, 11, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            ArrivalDate = new DateTime(2021, 11, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            DepartureDate = new DateTime(2021, 11, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationWareHouseId = 2,
                             IsDeleted = false,
                             OriginWareHouseId = 1,
