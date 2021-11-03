@@ -26,7 +26,7 @@ namespace DeliverIT.Services.DTOMappers
 
         public static City GetEntity(this CityDTO city)
         {
-            if (city is null || city.Name is null || city.Id <= 0 || city.CountryId <= 0)
+            if (city is null || city.Name is null || city.Id < 0 || city.CountryId <= 0)
             {
                 throw new AppException(Constants.INCORRECT_DATA);
             }

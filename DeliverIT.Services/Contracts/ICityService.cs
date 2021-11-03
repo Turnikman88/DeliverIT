@@ -7,5 +7,6 @@ namespace DeliverIT.Services.Contracts
     {
         Task<CityDTO> GetCityByIdAsync(int id);
         Task<CityDTO> GetCityByNameAsync(string name);
+        Task<bool> CityExists(string name, int countryId);
     }
 }

@@ -1,10 +1,12 @@
-﻿<div class="" style="padding:170px 0 70px 0;">
+﻿@model IEnumerable<CityDTO>
+
+<div class="" style="padding:170px 0 70px 0;">
     <div class="row">
         <div class="col-4 flex-sm-wrap-reverse ">
-            <img src="@Constants.DOMAIN_NAME/images/city-controller.png" alt="DeliverIT Register image" style="margin:30px; width:100%; height: auto; min-width: 400px;" />
+            <img src="@Constants.DOMAIN_NAME/images/city-controller.png" alt="DeliverIT City image" style="margin:30px; width:100%; height: auto; min-width: 400px;" />
         </div>
     </div>
-    <div class="row">        
+    <div class="row">
         <div class="col">
             <div class="btn-group-lg pl-4">
                 <button type="button" class="btn btn-get-custom">Get All</button>
@@ -16,13 +18,12 @@
             </div>
         </div>
     </div>
-        <div class="row">
-            
-            <div class="col-12">
-                <div class="box-shadow">
-
-                </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="view-all">
+                @await Html.PartialAsync("_Table", Model)
             </div>
         </div>
-   
+    </div>
+
 </div>

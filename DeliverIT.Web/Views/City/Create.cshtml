@@ -1,0 +1,29 @@
+﻿@model CityViewModel
+@section Styles{
+    <link rel="stylesheet" href="~/css/form.css">
+}
+@{
+    var asd = Model.Countries;
+    Layout = "/Views/Shared/_LayoutEmpty.cshtml";
+}
+
+<div class="row">
+    <div class="col">
+        <form asp-action="Create" onsubmit="return jQueryAjaxPost(this);">
+            <div>
+                <br />
+                <input asp-for="Name" placeholder="Name" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <span asp-validation-for="Name" class="form-error"></span>
+                <select asp-for="CountryId" asp-items="Model.Countries" class="fourth" style="margin:-10px 0 10px 0; width: 100%;"></select>
+                <span asp-validation-for="CountryId" class="form-error"></span>
+            </div>
+            <div style="text-align: center">
+                <input type="submit" value="Create" class="fourth" style="margin: auto;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

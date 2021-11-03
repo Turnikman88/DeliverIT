@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="DeliverIT">
+    <meta name="author"  content="DeliverIT">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
 
     <title>DeliverIT</title>
@@ -37,6 +37,7 @@
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
+                <i class="fas fa-shipping-fast"></i>
                 <a class="navbar-brand mr-auto" asp-controller="Home" asp-action="Index"><h2>Deliver<sup> It</sup></h2></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -56,7 +57,7 @@
                             <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a>
                         </li>
                         @if ((bool)this.ViewData[Constants.SESSION_AUTH_KEY]
-                           && this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
+                          && this.ViewData[Constants.SESSION_ROLE_KEY].ToString() == Constants.ROLE_EMPLOYEE)
                         {
 
                             <li class="dropdown">

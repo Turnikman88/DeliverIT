@@ -58,10 +58,12 @@ namespace DeliverIT.Services.Services
             return city.GetDTO();
         }
 
+
+
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
-            _ = await _db.Cities.FirstOrDefaultAsync(x => x.Name == obj.Name && x.CountryId == obj.CountryId)
-                != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
+            //_ = CityExists(obj.Name, obj.CountryId)
+            //    != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
 
             CityDTO result = null;
 
@@ -88,7 +90,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<CityDTO> UpdateAsync(int id, CityDTO obj)
         {
-            _ = await _db.Cities.FirstOrDefaultAsync(x => x.Name == obj.Name && x.CountryId == obj.CountryId)
+            _ = CityExists(obj.Name, obj.CountryId)
                 != null ? throw new AppException(Constants.CITY_EXISTS) : 0;
             CheckId(id);
 
@@ -124,6 +126,11 @@ namespace DeliverIT.Services.Services
             await _db.SaveChangesAsync();
 
             return city.GetDTO();
+        }
+
+        public async Task<bool> CityExists(string name, int countryId)
+        {
+            return await _db.Cities.AnyAsync(x => x.Name == name && x.CountryId == countryId);
         }
 
         private static void CheckId(int id)
