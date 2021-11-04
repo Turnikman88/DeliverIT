@@ -28,7 +28,25 @@ namespace DeliverIT.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var cities = await _cityservice.GetAsync();
-            return View(cities);
+            var model = new CityViewModel()
+            {
+                Cities = cities
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterByName(CityViewModel model)
+        {
+            var city = new CityViewModel { Cities = await _cityservice.GetCitiesByNameAsync(model.FilterTag) };
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", city.Cities, true) });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterByCountryName(CityViewModel model)
+        {
+            var city = new CityViewModel { Cities = await _cityservice.GetCitiesByCountryNameAsync(model.FilterTag) };
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", city.Cities, true) });
         }
 
         public async Task<IActionResult> Create()

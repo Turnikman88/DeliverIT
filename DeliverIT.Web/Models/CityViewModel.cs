@@ -23,6 +23,8 @@ namespace DeliverIT.Web.Models
 
         public List<SelectListItem> Countries { get; set; } = new List<SelectListItem>();
 
+        public IEnumerable<CityDTO> Cities { get; set; } = new List<CityDTO>();
+
         public string FilterTag { get; set; }
     }
 }
