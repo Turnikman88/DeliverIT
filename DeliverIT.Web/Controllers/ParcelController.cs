@@ -2,6 +2,7 @@
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Attributes;
 using DeliverIT.Web.Extensions;
+using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,7 +22,19 @@ namespace DeliverIT.Web.Controllers
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         public async Task<IActionResult> Index()
         {
-            return View();
+            var parcels = await _ps.GetAsync();
+
+            return View(new ParcelViewModel { Parcels = parcels});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _ps.DeleteAsync(id);
+
+            var parcels = new ParcelViewModel { Parcels = await _ps.GetAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
         }
 
         [Authorize(Roles = Constants.ROLE_USER)]
@@ -39,7 +52,9 @@ namespace DeliverIT.Web.Controllers
 
             await _ps.ChangeDeliverLocationAsync(id);
 
-            return Json(new {html = await Helper.RenderViewAsync(this, "_Table", await _ps.GetSortedParcelsByCustomerIdAsync(userId), true) });
+            var parcels = new ParcelViewModel { Parcels = await _ps.GetSortedParcelsByCustomerIdAsync(userId) };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_CustomerTable", parcels, true) });
         }
     }
 }

@@ -1,26 +1,32 @@
-﻿<div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
+﻿@model ParcelViewModel
+<div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
     <table class="table-custom">
         <tr>
-            <th scope="col">Parcel Id</th>
-            <th scope="col">Category Name</th>
-            <th scope="col">Shipment Status</th>
+            <th scope="col">Country Id</th>
+            <th scope="col">Customer Id</th>
+            <th scope="col">Shipment Id</th>
             <th scope="col">Warehouse Id</th>
+            <th scope="col">Category Name</th>
             <th scope="col">Weight</th>
-            <th scope="col">Deliver to Address</th>
+            <th scope="col">Deliver To Address</th>
+            <th scope="col"><button class="btn btn-outline-success" onclick="showInPopup('@Url.Action("Create", "Parcel")', 'Create')">Add New</button></th>
         </tr>
-        @foreach (var item in Model)
+        @if (Model.Parcels.Count() == 0)
+        {
+            <th scope="col">No Countries were found!</th>
+        }
+        @foreach (var item in Model.Parcels)
         {
             <tr>
-                <th scope="col">@item.Id</th>
-                <td scope="col">@item.CategoryName</td>
-                <td scope="col">@item.ShipmentStatus</td>
+                <td scope="col">@item.Id</td>
+                <td scope="col">@item.CustomerId</td>
+                <td scope="col">@item.ShipmentId</td>
                 <td scope="col">@item.WareHouseId</td>
+                <td scope="col">@item.CategoryName</td>
                 <td scope="col">@item.Weight</td>
-                <td scope="col">
-                    <a href="#" onclick="ExecuteEmptyAjax('@Url.Action("ChangeDeliveryLocation", "Parcel", new { id = item.Id})')">
-                        @(item.DeliverToAddress == true ? "Yes" : "No")
-                    </a>
-                </td>
+                <td scope="col">@item.DeliverToAddress</td>
+                <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "Parcel", new { id = item.Id})', 'Update')">Update</button></td>
+                <td scope="col"><button class="btn btn-outline-danger btn-sm" onclick="ExecuteEmptyAjax('@Url.Action("Delete", "Parcel", new { id = item.Id})')">Delete</button></td>
             </tr>
         }
     </table>

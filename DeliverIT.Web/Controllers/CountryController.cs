@@ -55,13 +55,15 @@ namespace DeliverIT.Web.Controllers
 
 
             await _cs.PostAsync(new CountryDTO { Name = model.Name});
-            
-            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) }); 
+
+            var countries = new CountryViewModel { Countries = await _cs.GetAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) }); 
         }
 
-        public IActionResult Update()
+        public IActionResult Update(string name)
         {
-            return View();
+            return View(new CountryViewModel { Name = name });
         }
 
         [HttpPost]
@@ -81,7 +83,9 @@ namespace DeliverIT.Web.Controllers
 
             await _cs.UpdateAsync(id, new CountryDTO { Name = model.Name });
 
-            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) });
+            var countries = new CountryViewModel { Countries = await _cs.GetAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
         }
 
         [HttpPost]
@@ -89,7 +93,9 @@ namespace DeliverIT.Web.Controllers
         {
             await _cs.DeleteAsync(id);
 
-            return Json(new { html = await Helper.RenderViewAsync(this, "_Table", await _cs.GetAsync(), true) });
+            var countries = new CountryViewModel { Countries = await _cs.GetAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
         }
     }
 }
