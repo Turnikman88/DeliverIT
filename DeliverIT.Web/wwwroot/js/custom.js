@@ -163,6 +163,9 @@ ExecuteEmptyAjax = (url) => {
     })
 }
 
+$(".form-search").change(function () {
+    $(this).attr('action', $('#sel').val());
+});
 
 SearchBarAjax = form => {
     try {

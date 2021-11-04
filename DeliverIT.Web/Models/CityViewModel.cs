@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Services.DTOs;
+using DeliverIT.Web.Models.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DeliverIT.Web.Models
 {
-    public class CityViewModel
+    public class CityViewModel : ISearchable
     {
         public int Id { get; set; }
 
@@ -21,5 +22,7 @@ namespace DeliverIT.Web.Models
         public int CountryId { get; set; }
 
         public List<SelectListItem> Countries { get; set; } = new List<SelectListItem>();
+
+        public string FilterTag { get; set; }
     }
 }

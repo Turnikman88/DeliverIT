@@ -17,7 +17,7 @@
                 <td scope="col">@item.Id</td>
                 <td scope="col">@item.Name</td>
                 <td scope="col">@item.CountryName</td>
-                <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "City", new { id = item.Id, name = item.Name})', 'Update')">Edit</button></td>
+                <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "City", new { name = item.Name})', 'Update')">Edit</button></td>
                 <td scope="col"><button class="btn btn-outline-danger btn-sm" onclick="ExecuteEmptyAjax('@Url.Action("Delete", "City", new { id = item.Id})', 'Delete')">Delete</button></td>
             </tr>
         }

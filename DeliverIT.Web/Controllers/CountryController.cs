@@ -34,12 +34,6 @@ namespace DeliverIT.Web.Controllers
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> FilterBy(CountryViewModel model)
-        {
-            var countries = new CountryViewModel { Countries = await _cs.GetCountriesByPartNameAsync(model.FilterTag) };
-            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
-        }
         public IActionResult Create()
         {
             return View();

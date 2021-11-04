@@ -1,4 +1,8 @@
 ﻿@model CountryViewModel
+@section Styles{
+    <link rel="stylesheet" href="~/css/form.css">
+
+}
 <div class="render-body" style="padding-left: 100px; padding-right: 100px;">
     <div class="container-fluid">
         <div class="row">
@@ -6,12 +10,13 @@
                 <img src="@Constants.DOMAIN_NAME/images/country-service.png" alt="DeliverIT login image" style="width:100%; height: auto; min-width: 400px;" />
             </div>
             <div class="col">
-                <form asp-action="FilterByName"
-                      onsubmit="return SearchBarAjax(this);" style="padding-left: 15px;">
-                    <select>
-                        <option value="FilterByName">Name</option>
+                <form action="" method="post"
+                      onsubmit="return SearchBarAjax(this);" style="padding-left: 15px;" class="form-search small-form">
+                    <select id="sel">
+                        <option value="Country/FilterByName">Name</option>
+                        <option value="Country/FilterById">Id</option>
                     </select>
-                    <input asp-for="FilterTag" class="" type="text"  />
+                    <input asp-for="FilterTag" placeholder="Search By Name" type="text" style="padding: 4px; min-width: 10px; width: 40%;" />
                     <button class="btn btn-outline-primary btn-sm" type="submit">Search</button>
                 </form>
                 <div id="view-all">
