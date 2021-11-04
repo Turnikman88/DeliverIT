@@ -11,18 +11,23 @@
         <form asp-action="Update" onsubmit="return jQueryAjaxPost(this);">
             <div>
                 <br />
-                <input asp-for="CustomerId" value="" placeholder="Customer Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <label>Customer Id</label>
+                <input asp-for="CustomerId" placeholder="Customer Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="CustomerId" class="form-error"></span>
                 <br />
-                <input asp-for="ShipmentId" value="" placeholder="Shipment Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <label>Shipment Id</label>
+                <input asp-for="ShipmentId" placeholder="Shipment Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="ShipmentId" class="form-error"></span>
                 <br />
-                <input asp-for="WareHouseId" value="" placeholder="Warehouse Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <label>Warehouse Id</label>
+                <input asp-for="WareHouseId" placeholder="Warehouse Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="WareHouseId" class="form-error"></span>
+                <label>Category Name</label>
                 <select asp-for="CategoryName" asp-items="Model.Categories" style="margin:5px 0 10px 0; width: 100%;"></select>
                 <span asp-validation-for="CategoryName" class="form-error"></span>
                 <br />
-                <input asp-for="Weight" value="" placeholder="Weight" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <label>Weight</label>
+                <input asp-for="Weight" placeholder="Weight" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="Weight" class="form-error"></span>
             </div>
             <div style="text-align: center">

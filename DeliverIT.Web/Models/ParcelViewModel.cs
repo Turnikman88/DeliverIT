@@ -1,4 +1,5 @@
 ﻿using DeliverIT.Services.DTOs;
+using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Models.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -13,24 +14,25 @@ namespace DeliverIT.Web.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public int CustomerId { get; set; } 
+        [Required(ErrorMessage = Constants.REQUIRED)]
+        public int? CustomerId { get; set; }
 
-        [Required]
-        public int ShipmentId { get; set; } 
+        [Required(ErrorMessage = Constants.REQUIRED)]
+        public int? ShipmentId { get; set; }
 
-        [Required]
-        public int? WareHouseId { get; set; } 
+        [Required(ErrorMessage = Constants.REQUIRED)]
+        public int? WareHouseId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = Constants.REQUIRED)]
         public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
 
-        [Required]
         public string CategoryName { get; set; }
 
-        [Required]
-        [Range(0, 10000, ErrorMessage = "Value for {0} must be between {2} and {1}.")]
-        public double Weight { get; set; } 
+        [Required(ErrorMessage = Constants.REQUIRED)]
+        public int? CategoryId { get; set; }
+
+        [Range(0, 10000, ErrorMessage = "Weight must be between 0 and 10000.")]
+        public double? Weight { get; set; } 
 
         public bool DeliverToAddress { get; set; }
 

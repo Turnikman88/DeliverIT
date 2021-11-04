@@ -17,6 +17,7 @@
         public const string WRONG_CREDENTIALS = "Wrong credentials!";
 
         public const string LOGGED = "You logged successfully!";
+        public const string REQUIRED = "This field is required!";
         public const string ACCOUNT_NOT_FOUND = "Account not found!";
         public const string WRONG_ID = "Wrong id!";
         public const string INCORRECT_DATA = "Incorrect or missing data!";

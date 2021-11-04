@@ -1,8 +1,10 @@
 ﻿using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Attributes;
 using DeliverIT.Web.Extensions;
 using DeliverIT.Web.Models;
+using DeliverIT.Web.Models.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -70,14 +72,7 @@ namespace DeliverIT.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var categories = await _ps.GetCategoriesAsync();
-
-            var model = new ParcelViewModel();
-
-            foreach (var category in categories)
-            {
-                model.Categories.Add(new SelectListItem() { Text = category.Name, Value = category.Name });
-            }
+            ParcelViewModel model = await RenderCategories();
 
             return View(model);
         }
@@ -86,11 +81,11 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ParcelViewModel model)
         {
-            if (!await _check.CustomerExists(model.CustomerId))
+            if (!await _check.CustomerExists(model.CustomerId ?? 0))
             {
                 this.ModelState.AddModelError("CustomerId", "Customer with this id doen't exists!");
             } 
-            if (!await _check.ShipmentExists(model.ShipmentId))
+            if (!await _check.ShipmentExists(model.ShipmentId ?? 0))
             {
                 this.ModelState.AddModelError("ShipmentId", "Shipment with this id doen't exists!");
             }
@@ -100,10 +95,35 @@ namespace DeliverIT.Web.Controllers
             }
             if (!this.ModelState.IsValid)
             {
-                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
+                ParcelViewModel errorModel = await RenderCategories();
+
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", errorModel, false) });
             }
 
-            return default;
+
+            await _ps.PostAsync(model.GetParcelDTO());
+
+            var parcels = new ParcelViewModel { Parcels = await _ps.GetAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var data = await _ps.GetParcelByIdAsync(id);
+            
+            ParcelViewModel model = data.GetParcelViewModel();
+
+            var categories = await _ps.GetCategoriesAsync();
+
+            foreach (var category in categories)
+            {
+                model.Categories.Add(new SelectListItem() { Text = category.Name, Value = category.Id.ToString() });
+            }
+
+            return View(model);
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
@@ -135,6 +155,19 @@ namespace DeliverIT.Web.Controllers
             var parcels = new ParcelViewModel { Parcels = await _ps.GetSortedParcelsByCustomerIdAsync(userId) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_CustomerTable", parcels, true) });
+        }
+        private async Task<ParcelViewModel> RenderCategories()
+        {
+            var categories = await _ps.GetCategoriesAsync();
+
+            var model = new ParcelViewModel();
+
+            foreach (var category in categories)
+            {
+                model.Categories.Add(new SelectListItem() { Text = category.Name, Value = category.Id.ToString() });
+            }
+
+            return model;
         }
     }
 }
