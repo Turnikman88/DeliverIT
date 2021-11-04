@@ -5,6 +5,7 @@ using DeliverIT.Web.Extensions;
 using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,6 +62,22 @@ namespace DeliverIT.Web.Controllers
             var parcels = new ParcelViewModel { Parcels = await _ps.SortByWeightAndArrivalDateAsync() };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var categories = await _ps.GetCategoriesAsync();
+
+            var model = new ParcelViewModel();
+
+            foreach (var category in categories)
+            {
+                model.Categories.Add(new SelectListItem() { Text = category.Name, Value = category.Name });
+            }
+
+            return View(model);
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]

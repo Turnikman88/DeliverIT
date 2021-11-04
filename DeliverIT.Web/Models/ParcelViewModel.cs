@@ -1,5 +1,6 @@
 ﻿using DeliverIT.Services.DTOs;
 using DeliverIT.Web.Models.Contracts;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,21 @@ namespace DeliverIT.Web.Models
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
+        public int CustomerId { get; set; } 
 
-        public int ShipmentId { get; set; }
+        public int ShipmentId { get; set; } 
 
-        public int? WareHouseId { get; set; }
-/*        public int CategoryId { get; set; }
-*/        public string CategoryName { get; set; }
+        public int? WareHouseId { get; set; } 
 
-        public double Weight { get; set; }
+        public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
+
+        public string CategoryName { get; set; } 
+
+        public double Weight { get; set; } 
 
         public bool DeliverToAddress { get; set; }
 
-        public string ShipmentStatus { get; set; }
+        public string ShipmentStatus { get; set; } 
 
         public IEnumerable<ParcelDTO> Parcels { get; set; }
 

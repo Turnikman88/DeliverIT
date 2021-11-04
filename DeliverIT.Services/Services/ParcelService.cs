@@ -226,6 +226,7 @@ namespace DeliverIT.Services.Services
 
             return parcelDTO;
         }
+
         private async Task<bool> IsInvalidParcel(int customerId, int shipmentId, int? warehouseId, int categoryId)
         {
             var customers = await _db.Customers.AnyAsync(x => x.Id == customerId);
@@ -233,6 +234,11 @@ namespace DeliverIT.Services.Services
             var warehouses = await _db.WareHouses.AnyAsync(x => x.Id == warehouseId);
             var categories = await _db.Categories.AnyAsync(x => x.Id == categoryId);
             return !(customers && shipments && warehouses && categories);
+        }
+
+        public async Task<IEnumerable<CategoryDTO>> GetCategoriesAsync()
+        {
+            return await _db.Categories.Select(x => x.GetDTO()).ToListAsync();
         }
     }
 }
