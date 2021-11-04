@@ -128,6 +128,37 @@ namespace DeliverIT.Web.Controllers
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         [HttpPost]
+        public async Task<IActionResult> Update( int id, ParcelViewModel model)
+        {
+            if (!await _check.CustomerExists(model.CustomerId ?? 0))
+            {
+                this.ModelState.AddModelError("CustomerId", "Customer with this id doen't exists!");
+            }
+            if (!await _check.ShipmentExists(model.ShipmentId ?? 0))
+            {
+                this.ModelState.AddModelError("ShipmentId", "Shipment with this id doen't exists!");
+            }
+            if (!await _check.WarehouseExists(model.WareHouseId))
+            {
+                this.ModelState.AddModelError("WarehouseId", "Warehouse with this id doen't exists!");
+            }
+            if (!this.ModelState.IsValid)
+            {
+                ParcelViewModel errorModel = await RenderCategories();
+
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Update", errorModel, false) });
+            }
+
+
+            await _ps.UpdateAsync(id, model.GetParcelDTO());
+
+            var parcels = new ParcelViewModel { Parcels = await _ps.GetAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             await _ps.DeleteAsync(id);
