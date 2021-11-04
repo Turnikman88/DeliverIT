@@ -1,12 +1,27 @@
-﻿@model IEnumerable<CityDTO>
+﻿@model CityViewModel
+@section Styles{
+    <link rel="stylesheet" href="~/css/form.css">
+}
+
 <div class="render-body" style="padding-left: 100px; padding-right: 100px;">
     <div class="container-fluid">
         <div class="row">
             <div class="col flex-sm-wrap-reverse align-content-center" style="margin-right: 80px;">
                 <img src="@Constants.DOMAIN_NAME/images/city-service.png" alt="DeliverIT city image" style="width:100%; height: auto; min-width: 400px;" />
             </div>
-            <div id="view-all">
-                @await Html.PartialAsync("_Table", Model)
+            <div class="col">
+                <form action="" method="post"
+                      onsubmit="return SearchBarAjax(this);" style="padding-left: 15px;" class="form-search small-form">
+                    <input asp-for="FilterTag" placeholder="Search" type="text" style="padding: 4px; height: 37px; min-width: 10px; width: 35%;" />
+                    <select id="sel" class="select-searchbar" style="width: 25%;">
+                        <option value="City/FilterByName">Search by name</option>
+                        <option value="City/FilterByCountryName">Search by country</option>
+                    </select>
+                    <button class="btn btn-outline-primary btn-sm" type="submit" style="height: 37px;">Search</button>
+                </form>
+                <div id="view-all">
+                    @await Html.PartialAsync("_Table", Model.Cities)
+                </div>
             </div>
         </div>
     </div>

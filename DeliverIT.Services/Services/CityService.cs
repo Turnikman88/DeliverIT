@@ -58,6 +58,37 @@ namespace DeliverIT.Services.Services
             return city.GetDTO();
         }
 
+        public async Task<IEnumerable<CityDTO>> GetCitiesByNameAsync(string name)
+        {
+            return await this._db.Cities
+                .Include(x => x.Addresses)
+                .Include(x => x.Country)
+                .Where(x=>x.Name.ToLower().Contains(name.ToLower()))
+                .Select(x => new CityDTO
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CountryId = x.CountryId,
+                    CountryName = x.Country.Name,
+                    Addresses = x.Addresses.Select(y => y.StreetName).ToList()
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<CityDTO>> GetCitiesByCountryNameAsync(string name)
+        {
+            return await this._db.Cities
+                .Include(x => x.Addresses)
+                .Include(x => x.Country)
+                .Where(x => x.Country.Name.ToLower().Contains(name.ToLower()))
+                .Select(x => new CityDTO
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CountryId = x.CountryId,
+                    CountryName = x.Country.Name,
+                    Addresses = x.Addresses.Select(y => y.StreetName).ToList()
+                }).ToListAsync();
+        }
 
 
         public async Task<CityDTO> PostAsync(CityDTO obj)
