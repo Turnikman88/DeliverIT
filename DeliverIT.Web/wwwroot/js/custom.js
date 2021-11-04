@@ -179,8 +179,6 @@ SearchBarAjax = form => {
                 if (res.isValid) {
                     $('#view-all').html(res.html)
                 }
-                else
-                    alert("error accrued");
             },
             error: function (err) {
                 console.log(err)

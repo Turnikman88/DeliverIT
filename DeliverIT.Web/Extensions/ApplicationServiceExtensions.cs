@@ -24,6 +24,7 @@ namespace DeliverIT.Web.Extensions
             services.AddScoped<IParcelService, ParcelService>();
             services.AddScoped<IFindUserService, FindUserService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<ICheckExistenceService, CheckExistenceService>();
             services.AddSingleton<IMailSettings, MailSettings>();
             services.AddTransient<IMailService, MailService>();
 

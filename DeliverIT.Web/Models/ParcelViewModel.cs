@@ -3,6 +3,7 @@ using DeliverIT.Web.Models.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,16 +13,23 @@ namespace DeliverIT.Web.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public int CustomerId { get; set; } 
 
+        [Required]
         public int ShipmentId { get; set; } 
 
+        [Required]
         public int? WareHouseId { get; set; } 
 
+        [Required]
         public List<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
 
-        public string CategoryName { get; set; } 
+        [Required]
+        public string CategoryName { get; set; }
 
+        [Required]
+        [Range(0, 10000, ErrorMessage = "Value for {0} must be between {2} and {1}.")]
         public double Weight { get; set; } 
 
         public bool DeliverToAddress { get; set; }

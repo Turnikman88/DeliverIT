@@ -15,9 +15,11 @@ namespace DeliverIT.Web.Controllers
     public class ParcelController : Controller
     {
         private readonly IParcelService _ps;
-        public ParcelController(IParcelService ps)
+        private readonly ICheckExistenceService _check;
+        public ParcelController(IParcelService ps, ICheckExistenceService check)
         {
             this._ps = ps;
+            this._check = check;
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
@@ -78,6 +80,30 @@ namespace DeliverIT.Web.Controllers
             }
 
             return View(model);
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
+        public async Task<IActionResult> Create(ParcelViewModel model)
+        {
+            if (!await _check.CustomerExists(model.CustomerId))
+            {
+                this.ModelState.AddModelError("CustomerId", "Customer with this id doen't exists!");
+            } 
+            if (!await _check.ShipmentExists(model.ShipmentId))
+            {
+                this.ModelState.AddModelError("ShipmentId", "Shipment with this id doen't exists!");
+            }
+            if (!await _check.WarehouseExists(model.WareHouseId))
+            {
+                this.ModelState.AddModelError("WarehouseId", "Warehouse with this id doen't exists!");
+            }
+            if (!this.ModelState.IsValid)
+            {
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
+            }
+
+            return default;
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
