@@ -3,12 +3,20 @@
     <link rel="stylesheet" href="~/css/form.css">
 
 }
+
 <div class="render-body" style="padding-left: 100px; padding-right: 100px;">
     <div style="margin-right: 10%; margin-left: 10%;">
-        <form asp-action="FilterByName" method="post"
+        <form action="" method="post"
               onsubmit="return SearchBarAjax(this);" style="padding-left: 15px;" class="form-search small-form">
-            <input asp-for="FilterTag" placeholder="Search By Name" type="text" style="padding: 4px; min-width: 10px; width: 40%;" />
-            <button class="btn btn-outline-primary btn-sm" type="submit">Search</button>
+            <input asp-for="FilterTag" placeholder="Search By Customer Id" type="text" style="padding: 4px; min-width: 10px; width: 40%;" />
+
+            <select id="sel" class="select-searchbar">
+                <option value="Parcel/GetParcelsByCustomerId">Customer Id</option>
+                <option value="Parcel/SortByWeight">Sort By Weight</option>
+                <option value="Parcel/SortByArrivalDate">Sort By Arrival Date</option>
+                <option value="Parcel/SortByWeightAndArrivalDate">Sort By Weight And Arrival Date</option>
+            </select>
+            <button class="btn btn-outline-primary" type="submit">Search</button>
         </form>
         <div id="view-all">
             @await Html.PartialAsync("_Table", Model)

@@ -27,6 +27,43 @@ namespace DeliverIT.Web.Controllers
             return View(new ParcelViewModel { Parcels = parcels});
         }
 
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
+        public async Task<IActionResult> GetParcelsByCustomerId(ParcelViewModel model)
+        {
+            var parcels = new ParcelViewModel { Parcels = await _ps.GetSortedParcelsByCustomerIdAsync(int.Parse(model.FilterTag)) };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
+        public async Task<IActionResult> SortByWeight()
+        {
+            var parcels = new ParcelViewModel { Parcels = await _ps.SortByWeightAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        } 
+        
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
+        public async Task<IActionResult> SortByArrivalDate()
+        {
+            var parcels = new ParcelViewModel { Parcels = await _ps.SortByArrivalDateAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
+        [HttpPost]
+        public async Task<IActionResult> SortByWeightAndArrivalDate()
+        {
+            var parcels = new ParcelViewModel { Parcels = await _ps.SortByWeightAndArrivalDateAsync() };
+
+            return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });
+        }
+
+        [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
@@ -41,7 +78,7 @@ namespace DeliverIT.Web.Controllers
         public async Task<IActionResult> CustomerParcels()
         {
             var id = int.Parse(this.HttpContext.Session.GetString(Constants.SESSION_ID_KEY));
-            var parcels = await _ps.GetSortedParcelsByCustomerIdAsync(id);
+            var parcels = new ParcelViewModel { Parcels = await _ps.GetSortedParcelsByCustomerIdAsync(id) };
             return View(parcels);
         }
 

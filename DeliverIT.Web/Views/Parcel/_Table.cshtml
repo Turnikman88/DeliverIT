@@ -2,7 +2,7 @@
 <div class="col" style="width:auto; height:400px; overflow:auto; padding: 15px;">
     <table class="table-custom">
         <tr>
-            <th scope="col">Country Id</th>
+            <th scope="col">Parcel Id</th>
             <th scope="col">Customer Id</th>
             <th scope="col">Shipment Id</th>
             <th scope="col">Warehouse Id</th>
@@ -13,7 +13,9 @@
         </tr>
         @if (Model.Parcels.Count() == 0)
         {
-            <th scope="col">No Countries were found!</th>
+            <tr>
+                <th scope="col">No Parcels were found!</th>
+            </tr>
         }
         @foreach (var item in Model.Parcels)
         {
