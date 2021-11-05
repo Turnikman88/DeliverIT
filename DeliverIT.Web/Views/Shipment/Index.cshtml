@@ -1,5 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model ShipmentViewModel
+@section Styles{
+    <link rel="stylesheet" href="~/css/form.css">
 }
+
+<div class="render-body" style="padding-left: 100px; padding-right: 100px;">
+    <div style="margin-right: 10%; margin-left: 10%;">
+        <form action="" method="post"
+              onsubmit="return SearchBarAjax(this);" style="padding-left: 15px;" class="form-search small-form">
+            <input asp-for="FilterTag" placeholder="Search" type="text" style="padding: 4px; min-width: 10px; width: 40%;" />
+
+            <select id="sel" style="width: 30%; padding: 7px;">
+                <option value="Shipment/FilterByDestinationWareHouse">DestWarehouse Id</option>
+                <option value="Shipment/FilterByOriginWareHouse">OriginWarehouse Id</option>
+                <option value="Shipment/FilterByCustomerId">Customer Id</option>
+                <option value="Shipment/FilterByCustomerEmail">Customer Email</option>
+                <option value="Shipment/FilterByCustomerAddress">Customer Address</option>
+                <option value="Shipment/FilterByStatusId">Status Id</option>
+            </select>
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
+        <div id="view-all">
+            @await Html.PartialAsync("_Table", Model)
+        </div>
+    </div>
+
+</div>

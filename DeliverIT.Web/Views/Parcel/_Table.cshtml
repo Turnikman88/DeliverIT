@@ -26,8 +26,8 @@
                 <td scope="col">@item.WareHouseId</td>
                 <td scope="col">@item.CategoryName</td>
                 <td scope="col">@item.Weight</td>
-                <td scope="col">@item.DeliverToAddress</td>
-                <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "Parcel", new { id = item.Id})', 'Update')">Update</button></td>
+                <td scope="col">@(item.DeliverToAddress == true ? "Yes" : "No") </td>
+                <td scope="col"><button class="btn btn-outline-primary btn-sm" onclick="showInPopup('@Url.Action("Update", "Parcel", new { id = item.Id})', 'Update')">Edit</button></td>
                 <td scope="col"><button class="btn btn-outline-danger btn-sm" onclick="ExecuteEmptyAjax('@Url.Action("Delete", "Parcel", new { id = item.Id})')">Delete</button></td>
             </tr>
         }

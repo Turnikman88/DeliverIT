@@ -182,5 +182,10 @@ namespace DeliverIT.Services.Services
             bool isValidStatus = await _db.Statuses.AnyAsync(x => x.Id == statusId);
             return !(isValidArrivalDate && isValidDepartureDate && isValidOriginW && isValidDestW && isValidStatus);
         }
+
+        public async Task<IEnumerable<StatusDTO>> GetStatusesAsync()
+        {
+            return await _db.Statuses.Select(x => x.GetDTO()).ToListAsync();
+        }
     }
 }

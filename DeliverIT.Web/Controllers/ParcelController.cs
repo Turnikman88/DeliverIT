@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,7 +73,8 @@ namespace DeliverIT.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ParcelViewModel model = await RenderCategories();
+            var model = new ParcelViewModel();
+            model.Categories = await RenderCategories();
 
             return View(model);
         }
@@ -95,9 +97,9 @@ namespace DeliverIT.Web.Controllers
             }
             if (!this.ModelState.IsValid)
             {
-                ParcelViewModel errorModel = await RenderCategories();
+                model.Categories = await RenderCategories();
 
-                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", errorModel, false) });
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Create", model, false) });
             }
 
 
@@ -116,19 +118,14 @@ namespace DeliverIT.Web.Controllers
             
             ParcelViewModel model = data.GetParcelViewModel();
 
-            var categories = await _ps.GetCategoriesAsync();
-
-            foreach (var category in categories)
-            {
-                model.Categories.Add(new SelectListItem() { Text = category.Name, Value = category.Id.ToString() });
-            }
+            model.Categories = await RenderCategories();
 
             return View(model);
         }
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         [HttpPost]
-        public async Task<IActionResult> Update( int id, ParcelViewModel model)
+        public async Task<IActionResult> Update(int id, ParcelViewModel model)
         {
             if (!await _check.CustomerExists(model.CustomerId ?? 0))
             {
@@ -144,9 +141,9 @@ namespace DeliverIT.Web.Controllers
             }
             if (!this.ModelState.IsValid)
             {
-                ParcelViewModel errorModel = await RenderCategories();
+                model.Categories = await RenderCategories();
 
-                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Update", errorModel, false) });
+                return Json(new { isValid = false, html = await Helper.RenderViewAsync(this, "Update", model, false) });
             }
 
 
@@ -187,15 +184,15 @@ namespace DeliverIT.Web.Controllers
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_CustomerTable", parcels, true) });
         }
-        private async Task<ParcelViewModel> RenderCategories()
+        private async Task<List<SelectListItem>> RenderCategories()
         {
             var categories = await _ps.GetCategoriesAsync();
 
-            var model = new ParcelViewModel();
+            var model = new List<SelectListItem>();
 
             foreach (var category in categories)
             {
-                model.Categories.Add(new SelectListItem() { Text = category.Name, Value = category.Id.ToString() });
+                model.Add(new SelectListItem() { Text = category.Name, Value = category.Id.ToString() });
             }
 
             return model;

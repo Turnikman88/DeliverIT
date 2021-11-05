@@ -15,7 +15,7 @@ namespace DeliverIT.Web.Models.Mappers
                 CustomerId = parcel.CustomerId ?? 0,
                 ShipmentId = parcel.ShipmentId ?? 0,
                 WareHouseId = parcel.WareHouseId ?? 0,
-                CategoryId = parcel.CategoryId ?? 0,
+                CategoryId = parcel.CategoryId ?? 1,
                 DeliverToAddress = parcel.DeliverToAddress,
                 Weight = parcel.Weight ?? 0
             };
