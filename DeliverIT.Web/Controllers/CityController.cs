@@ -38,6 +38,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByName(CityViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new CityViewModel { Cities = await _cityservice.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty.Cities, true) });
+            }
+
             var city = new CityViewModel { Cities = await _cityservice.GetCitiesByNameAsync(model.FilterTag) };
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", city.Cities, true) });
         }
@@ -45,6 +51,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByCountryName(CityViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new CityViewModel { Cities = await _cityservice.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty.Cities, true) });
+            }
+
             var city = new CityViewModel { Cities = await _cityservice.GetCitiesByCountryNameAsync(model.FilterTag) };
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", city.Cities, true) });
         }

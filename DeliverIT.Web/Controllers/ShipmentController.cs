@@ -34,6 +34,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByDestinationWareHouse(ShipmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ShipmentViewModel { Shipments = await _ss.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var shipments = new ShipmentViewModel { Shipments = await _ss.FilterByDestinationWareHouseAsync(int.Parse(model.FilterTag)) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", shipments, true) });
@@ -42,6 +48,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByOriginWareHouseAsync(ShipmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ShipmentViewModel { Shipments = await _ss.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var shipments = new ShipmentViewModel { Shipments = await _ss.FilterByOriginWareHouseAsync(int.Parse(model.FilterTag)) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", shipments, true) });
@@ -50,6 +62,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByCustomerId(ShipmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ShipmentViewModel { Shipments = await _ss.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var shipments = new ShipmentViewModel { Shipments = await _ss.FilterByCustomerIdAsync(int.Parse(model.FilterTag)) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", shipments, true) });
@@ -58,6 +76,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByCustomerEmail(ShipmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ShipmentViewModel { Shipments = await _ss.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var shipments = new ShipmentViewModel { Shipments = await _ss.FilterByCustomerEmailAsync(model.FilterTag) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", shipments, true) });
@@ -66,6 +90,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByCustomerAddress(ShipmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ShipmentViewModel { Shipments = await _ss.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var shipments = new ShipmentViewModel { Shipments = await _ss.FilterByCustomerAddressAsync(model.FilterTag) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", shipments, true) });
@@ -74,6 +104,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByStatusId(ShipmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ShipmentViewModel { Shipments = await _ss.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var shipments = new ShipmentViewModel { Shipments = await _ss.FilterByStatusIdAsync(int.Parse(model.FilterTag)) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", shipments, true) });

@@ -16,10 +16,14 @@ namespace DeliverIT.Tests.CustomerServiceTest
             var options = Utils.GetOptions(nameof(GetAllCustomersAsyncTest));
 
             var address = Utils.GetAddresses();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
             var customers = Utils.GetCustomers();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
                 await arrangeContext.Addresses.AddRangeAsync(address);
                 await arrangeContext.Customers.AddRangeAsync(customers);
                 await arrangeContext.SaveChangesAsync();
@@ -41,6 +45,8 @@ namespace DeliverIT.Tests.CustomerServiceTest
             var options = Utils.GetOptions(nameof(GetCustomerByName));
 
             var address = Utils.GetAddresses();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
@@ -55,7 +61,8 @@ namespace DeliverIT.Tests.CustomerServiceTest
                     Password = "testtest",
                     AddressId = 1
                 };
-
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
                 await arrangeContext.Customers.AddAsync(pbjectToTest);
                 await arrangeContext.SaveChangesAsync();
             }
@@ -76,6 +83,8 @@ namespace DeliverIT.Tests.CustomerServiceTest
             var options = Utils.GetOptions(nameof(GetCustomerByID));
 
             var address = Utils.GetAddresses();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
@@ -90,8 +99,10 @@ namespace DeliverIT.Tests.CustomerServiceTest
                     Password = "testtest",
                     AddressId = 1
                 };
-
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
                 await arrangeContext.Customers.AddAsync(dto);
+                await arrangeContext.Addresses.AddRangeAsync(address);
                 await arrangeContext.SaveChangesAsync();
             }
 
@@ -114,6 +125,8 @@ namespace DeliverIT.Tests.CustomerServiceTest
             var options = Utils.GetOptions(nameof(GetCustomerByEmail));
 
             var address = Utils.GetAddresses();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
@@ -128,7 +141,9 @@ namespace DeliverIT.Tests.CustomerServiceTest
                     Password = "testtest",
                     AddressId = 1
                 };
-
+                await arrangeContext.Addresses.AddRangeAsync(address);
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
                 await arrangeContext.Customers.AddAsync(dto);
                 await arrangeContext.SaveChangesAsync();
             }

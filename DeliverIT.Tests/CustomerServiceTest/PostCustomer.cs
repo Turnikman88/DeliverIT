@@ -18,9 +18,19 @@ namespace DeliverIT.Tests.CustomerServiceTest
 
             var address = Utils.GetAddresses();
             var customers = Utils.GetCustomers();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
+            var parcel = Utils.GetParcels();
+            var shipment = Utils.GetShipments();
+            var status = Utils.GetStatuses();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Statuses.AddRangeAsync(status);
+                await arrangeContext.Parcels.AddRangeAsync(parcel);
+                await arrangeContext.Shipments.AddRangeAsync(shipment);
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
                 await arrangeContext.Addresses.AddRangeAsync(address);
                 await arrangeContext.Customers.AddRangeAsync(customers);
                 await arrangeContext.SaveChangesAsync();
@@ -56,9 +66,19 @@ namespace DeliverIT.Tests.CustomerServiceTest
 
             var address = Utils.GetAddresses();
             var customers = Utils.GetCustomers();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
+            var parcel = Utils.GetParcels();
+            var shipment = Utils.GetShipments();
+            var status = Utils.GetStatuses();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Statuses.AddRangeAsync(status);
+                await arrangeContext.Parcels.AddRangeAsync(parcel);
+                await arrangeContext.Shipments.AddRangeAsync(shipment);
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
                 await arrangeContext.Addresses.AddRangeAsync(address);
                 await arrangeContext.Customers.AddRangeAsync(customers);
                 var objectDefaultDeleted = new Customer()

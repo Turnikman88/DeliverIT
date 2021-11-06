@@ -37,6 +37,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetParcelsByCustomerId(ParcelViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new ParcelViewModel { Parcels = await _ps.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var parcels = new ParcelViewModel { Parcels = await _ps.GetSortedParcelsByCustomerIdAsync(int.Parse(model.FilterTag)) };
 
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", parcels, true) });

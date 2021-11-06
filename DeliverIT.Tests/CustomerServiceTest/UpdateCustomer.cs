@@ -17,9 +17,13 @@ namespace DeliverIT.Tests.CustomerServiceTest
 
             var address = Utils.GetAddresses();
             var customers = Utils.GetCustomers();
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Cities.AddRangeAsync(city);
+                await arrangeContext.Countries.AddRangeAsync(country);
                 await arrangeContext.Addresses.AddRangeAsync(address);
                 await arrangeContext.Customers.AddRangeAsync(customers);
                 await arrangeContext.SaveChangesAsync();

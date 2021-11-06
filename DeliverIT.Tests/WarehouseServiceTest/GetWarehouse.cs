@@ -42,10 +42,20 @@ namespace DeliverIT.Tests.WarehouseServiceTest
         [TestMethod]
         public async Task GetAllWarehouseAddresses()
         {
-            var options = Utils.GetOptions(nameof(GetAllWarehouse));
-            //test will be failed if not ran together with previous
-
+            var options = Utils.GetOptions(nameof(GetAllWarehouseAddresses));
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
+            var address = Utils.GetAddresses();
             var warehouse = Utils.GetWareHouses();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Addresses.AddRangeAsync(address);
+                await arrangeContext.Cities.AddRangeAsync(city);
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.WareHouses.AddRangeAsync(warehouse);
+                await arrangeContext.SaveChangesAsync();
+            }
 
             using (var actContext = new DeliverITDBContext(options))
             {
@@ -59,10 +69,21 @@ namespace DeliverIT.Tests.WarehouseServiceTest
         [TestMethod]
         public async Task GetAllWarehouseById()
         {
-            var options = Utils.GetOptions(nameof(GetAllWarehouse));
-            //test will be failed if not ran together with previous GetAllWarehouse
+            var options = Utils.GetOptions(nameof(GetAllWarehouseById));
 
+            var city = Utils.GetCities();
+            var country = Utils.GetCountries();
+            var address = Utils.GetAddresses();
             var warehouse = Utils.GetWareHouses();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Addresses.AddRangeAsync(address);
+                await arrangeContext.Cities.AddRangeAsync(city);
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.WareHouses.AddRangeAsync(warehouse);
+                await arrangeContext.SaveChangesAsync();
+            }
 
             using (var actContext = new DeliverITDBContext(options))
             {

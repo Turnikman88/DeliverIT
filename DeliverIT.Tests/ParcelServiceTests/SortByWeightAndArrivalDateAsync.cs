@@ -38,8 +38,10 @@ namespace DeliverIT.Tests.ParcelServiceTests
             });
             var category = Utils.GetCategories();
             var shipments = Utils.GetShipments();
+            var status = Utils.GetStatuses();
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Statuses.AddRangeAsync(status);
                 await arrangeContext.Shipments.AddRangeAsync(shipments);
                 await arrangeContext.Categories.AddRangeAsync(category);
                 await arrangeContext.Parcels.AddRangeAsync(parcels);

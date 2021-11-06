@@ -17,10 +17,14 @@ namespace DeliverIT.Tests.CustomerServiceTest
             var options = Utils.GetOptions(nameof(ShouldRemoveItFromCollection));
 
             var address = Utils.GetAddresses();
+            var country = Utils.GetCountries();
+            var city = Utils.GetCities();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Addresses.AddRangeAsync(address);
+                await arrangeContext.Countries.AddRangeAsync(country);
+                await arrangeContext.Cities.AddRangeAsync(city);
 
                 var objectToTest = new Customer()
                 {

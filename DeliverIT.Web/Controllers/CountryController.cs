@@ -30,6 +30,12 @@ namespace DeliverIT.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterByName(CountryViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.FilterTag))
+            {
+                var empty = new CountryViewModel { Countries = await _cs.GetAsync() };
+                return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", empty, true) });
+            }
+
             var countries = new CountryViewModel { Countries = await _cs.GetCountriesByPartNameAsync(model.FilterTag) };
             return Json(new { isValid = true, html = await Helper.RenderViewAsync(this, "_Table", countries, true) });
         }

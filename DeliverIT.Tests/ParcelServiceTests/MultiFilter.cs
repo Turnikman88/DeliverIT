@@ -17,11 +17,13 @@ namespace DeliverIT.Tests.ParcelServiceTests
             var parcels = Utils.GetParcels();
             var customers = Utils.GetCustomers();
             var shipment = Utils.GetShipments();
+            var status = Utils.GetStatuses();
             var category = Utils.GetCategories();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Statuses.AddRangeAsync(status);
                 await arrangeContext.Parcels.AddRangeAsync(parcels);
                 await arrangeContext.Shipments.AddRangeAsync(shipment);
                 await arrangeContext.Customers.AddRangeAsync(customers);
@@ -47,7 +49,22 @@ namespace DeliverIT.Tests.ParcelServiceTests
         [TestMethod]
         public async Task Success_When_LookingForMultipleOptions_NoID()
         {
-            var options = Utils.GetOptions(nameof(Success_When_LookingForMultipleOptions));
+            var options = Utils.GetOptions(nameof(Success_When_LookingForMultipleOptions_NoID));
+            var parcels = Utils.GetParcels();
+            var customers = Utils.GetCustomers();
+            var shipment = Utils.GetShipments();
+            var status = Utils.GetStatuses();
+            var category = Utils.GetCategories();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Statuses.AddRangeAsync(status);
+                await arrangeContext.Parcels.AddRangeAsync(parcels);
+                await arrangeContext.Shipments.AddRangeAsync(shipment);
+                await arrangeContext.Customers.AddRangeAsync(customers);
+                await arrangeContext.SaveChangesAsync();
+            }
 
             using (var actContext = new DeliverITDBContext(options))
             {
@@ -68,8 +85,23 @@ namespace DeliverIT.Tests.ParcelServiceTests
         [TestMethod]
         public async Task Success_When_LookingForMultipleOptions_ShipmentId()
         {
-            var options = Utils.GetOptions(nameof(Success_When_LookingForMultipleOptions));
+            var options = Utils.GetOptions(nameof(Success_When_LookingForMultipleOptions_ShipmentId));
 
+            var parcels = Utils.GetParcels();
+            var customers = Utils.GetCustomers();
+            var shipment = Utils.GetShipments();
+            var status = Utils.GetStatuses();
+            var category = Utils.GetCategories();
+
+            using (var arrangeContext = new DeliverITDBContext(options))
+            {
+                await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Statuses.AddRangeAsync(status);
+                await arrangeContext.Parcels.AddRangeAsync(parcels);
+                await arrangeContext.Shipments.AddRangeAsync(shipment);
+                await arrangeContext.Customers.AddRangeAsync(customers);
+                await arrangeContext.SaveChangesAsync();
+            }
             using (var actContext = new DeliverITDBContext(options))
             {
                 var sut = new ParcelService(actContext);

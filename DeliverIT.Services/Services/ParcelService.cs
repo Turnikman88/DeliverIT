@@ -31,7 +31,7 @@ namespace DeliverIT.Services.Services
 
         public async Task<ParcelDTO> DeleteAsync(int id)
         {
-            var parcel = await _db.Parcels
+            var parcel = await _db.Parcels                
                 .Include(x => x.Category)
                 .Include(x => x.Shipment.Status)
                 .FirstOrDefaultAsync(x => x.Id == id)

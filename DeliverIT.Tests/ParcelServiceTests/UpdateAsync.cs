@@ -26,6 +26,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
                 DeliverToAddress = true
             };
 
+            var status = Utils.GetStatuses();
             var parcels = Utils.GetParcels();
             var customers = Utils.GetCustomers();
             var shipments = Utils.GetShipments();
@@ -34,6 +35,7 @@ namespace DeliverIT.Tests.ParcelServiceTests
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
+                await arrangeContext.Statuses.AddRangeAsync(status);
                 await arrangeContext.Customers.AddRangeAsync(customers);
                 await arrangeContext.Shipments.AddRangeAsync(shipments);
                 await arrangeContext.WareHouses.AddRangeAsync(warehouses);

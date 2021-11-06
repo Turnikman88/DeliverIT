@@ -29,12 +29,14 @@ namespace DeliverIT.Tests.ParcelServiceTests
             var parcels = Utils.GetParcels();
             var customers = Utils.GetCustomers();
             var shipments = Utils.GetShipments();
+            var status = Utils.GetStatuses();
             var warehouses = Utils.GetWareHouses();
             var category = Utils.GetCategories();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Customers.AddRangeAsync(customers);
+                await arrangeContext.Statuses.AddRangeAsync(status);
                 await arrangeContext.Shipments.AddRangeAsync(shipments);
                 await arrangeContext.WareHouses.AddRangeAsync(warehouses);
                 await arrangeContext.Categories.AddRangeAsync(category);
@@ -68,10 +70,14 @@ namespace DeliverIT.Tests.ParcelServiceTests
 
             var parcels = Utils.GetParcels();
             var category = Utils.GetCategories();
+            var shipment = Utils.GetShipments();
+            var status = Utils.GetStatuses();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Categories.AddRangeAsync(category);
+                await arrangeContext.Statuses.AddRangeAsync(status);
+                await arrangeContext.Shipments.AddRangeAsync(shipment);
                 await arrangeContext.Parcels.AddRangeAsync(parcels);
                 await arrangeContext.SaveChangesAsync();
             }

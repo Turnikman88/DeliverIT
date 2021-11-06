@@ -17,11 +17,15 @@ namespace DeliverIT.Tests.ParcelServiceTests
 
             var parcels = Utils.GetParcels();
             var category = Utils.GetCategories();
+            var statuses = Utils.GetStatuses();
+            var shipments = Utils.GetShipments();
 
             using (var arrangeContext = new DeliverITDBContext(options))
             {
                 await arrangeContext.Categories.AddRangeAsync(category);
                 await arrangeContext.Parcels.AddRangeAsync(parcels);
+                await arrangeContext.Statuses.AddRangeAsync(statuses);
+                await arrangeContext.Shipments.AddRangeAsync(shipments);
                 await arrangeContext.SaveChangesAsync();
             }
 

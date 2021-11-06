@@ -90,7 +90,8 @@ namespace DeliverIT.Services.Services
             var deletedCustomer = await _db.Customers.Include(x => x.Parcels)
                                                      .ThenInclude(x => x.Category)
                                                      .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
-                                                     .Include(x => x.Address).IgnoreQueryFilters()
+                                                     .Include(x => x.Address).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                                                     .IgnoreQueryFilters()
                                                      .FirstOrDefaultAsync(x => x.Email == obj.Email && x.IsDeleted == true);
             if (deletedCustomer == null)
             {
@@ -105,7 +106,8 @@ namespace DeliverIT.Services.Services
                 newCustomer = await this._db.Customers.Include(x => x.Parcels)
                                                       .ThenInclude(x => x.Category)
                                                       .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
-                                                      .Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
+                                                     .Include(x => x.Address).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                                                      .FirstOrDefaultAsync(x => x.Id == newCustomer.Id);
                 result = newCustomer.GetDTO();
             }
             else
@@ -130,7 +132,8 @@ namespace DeliverIT.Services.Services
             _ = await _db.Customers.Where(x => x.Id != id).FirstOrDefaultAsync(x => x.Email == obj.Email)
                 != null ? throw new AppException(Constants.CUSTOMER_EXISTS) : 0;
 
-            var model = await _db.Customers.Include(c => c.Address).FirstOrDefaultAsync(x => x.Id == id)
+            var model = await _db.Customers.Include(c => c.Address).ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                .FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
 
             if (await IsInvalidCustomer(obj.AddressId, obj.FirstName, obj.LastName, obj.Email, obj.Password))
@@ -165,7 +168,10 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> GetCustomerByIDAsync(int id)
         {
-            return CustomerDTOMapperExtension.GetDTO(await _db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id))
+            return CustomerDTOMapperExtension.GetDTO(await _db.Customers
+                .Include(x => x.Address)
+                            .ThenInclude(c => c.City)
+                                      .ThenInclude(c => c.Country).FirstOrDefaultAsync(x => x.Id == id))
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
         }
 
