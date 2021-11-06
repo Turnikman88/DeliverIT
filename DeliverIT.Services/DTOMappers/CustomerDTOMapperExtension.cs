@@ -26,12 +26,12 @@ namespace DeliverIT.Services.DTOMappers
                 Address = customer.Address.StreetName,
                 Country = customer.Address.City.Country.Name,
                 City = customer.Address.City.Name,
-                Parcels = customer.Parcels?
-                    .Select(x => ($"Category: {x.Category.Name} Shipment Status: {x.Shipment.Status.Name} " +
-                                  $"Departure date: {x.Shipment.DepartureDate.ToString("dd/MM/yyyy")} " +
-                                  $"Weight: {x.Weight} Will be delivered to you: {x.DeliverToAddress} " +
-                                  $"on date {x.Shipment.ArrivalDate.ToString("dd/MM/yyyy")}"))
-                    .ToList(),
+               // Parcels = customer.Parcels?
+               //     .Select(x => ($"Category: {x.Category.Name} Shipment Status: {x.Shipment.Status.Name} " +
+               //                   $"Departure date: {x.Shipment.DepartureDate.ToString("dd/MM/yyyy")} " +
+               //                   $"Weight: {x.Weight} Will be delivered to you: {x.DeliverToAddress} " +
+               //                   $"on date {x.Shipment.ArrivalDate.ToString("dd/MM/yyyy")}"))
+               //     .ToList(),
                 Email = customer.Email,
                 Password = customer.Password
             };

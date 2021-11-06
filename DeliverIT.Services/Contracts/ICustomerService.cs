@@ -10,5 +10,6 @@ namespace DeliverIT.Services.Contracts
         Task<IEnumerable<CustomerDTO>> GetCustomersByNameAsync(string name);
         Task<CustomerDTO> GetCustomerByIDAsync(int id);
         Task<IEnumerable<CustomerDTO>> GetCustomersByEmailAsync(string part);
+        Task<IEnumerable<CustomerDTO>> GetCustomersByCountryAsync(string countryName);
     }
 }

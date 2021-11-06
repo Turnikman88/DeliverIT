@@ -23,7 +23,10 @@ namespace DeliverIT.Services.Services
 
         public async Task<CustomerDTO> DeleteAsync(int id)
         {
-            var customer = await _db.Customers.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id)
+            var customer = await _db.Customers.Include(x => x.Address)
+                                      .ThenInclude(x => x.City)
+                                      .ThenInclude(x => x.Country)
+                                      .Include(x => x.Parcels).FirstOrDefaultAsync(x => x.Id == id)
                 ?? throw new AppException(Constants.CUSTOMER_NOT_FOUND);
 
             var customerDTO = customer.GetDTO();
@@ -38,6 +41,9 @@ namespace DeliverIT.Services.Services
         public async Task<IEnumerable<CustomerDTO>> GetAsync()
         {
             return await _db.Customers.Include(x => x.Address)
+                                      .ThenInclude(x=>x.City)
+                                      .ThenInclude(x=>x.Country)
+                                      .Include(x=>x.Parcels)
                                       .Select(x => x.GetDTO())
                                       .ToListAsync();
         }
@@ -47,7 +53,21 @@ namespace DeliverIT.Services.Services
             return await _db.Customers.Include(x => x.Parcels).ThenInclude(x => x.Category)
                                        .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
                                        .Include(x => x.Address)
+                                       .ThenInclude(x=>x.City)
+                                       .ThenInclude(x=>x.Country)
                                        .Where(x => x.FirstName.ToLower() == name.ToLower() || x.LastName.ToLower() == name.ToLower())
+                                       .Select(x => x.GetDTO())
+                                       .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CustomerDTO>> GetCustomersByCountryAsync(string countryName)
+        {
+            return await _db.Customers.Include(x => x.Parcels).ThenInclude(x => x.Category)
+                                       .Include(x => x.Parcels).ThenInclude(x => x.Shipment).ThenInclude(x => x.Status)
+                                       .Include(x => x.Address)
+                                       .ThenInclude(x => x.City)
+                                       .ThenInclude(x => x.Country)
+                                       .Where(x => x.Address.City.Country.Name.ToLower().Contains(countryName.ToLower()))
                                        .Select(x => x.GetDTO())
                                        .ToListAsync();
         }

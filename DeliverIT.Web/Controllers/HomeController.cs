@@ -34,7 +34,7 @@ namespace DeliverIT.Web.Controllers
             foreach (var item in addresses)
             {
                 indexview.WarehouseLocations.Add(
-                    new Maps { 
+                    new MapsViewModel { 
                         Country = item.City.Country.Name,
                         City = item.City.Name,
                         Address = item.StreetName 
