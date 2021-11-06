@@ -84,8 +84,11 @@ namespace DeliverIT.Services.Services
 
         public async Task<EmployeeDTO> GetEmployeeByEmail(string email)
         {
-            var employee = await _db.Employees.Where(x => x.Email.Contains(email))
-                                      .Include(x => x.Address).FirstOrDefaultAsync();
+            var employee = await _db.Employees.Where(x => x.Email.Contains(email))                                      
+                                      .Include(x => x.Address)
+                                      .ThenInclude(x => x.City)
+                                      .ThenInclude(x => x.Country)
+                                      .FirstOrDefaultAsync();
             return employee.GetDTO();
         }
 

@@ -28,7 +28,7 @@
                     <div>
                         <br />
                         <input asp-for="Email" placeholder="Email" class="fadeIn second" value="@Model.Email" readonly />
-                        @*<span asp-validation-for="Email" class="form-error"></span>*@
+                        <span asp-validation-for="Email" class="form-error"></span>
                     </div>
                     <div>
                         <br />
@@ -41,57 +41,27 @@
                         <input asp-for="ConfirmPassword" placeholder="Confirm Password" class="fadeIn second" value="@Model.ConfirmPassword" />
                         <span asp-validation-for="ConfirmPassword" class="form-error"></span>
                     </div>
-                    @if (this.ViewData[Constants.SESSION_ROLE_KEY].ToString() != Constants.ROLE_EMPLOYEE)
-                    {
-                        <div>
-                            <br />
-                            <input asp-for="Address" placeholder="Street Name" class="fadeIn second" value="@Model.Address" />
+                    <div>
+                        <br />
+                        <select asp-for="Country" asp-items="Model.Countries" placeholder="Country Name" class="fadeIn second" id="country-select">
+                            <option value="">Select Country</option>
+                        </select>
+                        <span asp-validation-for="Country" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <select asp-for="City" placeholder="City Name" class="fadeIn second" id="city-select">
+                            <option value="">Select Cities</option>
 
-                            <span asp-validation-for="Address" class="form-error"></span>
-                        </div>
-                        <div>
-                            <br />
-                            <input asp-for="City" placeholder="City Name" class="fadeIn second" value="@Model.City" />
+                        </select>
+                        <span asp-validation-for="City" class="form-error"></span>
+                    </div>
+                    <div>
+                        <br />
+                        <input asp-for="Address" placeholder="Street Name" class="fadeIn second" />
+                        <span asp-validation-for="Address" class="form-error"></span>
+                    </div>
 
-                            <span asp-validation-for="City" class="form-error"></span>
-
-                        </div>
-                        <div>
-                            <br />
-                            <input asp-for="Country" placeholder="Country Name" class="fadeIn second" value="@Model.Country" />
-
-                            <span asp-validation-for="Country" class="form-error"></span>
-
-                        </div>
-                    }
-
-                    @*else
-                        {
-                            <button onclick="myFunction()">Click Me</button>
-
-                            <div id="myDIV">
-                                <div>
-                                    <br />
-                                    <input asp-for="Address" placeholder="Street Name" class="fadeIn second" value="@Model.Address" />
-
-                                    <span asp-validation-for="Address" class="form-error"></span>
-                                </div>
-                                <div>
-                                    <br />
-                                    <input asp-for="City" placeholder="City Name" class="fadeIn second" value="@Model.City" />
-
-                                    <span asp-validation-for="City" class="form-error"></span>
-
-                                </div>
-                                <div>
-                                    <br />
-                                    <input asp-for="Country" placeholder="Country Name" class="fadeIn second" value="@Model.Country" />
-
-                                    <span asp-validation-for="Country" class="form-error"></span>
-
-                                </div>
-                            </div>
-                        }*@
                     <div style="text-align: center">
                         <input type="submit" value="Update Profile" class="fadeIn fourth" style="margin-right: 85px;" />
                     </div>
@@ -101,16 +71,26 @@
     </div>
 </div>
 @section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-    @*<script>
-            function myFunction() {
-                var x = document.getElementById("myDIV");
-                if (x.style.display === "block") {
-                    x.style.display = "none";
-                } else {
-                    x.style.display = "block";
+    <script>
+        $(document).ready(function () {
+            $('#country-select').on('change', function () {
+                $('#city-select option').remove();
+                var countryName = $('#country-select option:selected').val();
+                if (countryName != "") {
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("Cities", "Auth")/' + countryName,
+                        success: function (res) {
+                            var op = '<option value="">Select City</option>';
+                            for (var i = 0; i < res.length; i++) {
+                                op += `<option value="${res[i].name}">${res[i].name}</option>`;
+                            }
+                            $('#city-select').html(op);
+                        }
+                    })
                 }
-            }
-        </script>*@
-
+            })
+        })
+    </script>
+    <partial name="_ValidationScriptsPartial" />
 }

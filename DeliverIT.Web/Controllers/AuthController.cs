@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using DeliverIT.Services.DTOs;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DeliverIT.Web.Controllers
 {
@@ -84,9 +87,10 @@ namespace DeliverIT.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             var model = new UserViewModel();
+            model.Countries = await this.RenderCountries();
             return View(model);
         }
 
@@ -116,12 +120,16 @@ namespace DeliverIT.Web.Controllers
             if(userRole == Constants.ROLE_EMPLOYEE)
             {
                 var employee = await _auth.FindEmployee(userCredentials);
-                return this.View(employee.GetModel());
+                var model = employee.GetModel();
+                model.Countries = await RenderCountries();
+                return this.View(model);
             }
             else
             {
                 var customerDTO =  _cs.GetCustomersByEmailAsync(userCredentials.Split().First()).Result.First();
-                return  this.View(customerDTO.GetModel());
+                var model = customerDTO.GetModel();
+                model.Countries = await RenderCountries();
+                return  this.View(model);
             }
         }
 
@@ -130,24 +138,20 @@ namespace DeliverIT.Web.Controllers
         public async Task<IActionResult> Settings(UserViewModel model)
         {
             var userRole = this.HttpContext.Session.GetString(Constants.SESSION_ROLE_KEY);
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
 
             if (userRole == Constants.ROLE_EMPLOYEE)
             {
-                if(!string.IsNullOrWhiteSpace(model.Address) && !string.IsNullOrEmpty(model.Address))
-                {
-                    model.AddressId = await GetAddressID(model);
-                }
+                model.AddressId = await GetAddressID(model);
                 var toEmployee = model.GetEmployeeDTO();
                 var getEmployeeByEmail = await this._es.GetEmployeeByEmail(model.Email);
                 await this._es.UpdateAsync(getEmployeeByEmail.Id, toEmployee);
             }
             else
             {
-                if (!this.ModelState.IsValid)
-                {
-                    return this.View();
-                }
-
                 model.AddressId = await GetAddressID(model);
                 var toCustomer = model.GetCustomerDTO();
                 var email = await this._cs.GetCustomersByEmailAsync(model.Email);
@@ -160,6 +164,27 @@ namespace DeliverIT.Web.Controllers
         private async Task<int> GetAddressID(UserViewModel model)
         {
             return await _ads.AddressToID(model.Address, model.City, model.Country);
+        }
+
+        [Route("[controller]/Cities/{countryName}")]
+        public async Task<IActionResult> Cities(string countryName)
+        {
+            var a = new JsonResult(await _ads.GetCities(countryName));
+            return a;
+        }
+
+        private async Task<List<SelectListItem>> RenderCountries()
+        {
+            var countries = await _ads.GetCountries();
+
+            var model = new List<SelectListItem>();
+
+            foreach (var country in countries)
+            {
+                model.Add(new SelectListItem() { Text = country.Name, Value = country.Name });
+            }
+
+            return model;
         }
     }
 }

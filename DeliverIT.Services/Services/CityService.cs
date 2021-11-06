@@ -90,7 +90,6 @@ namespace DeliverIT.Services.Services
                 }).ToListAsync();
         }
 
-
         public async Task<CityDTO> PostAsync(CityDTO obj)
         {
             _ = await CityExists(obj.Name, obj.CountryId)

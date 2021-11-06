@@ -1,7 +1,9 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
+using DeliverIT.Services.DTOs;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services
@@ -9,10 +11,14 @@ namespace DeliverIT.Services.Services
     public class AddressService : IAddressService
     {
         private readonly DeliverITDBContext _db;
+        private readonly ICountryService _cs;
+        private readonly ICityService _ss;
 
-        public AddressService(DeliverITDBContext db)
+        public AddressService(DeliverITDBContext db, ICountryService cs, ICityService ss)
         {
             this._db = db;
+            this._cs = cs;
+            this._ss = ss;
         }
 
         public async Task<int> AddressToID(string address, string city, string country)
@@ -31,30 +37,7 @@ namespace DeliverIT.Services.Services
                                                 .FirstOrDefaultAsync(x => x.Name == city);
                 Address addressobj = null;
 
-                if (countryobj is null)
-                {
-                    countryobj = new Country
-                    {
-                        Name = country
-                    };
-
-                    await this._db.Countries.AddAsync(countryobj);
-                    await this._db.SaveChangesAsync();
-                }
-
-                if (cityobj is null)
-                {
-                    cityobj = new City
-                    {
-                        Name = city,
-                        CountryId = countryobj.Id
-                    };
-
-                    await this._db.Cities.AddAsync(cityobj);
-                    await this._db.SaveChangesAsync();
-
-                }
-
+                
                 addressobj = new Address
                 {
                     StreetName = address,
@@ -68,6 +51,15 @@ namespace DeliverIT.Services.Services
             }
 
             return validAddress.Id;
+        }
+
+        public async Task<IEnumerable<CountryDTO>> GetCountries()
+        {
+            return await _cs.GetAsync();
+        }
+        public async Task<IEnumerable<CityDTO>> GetCities(string countryName)
+        {
+            return await _ss.GetCitiesByCountryNameAsync(countryName);
         }
     }
 }

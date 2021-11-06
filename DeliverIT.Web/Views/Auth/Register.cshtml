@@ -37,33 +37,59 @@
                     </div>
                     <div>
                         <br />
-                        <input asp-for="Address" placeholder="Street Name" class="fadeIn second" />
-                        <span asp-validation-for="Address" class="form-error"></span>
+                        <select asp-for="Country" asp-items="Model.Countries" placeholder="Country Name" class="fadeIn second" id="country-select">
+                            <option value="">Select Country</option>
+                        </select>
+                        <span asp-validation-for="Country" class="form-error"></span>
                     </div>
                     <div>
                         <br />
-                        <input asp-for="City" placeholder="City Name" class="fadeIn second" />
+                        <select asp-for="City" placeholder="City Name" class="fadeIn second" id="city-select">
+                            <option value="">Select Cities</option>
+
+                        </select>
                         <span asp-validation-for="City" class="form-error"></span>
                     </div>
                     <div>
                         <br />
-                        <input asp-for="Country" placeholder="Country Name" class="fadeIn second" />
-                        <span asp-validation-for="Country" class="form-error"></span>
+                        <input asp-for="Address" placeholder="Street Name" class="fadeIn second" />
+                        <span asp-validation-for="Address" class="form-error"></span>
                     </div>
                     @*<div>
-                    <label class="form-label">Brewery</label>
-                    <br />
-                    <select asp-for="BreweryId" asp-items="Model.Breweries" class="form-input"></select>
-                    <span asp-validation-for="BreweryId"></span>
-                </div>*@
-                <div style="text-align: center">
-                    <input type="submit" value="Register" class="fadeIn fourth" style="margin-right: 85px;" />
-                </div>
+            <label class="form-label">Brewery</label>
+            <br />
+            <select asp-for="BreweryId" asp-items="Model.Breweries" class="form-input"></select>
+            <span asp-validation-for="BreweryId"></span>
+        </div>*@
+                    <div style="text-align: center">
+                        <input type="submit" value="Register" class="fadeIn fourth" style="margin-right: 85px;" />
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 @section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#country-select').on('change', function () {
+                $('#city-select option').remove();
+                var countryName = $('#country-select option:selected').val();
+                if (countryName != "") {
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("Cities", "Auth")/' + countryName,
+                        success: function (res) {
+                            var op = '<option value="">Select City</option>';
+                            for (var i = 0; i < res.length; i++) {
+                                op += `<option value="${res[i].name}">${res[i].name}</option>`;
+                            }
+                            $('#city-select').html(op);
+                        }
+                    })
+                }
+            })
+        })
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }
