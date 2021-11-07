@@ -1,0 +1,61 @@
+﻿@model WarehouseViewModel
+@section Styles{
+    <link rel="stylesheet" href="~/css/form.css">
+}
+@{
+    Layout = "/Views/Shared/_LayoutEmpty.cshtml";
+}
+
+<div class="row">
+    <div class="col">
+        <form asp-action="Update" onsubmit="return jQueryAjaxPost(this);">
+            <div>
+                <br />
+                <input asp-for="Address" placeholder="Address" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <span asp-validation-for="Address" class="form-error"></span>
+                <div>
+                    <br />
+                    <select asp-for="Country" asp-items="Model.Countries" placeholder="Country Name" class="fadeIn second" id="country-select">
+                        <option value="">Select Country</option>
+                    </select>
+                    <span asp-validation-for="Country" class="form-error"></span>
+                </div>
+                <div>
+                    <br />
+                    <select asp-for="City" placeholder="City Name" class="fadeIn second" id="city-select">
+                        <option value="">Select Cities</option>
+                    </select>
+                    <span asp-validation-for="City" class="form-error"></span>
+                </div>
+            </div>
+            <div style="text-align: center">
+                <input type="submit" value="Update" class="fourth" style="margin: auto;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#country-select').on('change', function () {
+                $('#city-select option').remove();
+                var countryName = $('#country-select option:selected').val();
+                if (countryName != "") {
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("Cities", "Warehouse")/' + countryName,
+                        success: function (res) {
+                            var op = '<option value="">Select City</option>';
+                            for (var i = 0; i < res.length; i++) {
+                                op += `<option value="${res[i].name}">${res[i].name}</option>`;
+                            }
+                            $('#city-select').html(op);
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

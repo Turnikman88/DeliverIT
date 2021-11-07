@@ -169,8 +169,8 @@ namespace DeliverIT.Web.Controllers
         [Route("[controller]/Cities/{countryName}")]
         public async Task<IActionResult> Cities(string countryName)
         {
-            var a = new JsonResult(await _ads.GetCities(countryName));
-            return a;
+            var getCities = new JsonResult(await _ads.GetCities(countryName));
+            return getCities;
         }
 
         private async Task<List<SelectListItem>> RenderCountries()

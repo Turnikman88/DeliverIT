@@ -101,6 +101,33 @@ namespace DeliverIT.Services.Services
             return result;
         }
 
+        public async Task<IEnumerable<WareHouseDTO>> GetWareHouseByCountryAsync(string country)
+        {
+            var collection = await this._db.WareHouses
+                .Include(x => x.Parcels)
+                .Include(w => w.Address)
+                    .ThenInclude(a => a.City)
+                        .ThenInclude(c => c.Country)
+                        .Where(x => x.Address.City.Country.Name.Contains(country)).Select(x=>x.GetDTO()).ToListAsync()
+                        ?? throw new AppException(Constants.WAREHOUSE_NOT_FOUND);
+
+            return collection;
+        }
+
+        public async Task<IEnumerable<WareHouseDTO>> GetWareHouseByCityAsync(string city)
+        {
+            var collection = await this._db.WareHouses
+               .Include(x => x.Parcels)
+               .Include(w => w.Address)
+                   .ThenInclude(a => a.City)
+                       .ThenInclude(c => c.Country)
+                       .Where(x => x.Address.City.Name.Contains(city)).Select(x => x.GetDTO()).ToListAsync()
+                       ?? throw new AppException(Constants.WAREHOUSE_NOT_FOUND);
+
+            return collection;
+        }
+
+
         public async Task<WareHouseDTO> PostAsync(WareHouseDTO obj)
         {
             _ = await _db.WareHouses.FirstOrDefaultAsync(x => x.AddressId == obj.AddressId)
