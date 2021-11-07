@@ -17,27 +17,27 @@ and status.
 
 ### Entities 
 * Each customer must have a first and last name, email, and address for 
-delivery (country, city, and a street name). ☑️
+delivery (country, city, and a street name). 
 * First name and last name must be between 2 and 20 symbols. 
-* Email must be valid email and unique in the system. ☑️
+* Email must be valid email and unique in the system. 
 * Each employee must have a first and last name, email, and may have an 
-address. ☑️
+address. 
 * First name and last name must be between 2 and 20 symbols. 
-* Email must be valid email and unique in the system. ☑️
+* Email must be valid email and unique in the system. 
 * Each parcel must have a customer who purchased it, a warehouse to which 
 it should be delivered, weight and a category. Also, parcels have a field that 
 indicates whether the customer wants the parcel delivered to his address or 
 he will pick it up from the warehouse. By default, this field will be “pick up 
-from warehouse”. ☑️
-* Each warehouse must have an address (country, city, and street name). ☑️
-* Each category must have a name e.g. Electronics, Clothing, Medical, etc. ☑️
-* Category name must be unique and between 2 and 20 symbols. ☑️
+from warehouse”. 
+* Each warehouse must have an address (country, city, and street name). 
+* Each category must have a name e.g. Electronics, Clothing, Medical, etc. 
+* Category name must be unique and between 2 and 20 symbols. 
 * One shipment must have an origin warehouse, a destination warehouse, a 
 departure and arrival date, a status (the status is one of preparing, on the 
 way, completed), and a collection of all the parcels that will be delivered with 
-this shipment. A shipment without any parcels cannot depart. ☑️
-* Each country must have a name. ☑️
-* Each city must have a name and a country. ☑️
+this shipment. A shipment without any parcels cannot depart. 
+* Each country must have a name. 
+* Each city must have a name and a country. 
 
 ### Public Part 
 The public part must be accessible without authentication i.e. for anonymous users. 
@@ -55,13 +55,13 @@ parcel, but only if it has not departed yet (the status of its shipment is not
 “completed”).
 Administrative part 
 Accessible to employees only. 
-* Employees must be able to list/create/modify parcels. ☑️
-* Employees must be able to list/create/modify shipments. ☑️
-* Employees must be able to add/remove parcels from a shipment. ☑️
-* Employees must be able to see shipments that are on the way. ☑️
-* Employees should be able to list/create/modify warehouses. ☑️
+* Employees must be able to list/create/modify parcels. 
+* Employees must be able to list/create/modify shipments. 
+* Employees must be able to add/remove parcels from a shipment.
+* Employees must be able to see shipments that are on the way. 
+* Employees should be able to list/create/modify warehouses. 
 * Employees should be able to see which the next arriving shipment is for a given 
-warehouse. ☑️
+warehouse. 
 
 # Additional Feautures
 * AJAX reload on all tables
@@ -81,32 +81,32 @@ information that is required to successfully consume and integrate with an API. 
 must use Swagger to document yours. 
 The REST API provides the following capabilities: 
 1. Countries 
-* Read operations (must) ☑️
+* Read operations (must) 
 2. Cities 
-* Read operations (must) ☑️
+* Read operations (must) 
 3. Warehouses 
-* Read operations (must) ☑️
-* Create, Update, Delete operations (should) ☑️
+* Read operations (must) 
+* Create, Update, Delete operations (should) 
 4. Shipments 
-* CRUD operations (must) ☑️
-* Filter by warehouse (must) ☑️
-* Filter by customer (should) ☑️
+* CRUD operations (must) 
+* Filter by warehouse (must) 
+* Filter by customer (should) 
 5. Parcels 
-* CRUD operations (must) ☑️
-* Filter by weight (must) ☑️
-* Filter by customer (must) ☑️
-* Filter by warehouse (must) ☑️
-* Filter by category (must)  ☑️
-* Filter by multiple criteria (e.g., customer and category) (should) ☑️
-* Sort by weight or arrival date (should) ☑️
-* Sort by weight and arrival date (could) ☑️
+* CRUD operations (must) 
+* Filter by weight (must) 
+* Filter by customer (must) 
+* Filter by warehouse (must) 
+* Filter by category (must)  
+* Filter by multiple criteria (e.g., customer and category) (should) 
+* Sort by weight or arrival date (should) 
+* Sort by weight and arrival date (could) 
 6. Customers 
-- [x] CRUD Operations (must) 
-- [x] Search by email (full or part of an email) (must) 
-- [x] Search by first/last name (must) 
-- [x] List customer’s incoming parcels (should) 
-- [x] Search by multiple criteria (should)  
-- [x] Search all fields from one word (e.g., “john” will search in the email, first 
+- CRUD Operations (must) 
+- Search by email (full or part of an email) (must) 
+- Search by first/last name (must) 
+- List customer’s incoming parcels (should) 
+- Search by multiple criteria (should)  
+- Search all fields from one word (e.g., “john” will search in the email, first 
 and last name fields) (could) 
 
 # Database Diagram
@@ -187,8 +187,20 @@ README.md file:
 * Instructions how to setup and run the project locally 
 * Images of the database relations (must)
 
+## 🏁 Areas
+* Public - users are able to register, find warehouse location and know how many customers we have
+* Private - available after registration, can see orders, can edit profile
+* Administrative - available for employees only
 
-## Authors
+## 👷 Built with:
+* ASP .NET Core
+* MsSQL Server
+* Entity Framework
+* Swagger
+* Javascript/jQuery/AJAX
+* HTML5/CSS/Bootstrap
+
+## 🤝 Authors
 * Georgi Petrov [GitHub](https://github.com/) | [LinkedIn](https://linkedin.com/in/)
 
 ![Georgi Petrov](DeliverIT.Web\wwwroot\images\georgi-avatar.jpg)
@@ -197,8 +209,8 @@ README.md file:
 
 ![Kalin Balimezov](DeliverIT.Web\wwwroot\images\kalin-avatar.jpg)
 
-## License
-*This project was done for educational purposes  __only__ during Telerik Academy Program C# 35 (Jul - Dec 2021)*
+## 📃 License
+*This project was developed for educational purposes  __only__ during Telerik Academy Program C# 35 (Jul - Dec 2021)*
 
-## Project status
+## 🤖 Project status
 ☑️ **DONE** 

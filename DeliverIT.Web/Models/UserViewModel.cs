@@ -15,7 +15,7 @@ namespace DeliverIT.Web.Models
         public string LastName { get; set; }
 
         [Required]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")] //ToDo: add error messages
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
         [Required]
