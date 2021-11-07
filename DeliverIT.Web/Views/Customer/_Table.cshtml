@@ -9,6 +9,7 @@
             <th scope="col">Country</th>
             <th scope="col">City</th>
             <th scope="col">AddressId</th>
+            <th scope="col">Street Name</th>
         </tr>
         @if (Model.Count() == 0)
         {
@@ -24,6 +25,7 @@
                 <td scope="col">@item.Country</td>
                 <td scope="col">@item.City</td>
                 <td scope="col">@item.AddressId</td>
+                <td scope="col">@item.Address</td>
                 <td scope="col"><button class="btn btn-outline-danger btn-sm" onclick="ExecuteEmptyAjax('@Url.Action("Delete", "Customer", new { id = item.Id})')">Delete</button></td>
             </tr>
         }

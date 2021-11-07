@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace DeliverIT.Web.Models
@@ -7,10 +8,12 @@ namespace DeliverIT.Web.Models
     public class UserViewModel
     {
         [Required]
+        [DisplayName("First Name")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Value for {0} must be between {2} and {1}.")]
         public string FirstName { get; set; }
 
         [Required]
+        [DisplayName("Last Name")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Value for {0} must be between {2} and {1}.")]
         public string LastName { get; set; }
 
@@ -24,7 +27,7 @@ namespace DeliverIT.Web.Models
         public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Confirm Password")]
+        [DisplayName("Confirm Password")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
         [MinLength(8, ErrorMessage = "Password lenght must be {1} characters or longer")]
