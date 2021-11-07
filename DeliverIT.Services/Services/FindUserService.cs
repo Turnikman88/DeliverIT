@@ -1,5 +1,4 @@
 ﻿using DeliverIT.Models;
-using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.Contracts;
 using DeliverIT.Services.DTOMappers;
 using DeliverIT.Services.DTOs;

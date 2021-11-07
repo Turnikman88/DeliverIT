@@ -1,7 +1,6 @@
 ﻿using DeliverIT.Models.DatabaseModels;
 using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
-using System.Linq;
 
 namespace DeliverIT.Services.DTOMappers
 {

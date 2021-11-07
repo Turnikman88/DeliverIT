@@ -3,10 +3,8 @@ using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 namespace DeliverIT.Web.Controllers

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DeliverIT.Services.DTOs
+﻿namespace DeliverIT.Services.DTOs
 {
     public class CategoryDTO
     {

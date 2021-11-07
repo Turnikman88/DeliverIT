@@ -1,91 +1,204 @@
 # DeliverIT
 
+**Freight Forwarding Management System** 
 
 
-## Getting started
+# Project Description 
+Your task is to develop **DeliverIT** - a web application that serves the needs of a 
+freight forwarding company. 
+**DeliverIT**'s customers can place orders on international shopping sites that don’t 
+provide delivery to their location (like Amazon.de or eBay.com) and have their 
+parcels delivered either to the company's warehouses or their own address. 
+**DeliverIT** has two types of users - customers and employees. The customers can 
+trach the status of their parcels. The employees have a bit more capabilities. They 
+can add new parcels to the system group them in shipments and track their location 
+and status. 
+# Functional Requirements 
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Entities 
+* Each customer must have a first and last name, email, and address for 
+delivery (country, city, and a street name). ☑️
+* First name and last name must be between 2 and 20 symbols. 
+* Email must be valid email and unique in the system. ☑️
+* Each employee must have a first and last name, email, and may have an 
+address. ☑️
+* First name and last name must be between 2 and 20 symbols. 
+* Email must be valid email and unique in the system. ☑️
+* Each parcel must have a customer who purchased it, a warehouse to which 
+it should be delivered, weight and a category. Also, parcels have a field that 
+indicates whether the customer wants the parcel delivered to his address or 
+he will pick it up from the warehouse. By default, this field will be “pick up 
+from warehouse”. ☑️
+* Each warehouse must have an address (country, city, and street name). ☑️
+* Each category must have a name e.g. Electronics, Clothing, Medical, etc. ☑️
+* Category name must be unique and between 2 and 20 symbols. ☑️
+* One shipment must have an origin warehouse, a destination warehouse, a 
+departure and arrival date, a status (the status is one of preparing, on the 
+way, completed), and a collection of all the parcels that will be delivered with 
+this shipment. A shipment without any parcels cannot depart. ☑️
+* Each country must have a name. ☑️
+* Each city must have a name and a country. ☑️
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Public Part 
+The public part must be accessible without authentication i.e. for anonymous users. 
+Anonymous users must be able to see how many customers DeliverIT has and what 
+and where are the available warehouse locations. 
+Also, anonymous users must have the ability to register and login.
+Private part 
+Accessible only if the user is authenticated. 
+Customers must be able to see their past parcels as well as the parcels they have on 
+the way. 
+Customers should have the ability to see the status of the shipment that holds a 
+given parcel of theirs. 
+Customers should have the ability to pick between “pick up” or “delivery” for each 
+parcel, but only if it has not departed yet (the status of its shipment is not 
+“completed”).
+Administrative part 
+Accessible to employees only. 
+* Employees must be able to list/create/modify parcels. ☑️
+* Employees must be able to list/create/modify shipments. ☑️
+* Employees must be able to add/remove parcels from a shipment. ☑️
+* Employees must be able to see shipments that are on the way. ☑️
+* Employees should be able to list/create/modify warehouses. ☑️
+* Employees should be able to see which the next arriving shipment is for a given 
+warehouse. ☑️
 
-## Add your files
+# Additional Feautures
+* AJAX reload on all tables
+* AJAX Search
+* Warehouse auto-generated locations with google maps pin on Index page, everytime you create a new one
+* Warehouse auto-generated navigation button with google maps pin on Employee page
+* Settings menu to edit your profile information
+* Showing only the cities and towns that are in the correct country drop-down menu
+* Contact us automated email send
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### REST API 
+To provide other developers with your service, you need to develop a REST API. It 
+should leverage HTTP as a transport protocol and clear text JSON for the request and 
+response payloads. 
+A great API is nothing without a great documentation. The documentation holds the 
+information that is required to successfully consume and integrate with an API. You 
+must use Swagger to document yours. 
+The REST API provides the following capabilities: 
+1. Countries 
+* Read operations (must) ☑️
+2. Cities 
+* Read operations (must) ☑️
+3. Warehouses 
+* Read operations (must) ☑️
+* Create, Update, Delete operations (should) ☑️
+4. Shipments 
+* CRUD operations (must) ☑️
+* Filter by warehouse (must) ☑️
+* Filter by customer (should) ☑️
+5. Parcels 
+* CRUD operations (must) ☑️
+* Filter by weight (must) ☑️
+* Filter by customer (must) ☑️
+* Filter by warehouse (must) ☑️
+* Filter by category (must)  ☑️
+* Filter by multiple criteria (e.g., customer and category) (should) ☑️
+* Sort by weight or arrival date (should) ☑️
+* Sort by weight and arrival date (could) ☑️
+6. Customers 
+- [x] CRUD Operations (must) 
+- [x] Search by email (full or part of an email) (must) 
+- [x] Search by first/last name (must) 
+- [x] List customer’s incoming parcels (should) 
+- [x] Search by multiple criteria (should)  
+- [x] Search all fields from one word (e.g., “john” will search in the email, first 
+and last name fields) (could) 
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/projecttwo1/deliverit.git
-git branch -M main
-git push -uf origin main
-```
+# Database Diagram
+![Diagram](DeliverIT.Web\wwwroot\images\db-diagram.png)
 
-## Integrate with your tools
+### Use Cases 
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/integrations/)
+* Basic Order 
 
-## Collaborate with your team
+> You’ve ordered something online from a foreign shopping site and you wish to leave 
+handling, customs fees, and transportation to somebody else. Here is where 
+DeliverIT comes in. Their main warehouse is in Bulgaria, for example, and they have 
+other warehouses in different countries, like Germany, Spain, USA, etc. When placing 
+your order, you address it to a DeliverIT warehouse. When the package arrives, the 
+employees see who it is for and create a parcel in the system. If your parcel appears 
+on the site, then it has arrived at the origin warehouse successfully and the next step 
+is for it to depart to the destination warehouse.
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-## Test and Deploy
+* Checking the status on an order 
 
-Use the built-in continuous integration in GitLab.
+> A customer has order something and wants to check its status. He logs on into the 
+application and heads to the “My Orders” panel. He has a lot of other orders and that 
+is why there is a button “Filter By status… on the way”. He selects it and sees his 
+order.
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://docs.gitlab.com/ee/user/clusters/agent/)
+* A new parcel arrives to a warehouse 
+> A new parcel has arrived to one of the warehouses, let us say the one in Dublin. The 
+employees see the label on it, it says “John Doe 1337”. They look up the id “1337” to 
+verify it belongs to “John Doe”. Once they have made sure all the information is 
+correct, they look for the next shipment that goes to John Doe’s country (for 
+example, Bulgaria). There is one that still has free room for more parcels, and they 
+assign the newly arrived parcel to it. 
 
-***
 
-# Editing this README
+* A shipment departs 
+> The employees at a warehouse decide a shipment is ready to depart and they set its 
+“departure time” to the corresponding date. Once the shipment reaches its 
+destination, the employees there set its “arrival date”. That way customers can keep 
+up with different parcels. If they log on and see that the status of their order is 
+“preparing”, they know that the shipment that carries that order has not departed 
+yet. In other words, the status of a parcel is derived from the departure and arrival 
+dates of its shipment. 
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:bd551e3f6da6a30cff83df430db339a1?https://www.makeareadme.com/) for this template.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Technical Requirements 
+1. General 
+* Follow OOP principles when coding 
+* Follow KISS, SOLID, DRY principles when coding 
+* Follow REST API design best practices when designing the REST API (see 
+Appendix) 
+* Use tiered project structure (separate the application in layers) 
+* The service layer (i.e., "business" functionality) must have at least 80% unit 
+test code coverage 
+* Follow BDD when writing unit tests 
+* You should implement proper exception handling and propagation 
+* Try to think ahead. When developing something, think – “How hard would it 
+be to change/modify this later?”
+2. Database 
+> The data of the application must be stored in a relational database. You need to 
+identify the core domain objects and model their relationships accordingly. 
+Database structure should avoid data duplication and empty data (normalize your 
+database). 
+Your repository must include two scripts – one to create the database and one to fill 
+it with data. 
 
-## Name
-Choose a self-explaining name for your project.
+3. Git 
+> Commits in the GitLab repository should give a good overview of how the project 
+was developed, which features were created first and the people who contributed. 
+Contributions from all team members must be evident through the git commit 
+history! The repository must contain the complete application source code and any 
+scripts (database scripts, for example). 
+Provide a link to a GitLab repository with the following information in the 
+README.md file: 
+* Project description 
+* Link to the Swagger documentation (must)
+* Link to the hosted project (if hosted online) 
+* Instructions how to setup and run the project locally 
+* Images of the database relations (must)
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Authors
+* Georgi Petrov [GitHub](https://github.com/) | [LinkedIn](https://linkedin.com/in/)
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+![Georgi Petrov](DeliverIT.Web\wwwroot\images\georgi-avatar.jpg)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+* Kalin Balimezov [GitHub](https://github.com/balimka) | [LinkedIn](https://linkedin.com/in/kalin-balimezov-6755a8204)
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+![Kalin Balimezov](DeliverIT.Web\wwwroot\images\kalin-avatar.jpg)
 
 ## License
-For open source projects, say how it is licensed.
+*This project was done for educational purposes  __only__ during Telerik Academy Program C# 35 (Jul - Dec 2021)*
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+☑️ **DONE** 

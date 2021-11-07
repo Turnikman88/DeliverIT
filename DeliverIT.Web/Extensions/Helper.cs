@@ -1,9 +1,4 @@
-﻿using DeliverIT.Models;
-using DeliverIT.Services.Contracts;
-using DeliverIT.Services.Helpers;
-using DeliverIT.Services.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;

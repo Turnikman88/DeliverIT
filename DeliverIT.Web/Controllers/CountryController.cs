@@ -5,8 +5,6 @@ using DeliverIT.Web.Attributes;
 using DeliverIT.Web.Extensions;
 using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Web.Controllers

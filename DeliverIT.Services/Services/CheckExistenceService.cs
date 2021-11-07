@@ -1,9 +1,6 @@
 ﻿using DeliverIT.Models;
 using DeliverIT.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Services.Services

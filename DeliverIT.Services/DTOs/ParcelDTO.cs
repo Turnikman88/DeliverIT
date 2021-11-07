@@ -1,7 +1,4 @@
-﻿using DeliverIT.Models.DatabaseModels;
-using System;
-
-namespace DeliverIT.Services.DTOs
+﻿namespace DeliverIT.Services.DTOs
 {
     public class ParcelDTO
     {

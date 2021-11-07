@@ -1,5 +1,4 @@
 using DeliverIT.Web.Extensions;
-using DeliverIT.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -1,7 +1,4 @@
-﻿using DeliverIT.Models.Contracts;
-using System;
-
-namespace DeliverIT.Models.DatabaseModels
+﻿namespace DeliverIT.Models.DatabaseModels
 {
     public class AppRole
     {

@@ -1,5 +1,4 @@
 ﻿using DeliverIT.Services.Contracts;
-using DeliverIT.Services.DTOs;
 using DeliverIT.Services.Helpers;
 using DeliverIT.Web.Attributes;
 using DeliverIT.Web.Extensions;
@@ -8,9 +7,7 @@ using DeliverIT.Web.Models.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeliverIT.Web.Controllers
