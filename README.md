@@ -110,7 +110,16 @@ The REST API provides the following capabilities:
 and last name fields) (could) 
 
 # Database Diagram
-![Diagram](DeliverIT.Web\wwwroot\images\db-diagram.png)
+![Diagram](/images/db-diagram.png)
+
+# Swagger 
+![Swagger](/images/swagger-country.png)
+![Swagger](/images/swagger-city.png)
+![Swagger](/images/swagger-customer.png)
+![Swagger](/images/swagger-home.png)
+![Swagger](/images/swagger-parcel.png)
+![Swagger](/images/swagger-shipment.png)
+![Swagger](/images/swagger-warehouse.png)
 
 ### Use Cases 
 
