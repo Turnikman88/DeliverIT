@@ -201,13 +201,13 @@ README.md file:
 * HTML5/CSS/Bootstrap
 
 ## 🤝 Authors
-* Georgi Petrov [GitHub](https://github.com/) | [LinkedIn](https://linkedin.com/in/)
+* Georgi Petrov [GitHub](https://github.com/Turnikman88) | [LinkedIn](https://www.linkedin.com/in/georgi-petrov-88a259225/)
 
-![Georgi Petrov](DeliverIT.Web\wwwroot\images\georgi-avatar.jpg)
+![Georgi Petrov](images\georgi-avatar.jpg)
 
 * Kalin Balimezov [GitHub](https://github.com/balimka) | [LinkedIn](https://linkedin.com/in/kalin-balimezov-6755a8204)
 
-![Kalin Balimezov](DeliverIT.Web\wwwroot\images\kalin-avatar.jpg)
+![Kalin Balimezov](images\kalin-avatar.jpg)
 
 ## 📃 License
 *This project was developed for educational purposes  __only__ during Telerik Academy Program C# 35 (Jul - Dec 2021)*

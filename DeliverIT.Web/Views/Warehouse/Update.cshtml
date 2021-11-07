@@ -11,18 +11,20 @@
         <form asp-action="Update" onsubmit="return jQueryAjaxPost(this);">
             <div>
                 <br />
-                <input asp-for="Address" placeholder="Address" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
+                <input asp-for="Address" placeholder="Address" class="fadeIn" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="Address" class="form-error"></span>
                 <div>
                     <br />
-                    <select asp-for="Country" asp-items="Model.Countries" placeholder="Country Name" class="fadeIn second" id="country-select">
+                    <select asp-for="Country" asp-items="Model.Countries" placeholder="Country Name" class="fadeIn" id="country-select"
+                            style="margin:5px 0 10px 0; width: 100%;">
                         <option value="">Select Country</option>
                     </select>
                     <span asp-validation-for="Country" class="form-error"></span>
                 </div>
                 <div>
                     <br />
-                    <select asp-for="City" placeholder="City Name" class="fadeIn second" id="city-select">
+                    <select asp-for="City" placeholder="City Name" class="fadeIn" id="city-select"
+                            style="margin:5px 0 10px 0; width: 100%;">
                         <option value="">Select Cities</option>
                     </select>
                     <span asp-validation-for="City" class="form-error"></span>

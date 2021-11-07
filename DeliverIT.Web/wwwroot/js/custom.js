@@ -138,10 +138,8 @@ jQueryAjaxPost = form => {
                 }
                 else
                     $('#form-modal .modal-body').html(res.html);
-            },
-            error: function (err) {
-                console.log(err)
             }
+
         })
         //to prevent default form submit event
         return false;
@@ -156,9 +154,6 @@ ExecuteEmptyAjax = (url) => {
         url: url,
         success: function (res) {
             $('#view-all').html(res.html)
-        },
-        error: function (res2) {
-            alert("error");
         }
     })
 }
@@ -179,15 +174,11 @@ SearchBarAjax = form => {
                 if (res.isValid) {
                     $('#view-all').html(res.html)
                 }
-            },
-            error: function (err) {
-                console.log(err)
             }
         })
         //to prevent default form submit event
         return false;
     } catch (ex) {
-        console.log(ex)
     }
 }
 

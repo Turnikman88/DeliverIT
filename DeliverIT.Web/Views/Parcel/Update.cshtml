@@ -10,22 +10,18 @@
     <div class="col">
         <form asp-action="Update" onsubmit="return jQueryAjaxPost(this);">
             <div>
-                <br />
                 <label>Customer Id</label>
                 <input asp-for="CustomerId" placeholder="Customer Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="CustomerId" class="form-error"></span>
-                <br />
                 <label>Shipment Id</label>
                 <input asp-for="ShipmentId" placeholder="Shipment Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="ShipmentId" class="form-error"></span>
-                <br />
                 <label>Warehouse Id</label>
                 <input asp-for="WareHouseId" placeholder="Warehouse Id" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="WareHouseId" class="form-error"></span>
                 <label>Category Name</label>
                 <select asp-for="CategoryId" asp-items="Model.Categories" style="margin:5px 0 10px 0; width: 100%;"></select>
                 <span asp-validation-for="CategoryName" class="form-error"></span>
-                <br />
                 <label>Weight</label>
                 <input asp-for="Weight" placeholder="Weight" class="fourth" style="margin:-10px 0 10px 0; width: 100%;" />
                 <span asp-validation-for="Weight" class="form-error"></span>
